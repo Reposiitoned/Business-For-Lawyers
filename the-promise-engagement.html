@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Positioning — Creates the Promise | Business for Lawyers</title>
-<meta name="description" content="Positioning creates the promise your firm makes. How to define who you want to attract, and what it costs when you don't.">
+<title>The Promise Engagement | Business for Lawyers</title>
+<meta name="description" content="A 12-month operating rhythm for law firms — The Discovery quarter, then three quarters of continuous improvement across Positioning, Marketing, Sales, and Delivery.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700;9..144,900&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
@@ -152,6 +152,22 @@
     font-size:18px; max-width:56ch; color:rgba(235,231,220,0.82);
     margin-bottom:38px;
   }
+  .hero-laws{ margin-top:34px; max-width:640px; }
+  .hero-laws h2{
+    font-family:var(--serif); font-size:clamp(20px,2.6vw,26px); font-weight:600;
+    color:var(--paper-on-navy); margin-bottom:14px; line-height:1.25;
+  }
+  .hero-laws > p{ font-size:16.5px; color:rgba(235,231,220,0.82); margin:0 0 18px; }
+  .hero-laws ul{ margin:0; padding:0; list-style:none; }
+  .hero-laws li{
+    position:relative; padding-left:22px; margin-bottom:10px; font-size:16px;
+    color:rgba(235,231,220,0.92);
+  }
+  .hero-laws li::before{
+    content:"—"; position:absolute; left:0; color:var(--brass-lt); font-family:var(--mono);
+  }
+  .hero-laws li strong{ color:var(--brass-lt); }
+
   .hero .actions{ display:flex; gap:16px; flex-wrap:wrap; }
   .btn{
     font-family:var(--mono); font-size:13px; text-transform:uppercase; letter-spacing:.07em;
@@ -227,6 +243,29 @@
     border-left:3px solid var(--brass); padding-left:18px;
   }
   @media (max-width:820px){ .attract-grid{ grid-template-columns:1fr; } }
+
+  /* ---------- THE STANDARD ---------- */
+  .standard-section{ background:var(--paper); border-top:1px solid var(--line); }
+  .standard-list{ border-top:1px solid var(--line); }
+  .standard-row{
+    display:grid; grid-template-columns:200px 1fr; gap:28px;
+    padding:32px 0; border-bottom:1px solid var(--line); align-items:start;
+  }
+  .standard-row .link-name{
+    font-family:var(--mono); font-size:12px; text-transform:uppercase; letter-spacing:.06em;
+    color:var(--brass); padding-top:2px;
+  }
+  .standard-row p{
+    font-family:var(--serif); font-style:italic; font-size:18px; color:var(--ink); margin:0; line-height:1.5;
+  }
+  .standard-close{
+    margin-top:32px; padding-top:28px; border-top:1px dashed var(--line);
+    display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:20px;
+  }
+  .standard-close p{ font-size:16px; color:var(--ink-soft); margin:0; max-width:52ch; }
+  @media (max-width:700px){
+    .standard-row{ grid-template-columns:1fr; gap:8px; }
+  }
 
   /* ---------- FILE SECTIONS ---------- */
   .exhibit{ border-bottom:1px solid var(--line); }
@@ -464,6 +503,126 @@
   .lifecycle-nav a:hover .name{ color:var(--oxblood); }
 
   nav.links a.active{ color:var(--oxblood); border-color:var(--oxblood); }
+
+  .sequence{ border-top:1px solid var(--line); }
+  .sequence-row{
+    display:grid; grid-template-columns:64px 1fr; gap:28px;
+    padding:40px 0; border-bottom:1px solid var(--line);
+  }
+  .sequence-row .num{
+    font-family:var(--mono); font-size:30px; color:var(--brass); line-height:1;
+    padding-top:4px;
+  }
+  .sequence-row h4{
+    font-size:21px; margin:0 0 12px;
+  }
+  .sequence-row p{
+    font-size:15.5px; line-height:1.75; color:var(--ink-soft); margin:0;
+  }
+  .sequence-row .read{
+    display:inline-block; margin-top:14px; font-family:var(--mono); font-size:12px;
+    text-transform:uppercase; letter-spacing:.06em; color:var(--oxblood); text-decoration:none;
+  }
+  @media (max-width:640px){
+    .sequence-row{ grid-template-columns:1fr; gap:10px; }
+    .sequence-row .num{ padding-top:0; }
+  }
+
+  /* ---------- QUALIFY (who it's for / not for) ---------- */
+  .qualify{ background:var(--paper-2); border-top:1px solid var(--line); border-bottom:1px solid var(--line); }
+  .qualify-grid{ display:grid; grid-template-columns:1fr 1fr; gap:1px; background:var(--line); border:1px solid var(--line); }
+  .qualify-col{ background:var(--paper); padding:36px 32px; }
+  .qualify-col.not{ background:var(--paper-2); }
+  .qualify-col .label{
+    font-family:var(--mono); font-size:11.5px; text-transform:uppercase; letter-spacing:.08em;
+    display:block; margin-bottom:18px;
+  }
+  .qualify-col.yes .label{ color:var(--brass); }
+  .qualify-col.not .label{ color:var(--oxblood); }
+  .qualify-col ul{ margin:0; padding:0; list-style:none; }
+  .qualify-col li{
+    position:relative; padding-left:22px; margin-bottom:14px; font-size:15px; color:var(--ink-soft); line-height:1.6;
+  }
+  .qualify-col li:last-child{ margin-bottom:0; }
+  .qualify-col.yes li::before{ content:"—"; position:absolute; left:0; color:var(--brass); font-family:var(--mono); }
+  .qualify-col.not li::before{ content:"—"; position:absolute; left:0; color:var(--oxblood); font-family:var(--mono); }
+  @media (max-width:760px){ .qualify-grid{ grid-template-columns:1fr; } }
+
+  /* ---------- BLOG ---------- */
+  .blog-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:26px; }
+  .blog-card{
+    background:var(--paper-2); border:1px solid var(--line); padding:28px;
+    display:flex; flex-direction:column;
+  }
+  .blog-card .cat{
+    font-family:var(--mono); font-size:11px; text-transform:uppercase; letter-spacing:.08em; color:var(--brass);
+    margin-bottom:12px;
+  }
+  .blog-card h3{ font-size:19px; margin:0 0 10px; line-height:1.25; }
+  .blog-card p{ font-size:14px; color:var(--ink-soft); margin:0; flex:1; }
+  .blog-card .read{
+    margin-top:16px; font-family:var(--mono); font-size:12px; text-transform:uppercase; letter-spacing:.06em;
+    color:var(--oxblood); text-decoration:none;
+  }
+  .blog-card .meta{
+    font-family:var(--mono); font-size:11px; color:var(--ink-soft); margin-top:14px; opacity:.7;
+  }
+  @media (max-width:900px){ .blog-grid{ grid-template-columns:1fr 1fr; } }
+  @media (max-width:620px){ .blog-grid{ grid-template-columns:1fr; } }
+
+  /* ---------- ARTICLE ---------- */
+  .article-hero{ padding:56px 0 0; }
+  .article-hero .crumb{ margin-bottom:18px; }
+  .article-hero h1{ font-size:clamp(28px,4.4vw,42px); max-width:20ch; margin-bottom:14px; }
+  .article-meta{
+    font-family:var(--mono); font-size:12px; text-transform:uppercase; letter-spacing:.06em;
+    color:var(--brass-lt); display:flex; gap:14px; align-items:center;
+  }
+  .article-body{ max-width:680px; margin:0 auto; padding:48px 32px 24px; }
+  .article-body p{ font-size:17px; line-height:1.85; color:var(--ink); margin:0 0 22px; }
+  .article-lesson{
+    max-width:680px; margin:0 auto 56px; padding:0 32px;
+  }
+  .article-lesson .box{
+    border-left:3px solid var(--oxblood); padding:6px 0 6px 22px;
+    font-family:var(--serif); font-style:italic; font-size:19px; color:var(--ink);
+  }
+  .article-back{
+    max-width:680px; margin:0 auto; padding:0 32px 56px;
+  }
+  .article-back a{
+    font-family:var(--mono); font-size:12.5px; text-transform:uppercase; letter-spacing:.06em;
+    color:var(--oxblood); text-decoration:none;
+  }
+
+  /* ---------- PROGRAM PAGE ---------- */
+  .quarter-grid{
+    display:grid; grid-template-columns:1fr 1fr; gap:28px;
+  }
+  .quarter-card{
+    background:var(--paper-2); border:1px solid var(--line); padding:32px;
+  }
+  .quarter-card .qlabel{
+    font-family:var(--mono); font-size:11.5px; text-transform:uppercase; letter-spacing:.08em;
+    color:var(--brass); display:block; margin-bottom:14px;
+  }
+  .quarter-card h3{ font-size:23px; margin-bottom:6px; }
+  .quarter-card .qtag{
+    font-family:var(--serif); font-style:italic; font-size:16px; color:var(--oxblood); margin-bottom:16px;
+  }
+  .quarter-card p{ font-size:15px; line-height:1.7; color:var(--ink-soft); margin:0; }
+  @media (max-width:820px){ .quarter-grid{ grid-template-columns:1fr; } }
+
+  .payoff-list{ margin:0; padding:0; list-style:none; }
+  .payoff-list li{
+    position:relative; padding-left:26px; margin-bottom:18px; font-size:16px;
+    color:var(--ink-soft); line-height:1.6;
+  }
+  .payoff-list li:last-child{ margin-bottom:0; }
+  .payoff-list li::before{
+    content:"—"; position:absolute; left:0; color:var(--brass); font-family:var(--mono);
+  }
+  .payoff-list li strong{ color:var(--ink); }
 </style>
 </head>
 <body>
@@ -476,14 +635,13 @@
     <nav class="links">
       <a href="index.html">Home</a>
       <a href="index.html#method">Method</a>
-      <a href="the-promise-engagement.html">The Promise Engagement</a>
-      <a href="positioning.html" class="active">Positioning</a>
+      <a href="the-promise-engagement.html" class="active">The Promise Engagement</a>
+      <a href="positioning.html">Positioning</a>
       <a href="marketing.html">Marketing</a>
       <a href="sales.html">Sales</a>
       <a href="delivery.html">Delivery</a>
       <a href="blog.html">Blog</a>
       <a href="about.html">About</a>
-      <a href="index.html#assessment">Assessment</a>
     </nav>
     <a class="nav-cta" href="index.html#contact">Let's Talk</a>
   </div>
@@ -491,84 +649,88 @@
 
 <section class="page-hero">
   <div class="wrap">
-    <div class="crumb"><a href="index.html">The Promise Process</a> &nbsp;/&nbsp; Positioning</div>
-    <h1>Positioning</h1>
-    <div class="tag">Creates the Promise</div>
-    <p class="lede">Every promise starts here. Positioning is the discipline of naming exactly which clients you want, which matters you're built for, and what you refuse to take on just to fill the diary — before a single referrer or prospective client ever hears from you.</p>
+    <div class="crumb"><a href="index.html">Business for Lawyers</a> &nbsp;/&nbsp; The Promise Engagement</div>
+    <h1>The Promise Engagement</h1>
+    <div class="tag">Twelve months. One rhythm. A practice the market can't ignore.</div>
+    <p class="lede">You already have the technical skill. What you don't have is the operating rhythm that turns that skill into a practice which grows on its own terms — not by luck, not by whichever referrer happens to remember you this month, but by design.</p>
   </div>
 </section>
 
-<section class="exhibit" id="positioning" style="border-bottom:none;">
-  <div class="exhibit-inner">
-    <div class="reveal">
-      <span class="exhibit-num">The Promise Process</span>
-      <h3>Positioning</h3>
-      <div class="subtitle">Creates the Promise</div>
-      <div class="vignette">
-        <p>Marcus runs a boutique estate planning practice — complex testamentary trusts, blended-family wills, structures that take weeks of careful drafting and a reputation most firms would envy. Last spring, a long-time referrer sent through a simple $250 will for a young couple with no real assets to speak of. Quick job, no complexity. Marcus said yes — the associate needed billable hours between the bigger files, and it felt rude to knock back a referrer he'd known for a decade.</p>
-        <p>Six weeks later, that same referrer had a genuinely complex estate matter land on his desk — a blended family, a family trust, a business succession question. He sent it to a different firm. When Marcus asked why, the answer was simple: "I didn't know you still did that kind of work — last time I called, you were doing simple wills." The $250 will didn't cost Marcus a client. It cost him the file he actually wanted.</p>
-      </div>
-      <div class="pullquote">"Positioning is not the flagship matter on your website. It is the retainer you have the discipline to decline."</div>
-    </div>
-    <div class="cost-box reveal">
-      <span class="label">What it costs when it's wrong</span>
-      <ul>
-        <li>Referrers stop knowing what to send you — so they send you everything, or nothing.</li>
-        <li>Your fees get negotiated by clients who were never the right fit to begin with.</li>
-        <li>The work that actually builds your reputation gets crowded out by the work that just fills the diary.</li>
-      </ul>
-      <div class="the-standard">
-        <span class="label">The standard</span>
-        <p>Every referrer and past client can describe, in one sentence, exactly which matters you want more of — and you have said no to a file this month that didn't fit.</p>
-      </div>
-    </div>
-  </div>
-
-  <div class="attract-wrap reveal">
-    <div class="attract-head">
-      <span class="label">Inside Positioning</span>
-      <h4>Who You Want to Attract</h4>
-      <p>Positioning isn't only the work you have the discipline to decline. It's the client you're actually building the practice around — and most owners have never written down who that is. Not "anyone who needs a will" or "anyone buying a house." A specific person, in a specific situation, who values exactly what you do best.</p>
-    </div>
-    <div class="attract-grid">
-      <div class="attract-card">
-        <span class="qnum">What has to be true?</span>
-        <h5>The situation</h5>
-        <p>The circumstances that make this the right file — a blended family, a settlement already under pressure, a business about to sign a five-year lease.</p>
-      </div>
-      <div class="attract-card">
-        <span class="qnum">What are they afraid of?</span>
-        <h5>The fear underneath it</h5>
-        <p>Not the legal problem itself, but the outcome they're actually trying to avoid — losing the house, losing the kids, losing the business.</p>
-      </div>
-      <div class="attract-card">
-        <span class="qnum">What do they need to hear first?</span>
-        <h5>The first five minutes</h5>
-        <p>The one thing that tells them, early, they've found the right firm — not just a firm that happens to be able to do the work.</p>
-      </div>
-    </div>
-    <div class="attract-close">Answer those three honestly, and referrers stop sending you everything. They start sending you the right thing.</div>
-  </div>
-</section>
-
-<section class="lifecycle-nav">
+<section>
   <div class="wrap">
-    <div class="row">
-      <div class="prev"></div>
-      <div class="next">
-        <a href="marketing.html">
-          <span class="dir">Next in the Process</span>
-          <span class="name">Marketing — Amplifies the Promise →</span>
-        </a>
+    <div class="section-head reveal">
+      <div class="eyebrow">The Real Problem</div>
+      <h2>Your firm has far more potential than the results show.</h2>
+      <p>You don't feel it during the busy workday, when you are buried in files and putting out daily client fires. You feel it after hours, when the office is quiet. There is an uncomfortable, nagging realisation that your practice has far more potential than your current results reflect — something is quietly eroding your momentum, and you can't quite put your finger on the exact leak that is costing you.</p>
+      <p>Without a clear diagnostic model, you default to guessing — usually one issue at a time, never the whole sequence:</p>
+    </div>
+    <ul class="payoff-list reveal" style="margin-bottom:32px;">
+      <li>A new marketing tactic this quarter, dropped before it's had time to prove itself — a <strong>Marketing</strong> guess, not a Marketing system.</li>
+      <li>An onboarding tweak or staffing restructure that fixes one file's experience and not the next — a <strong>Delivery</strong> guess, not a Delivery standard.</li>
+      <li>Unbillable friction quietly written off every month, because chasing it felt more awkward than losing it — a <strong>Sales</strong> and <strong>Positioning</strong> problem wearing a bookkeeping disguise.</li>
+    </ul>
+    <div class="section-head reveal" style="margin-bottom:0;">
+      <p>None of this shows up as a single bad day. It shows up as a firm that's levelled off, below where it should be, three years running — and nobody can point to exactly why. Left alone, that gap between your potential and your results doesn't stay the same size. It compounds, a little wider every quarter you keep guessing instead of measuring.</p>
+      <p>This isn't happening because your legal work isn't excellent. It's clearly what's got you this far.</p>
+      <p>It is happening because nobody has ever audited your practice against the Promise Process — stepping back to identify exactly which link is leaking, and installing the standard required to permanently seal it.</p>
+    </div>
+  </div>
+</section>
+
+<section style="background:var(--paper-2); border-top:1px solid var(--line); border-bottom:1px solid var(--line);">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <div class="eyebrow">How It Works</div>
+      <h2>One year. Four quarters. The same weekly discipline, every time.</h2>
+      <p>No workshop. No 90-minute strategy call that gathers dust by Friday. The Promise Engagement runs the same way for twelve months: a standing weekly session, rotating through the link that needs it — so nothing goes untouched for more than a month, and nothing depends on motivation alone.</p>
+    </div>
+
+    <div class="quarter-grid reveal">
+      <div class="quarter-card">
+        <span class="qlabel">Quarter 1</span>
+        <h3>The Discovery</h3>
+        <div class="qtag">Discovering the leaks that matter.</div>
+        <p>Thirteen weeks tracking activity — and non-activity — across all four links: Positioning, Marketing, Sales, Delivery. Not a survey. Not a guess. A real, weekly look at what's actually happening in your practice, building toward a plan built on evidence — not a generic structure, but one tailored to your firm and where you are today.</p>
+      </div>
+      <div class="quarter-card">
+        <span class="qlabel">Quarters 2 – 4</span>
+        <h3>Continuous Improvement</h3>
+        <div class="qtag">The same rhythm, now doing the work.</div>
+        <p>The same 13-week cycle, three more times. Every week has an owner — Positioning one week, Marketing the next, then Sales, then Delivery — plus a quarterly session to reset and refocus. By the third quarter, most owners aren't checking whether it's working. They're building around the assumption that it is.</p>
       </div>
     </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="section-head reveal">
+      <div class="eyebrow">The Promise, Kept</div>
+      <h2>By month twelve, you won't be able to imagine running the practice without it.</h2>
+      <p>This isn't about working harder. It's the difference between a practice that reacts and one that's engineered:</p>
+    </div>
+    <ul class="payoff-list reveal">
+      <li><strong>Referrers send you the file you actually want</strong> — not just whatever's convenient that month.</li>
+      <li><strong>New enquiries stop depending on who happens to remember you</strong> this month, this year, or after they retire.</li>
+      <li><strong>Every enquiry gets the response</strong> that turns it into a signed client, not a price comparison.</li>
+      <li><strong>Every client gets the experience</strong> that turns a good result into the next referral, not a three-star review.</li>
+    </ul>
+  </div>
+</section>
+
+<section class="contact" style="padding:80px 0;">
+  <div class="wrap" style="text-align:center;">
+    <div class="eyebrow" style="justify-content:center;">Ready When You Are</div>
+    <h2 style="font-size:clamp(26px,3.4vw,38px); margin-top:16px; max-width:22ch; margin-left:auto; margin-right:auto;">Start with The Discovery.</h2>
+    <p style="font-size:16.5px; color:rgba(235,231,220,0.8); max-width:56ch; margin:20px auto 32px;">Thirteen weeks. Four links. One evidence-based plan built entirely around your practice. From there, The Promise Engagement keeps the rhythm going for as long as it takes to become the standard you can't fall below.</p>
+    <a class="btn btn-primary" href="index.html#contact">Start The Discovery</a>
   </div>
 </section>
 
 <footer>
   <div class="wrap footer-inner">
     <span>Business for Lawyers Pty Ltd — businessforlawyers.com.au</span>
-    <span><a href="positioning.html">Positioning</a> · <a href="marketing.html">Marketing</a> · <a href="sales.html">Sales</a> · <a href="delivery.html">Delivery</a> · <a href="blog.html">Blog</a> · <a href="about.html">About</a></span>
+    <span><a href="#positioning">Positioning</a> · <a href="#marketing">Marketing</a> · <a href="#sales">Sales</a> · <a href="#delivery">Delivery</a></span>
   </div>
 </footer>
 
