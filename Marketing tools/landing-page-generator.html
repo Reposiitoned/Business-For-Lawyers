@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Business for Lawyers — The Promise-Led Landing Page Generator</title>
+<meta name="description" content="Answer seven prompts about your situation and get a full landing page argument, written using the Promise-Led framework.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700;9..144,900&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:      #EBE7DC;
+    --paper-2:    #E1DCCC;
+    --ink:        #14181E;
+    --ink-soft:   #3B4048;
+    --navy:       #182231;
+    --navy-2:     #0F1620;
+    --brass:      #9C7A3C;
+    --brass-lt:   #C7A25E;
+    --oxblood:    #6E2530;
+    --oxblood-lt: #8C3542;
+    --line:       #C7C0AC;
+    --paper-on-navy: #EBE7DC;
+
+    --serif: "Fraunces", ui-serif, Georgia, serif;
+    --sans:  "IBM Plex Sans", -apple-system, Segoe UI, sans-serif;
+    --mono:  "IBM Plex Mono", ui-monospace, monospace;
+    --maxw: 820px;
+  }
+  *{ box-sizing:border-box; }
+  body{
+    margin:0; background:var(--paper); color:var(--ink);
+    font-family:var(--sans); line-height:1.6;
+  }
+  .wrap{ max-width:var(--maxw); margin:0 auto; padding:0 28px; }
+
+  header.top{
+    background:var(--navy); color:var(--paper-on-navy);
+    padding:56px 0 48px;
+  }
+  header.top .eyebrow{
+    font-family:var(--mono); font-size:13px; letter-spacing:.05em; text-transform:uppercase;
+    color:var(--brass-lt); margin-bottom:14px;
+  }
+  header.top h1{
+    font-family:var(--serif); font-weight:700; font-size:clamp(28px,4vw,40px);
+    margin:0 0 14px; line-height:1.2;
+  }
+  header.top h1 em{ font-style:italic; color:var(--brass-lt); }
+  header.top p{ font-size:16px; color:rgba(235,231,220,0.82); max-width:60ch; margin:0; }
+
+  main{ padding:48px 0 80px; }
+
+  .progress{
+    display:flex; gap:6px; margin-bottom:36px;
+  }
+  .progress .dot{
+    flex:1; height:4px; background:var(--line); border-radius:2px; overflow:hidden;
+  }
+  .progress .dot.done, .progress .dot.active{ background:var(--brass); }
+
+  .step{ display:none; }
+  .step.active{ display:block; }
+
+  .step .num{
+    font-family:var(--mono); font-size:13px; color:var(--brass); letter-spacing:.05em;
+    margin-bottom:8px;
+  }
+  .step h2{
+    font-family:var(--serif); font-size:26px; font-weight:600; margin:0 0 10px; line-height:1.3;
+  }
+  .step .hint{ font-size:15px; color:var(--ink-soft); margin:0 0 20px; max-width:60ch; }
+  .step .test{
+    font-size:13.5px; color:var(--ink-soft); font-style:italic;
+    border-left:2px solid var(--line); padding-left:14px; margin:0 0 20px;
+  }
+
+  textarea{
+    width:100%; min-height:120px; font-family:var(--sans); font-size:16px;
+    color:var(--ink); background:#fff; border:1px solid var(--line);
+    border-radius:2px; padding:14px 16px; resize:vertical;
+  }
+  textarea:focus{ outline:none; border-color:var(--brass); }
+
+  .nav-row{
+    display:flex; justify-content:space-between; align-items:center; margin-top:28px;
+  }
+  .btn{
+    font-family:var(--mono); font-size:13px; letter-spacing:.03em; text-transform:uppercase;
+    padding:12px 22px; border-radius:2px; cursor:pointer; border:1px solid transparent;
+    background:none;
+  }
+  .btn-primary{ background:var(--brass); color:var(--navy); font-weight:600; }
+  .btn-primary:hover{ background:var(--brass-lt); }
+  .btn-primary:disabled{ opacity:0.5; cursor:not-allowed; }
+  .btn-ghost{ border-color:var(--line); color:var(--ink-soft); }
+  .btn-ghost:hover{ border-color:var(--ink-soft); color:var(--ink); }
+
+  .loading{
+    display:none; text-align:center; padding:60px 0;
+  }
+  .loading.active{ display:block; }
+  .loading .spinner{
+    width:32px; height:32px; border:3px solid var(--line); border-top-color:var(--brass);
+    border-radius:50%; margin:0 auto 20px; animation:spin 0.9s linear infinite;
+  }
+  @keyframes spin{ to{ transform:rotate(360deg); } }
+  .loading p{ font-family:var(--mono); font-size:13px; color:var(--ink-soft); }
+
+  .results{ display:none; }
+  .results.active{ display:block; }
+  .result-block{
+    background:#fff; border:1px solid var(--line); border-radius:2px;
+    padding:24px 26px; margin-bottom:18px; position:relative;
+  }
+  .result-block .beat-label{
+    font-family:var(--mono); font-size:12px; letter-spacing:.05em; text-transform:uppercase;
+    color:var(--brass); margin-bottom:10px;
+  }
+  .result-block .beat-text{
+    font-family:var(--serif); font-size:19px; line-height:1.5; color:var(--ink);
+    margin:0 0 14px;
+  }
+  .copy-btn{
+    font-family:var(--mono); font-size:12px; color:var(--ink-soft);
+    background:none; border:1px solid var(--line); border-radius:2px;
+    padding:6px 12px; cursor:pointer;
+  }
+  .copy-btn:hover{ border-color:var(--brass); color:var(--brass); }
+  .copy-btn.copied{ border-color:var(--oxblood); color:var(--oxblood); }
+
+  .error-box{
+    display:none; background:#fff; border:1px solid var(--oxblood); border-radius:2px;
+    padding:20px 22px; margin-bottom:20px; color:var(--oxblood);
+  }
+  .error-box.active{ display:block; }
+
+  .top-actions{ display:flex; justify-content:flex-end; margin-bottom:24px; }
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap">
+    <div class="eyebrow">Internal Tool — Marketing</div>
+    <h1>The Promise-Led <em>Landing Page</em> Generator</h1>
+    <p>Answer seven prompts about the situation you're writing for. Each one maps to a beat in the Promise-Led framework — recognition, consequence, mechanism, cost, proof, principle, and close. You'll get back a full draft argument, not just a slogan.</p>
+  </div>
+</header>
+
+<main>
+  <div class="wrap">
+
+    <div class="progress" id="progress"></div>
+
+    <form id="wizard">
+
+      <div class="step active" data-step="0">
+        <div class="num">Beat 1 of 7 — Recognition</div>
+        <h2>Describe the moment your reader is living in right now.</h2>
+        <p class="hint">Not a category or a market — a specific scene. What are they doing, at what time, feeling what, when the problem is most present?</p>
+        <p class="test">Test: could you picture this exact moment happening to a real person? If it still feels like it could describe any business in any industry, go more specific.</p>
+        <textarea name="scene" placeholder="e.g. They're still at their desk at 8pm, cleaning up a file someone else left unfinished..."></textarea>
+      </div>
+
+      <div class="step" data-step="1">
+        <div class="num">Beat 2 of 7 — Hidden Consequence</div>
+        <h2>What's happening to them that they can't see?</h2>
+        <p class="hint">Name the bigger cost behind the daily symptom — the thing they'd be alarmed by if someone pointed it out plainly.</p>
+        <textarea name="consequence" placeholder="e.g. Growth has quietly stalled and margin is leaking, but it never shows up as one dramatic event — just a slow accumulation they don't notice."></textarea>
+      </div>
+
+      <div class="step" data-step="2">
+        <div class="num">Beat 3 of 7 — The Mechanism</div>
+        <h2>Why is this actually happening?</h2>
+        <p class="hint">Give the reader a reason to trust you understand the cause — a model or distinction — without handing over your entire method for free.</p>
+        <p class="test">Test: could a smart reader now go solve this entirely on their own? If yes, you've said too much.</p>
+        <textarea name="mechanism" placeholder="e.g. Every promise a business makes lives inside a process. When one step in that process breaks, the promise breaks with it — quietly, not dramatically."></textarea>
+      </div>
+
+      <div class="step" data-step="3">
+        <div class="num">Beat 4 of 7 — The Real Cost</div>
+        <h2>What does this actually cost, in numbers?</h2>
+        <p class="hint">Real figures beat impressive-sounding ones. Rough is fine — just make sure it's derivable, not invented.</p>
+        <textarea name="cost" placeholder="e.g. 4 staff x 2 unqualified calls/week x 25 minutes x $400/hr = roughly $60,000 a year, before you even count lost referrals."></textarea>
+      </div>
+
+      <div class="step" data-step="4">
+        <div class="num">Beat 5 of 7 — Proof It's Fixable</div>
+        <h2>What evidence do you have that this actually gets solved?</h2>
+        <p class="hint">Real testimonials, results, or examples — the more specific and numerous, the more it reads as a repeatable pattern rather than a lucky story.</p>
+        <textarea name="proof" placeholder="e.g. Client quotes naming specific, measurable changes — a stalled pipeline that filled up, a founder who stopped being the bottleneck..."></textarea>
+      </div>
+
+      <div class="step" data-step="5">
+        <div class="num">Beat 6 of 7 — The Deeper Principle</div>
+        <h2>What's the bigger truth behind this specific problem?</h2>
+        <p class="hint">Zoom out from the fix to the worldview. This is the idea that should change how they think, not just what they do next.</p>
+        <textarea name="principle" placeholder="e.g. Trust doesn't average out. One broken promise can sink a relationship that six kept ones built."></textarea>
+      </div>
+
+      <div class="step" data-step="6">
+        <div class="num">Beat 7 of 7 — The Close</div>
+        <h2>What's the one sentence you want them to remember?</h2>
+        <p class="hint">Short enough to repeat back from memory. If the six beats above did their job, this shouldn't need to argue anything new.</p>
+        <textarea name="close" placeholder="e.g. Build your practice on promises kept, not broken."></textarea>
+      </div>
+
+      <div class="nav-row">
+        <button type="button" class="btn btn-ghost" id="backBtn" style="visibility:hidden;">Back</button>
+        <button type="button" class="btn btn-primary" id="nextBtn">Next</button>
+      </div>
+
+    </form>
+
+    <div class="error-box" id="errorBox"></div>
+
+    <div class="loading" id="loading">
+      <div class="spinner"></div>
+      <p>Writing your seven lines…</p>
+    </div>
+
+    <div class="results" id="results">
+      <div class="top-actions">
+        <button class="btn btn-ghost" id="startOverBtn">Start over</button>
+      </div>
+      <div id="resultBlocks"></div>
+    </div>
+
+  </div>
+</main>
+
+<script>
+  const steps = document.querySelectorAll('.step');
+  const progress = document.getElementById('progress');
+  const nextBtn = document.getElementById('nextBtn');
+  const backBtn = document.getElementById('backBtn');
+  const wizard = document.getElementById('wizard');
+  const loading = document.getElementById('loading');
+  const resultsEl = document.getElementById('results');
+  const resultBlocks = document.getElementById('resultBlocks');
+  const errorBox = document.getElementById('errorBox');
+  const startOverBtn = document.getElementById('startOverBtn');
+
+  let current = 0;
+  const total = steps.length;
+
+  for(let i=0;i<total;i++){
+    const d = document.createElement('div');
+    d.className = 'dot';
+    progress.appendChild(d);
+  }
+
+  function renderProgress(){
+    const dots = progress.querySelectorAll('.dot');
+    dots.forEach((d,i)=>{
+      d.classList.remove('active','done');
+      if(i < current) d.classList.add('done');
+      else if(i === current) d.classList.add('active');
+    });
+  }
+
+  function showStep(i){
+    steps.forEach(s=>s.classList.remove('active'));
+    steps[i].classList.add('active');
+    backBtn.style.visibility = i === 0 ? 'hidden' : 'visible';
+    nextBtn.textContent = i === total-1 ? 'Generate my copy' : 'Next';
+    renderProgress();
+  }
+
+  nextBtn.addEventListener('click', ()=>{
+    if(current < total-1){
+      current++;
+      showStep(current);
+    } else {
+      generate();
+    }
+  });
+
+  backBtn.addEventListener('click', ()=>{
+    if(current > 0){
+      current--;
+      showStep(current);
+    }
+  });
+
+  startOverBtn.addEventListener('click', ()=>{
+    resultsEl.classList.remove('active');
+    wizard.style.display = 'block';
+    current = 0;
+    showStep(0);
+  });
+
+  const SYSTEM_PROMPT = `You are a copywriter working from "The Promise-Led Landing Page Process" — a seven-beat framework for landing page copy:
+
+1. Recognition — a concrete, specific scene the reader sees themselves in. Never abstract or categorical.
+2. Hidden Consequence — the bigger cost the reader can't see, following directly from the scene.
+3. Mechanism — enough of a reason/model to be credible, but stopping short of teaching the full method. A smart reader should NOT be able to solve this alone after reading it.
+4. Real Cost — a concrete, defensible figure or calculation. Never invent a statistic; if the user gave a real calculation, tighten it, don't replace it with something invented.
+5. Proof — evidence it's fixable, using only what the user actually provided. Never fabricate testimonials or results.
+6. Deeper Principle — a general truth that reframes how the reader thinks, not just what to do next.
+7. Close — one short, memorable, quotable sentence. No new argument, just crystallising what came before.
+
+Style rules: plain, direct, conversational language. No corporate or academic jargon ("systematically", "leverage", "operational architecture", "utilize"). Second person, direct address. Short sentences over long ones. Callbacks between beats are good — if two beats can share a repeated word or phrase deliberately, do it. Write like a smart person talking to a colleague, not a brochure.
+
+Respond ONLY with a JSON object, no markdown fences, no preamble, in exactly this shape:
+{"scene": "...", "consequence": "...", "mechanism": "...", "cost": "...", "proof": "...", "principle": "...", "close": "..."}`;
+
+  async function generate(){
+    const formData = new FormData(wizard);
+    const answers = {};
+    for(const [key, val] of formData.entries()){
+      answers[key] = val.trim();
+    }
+
+    const missing = Object.entries(answers).filter(([k,v])=>!v);
+    if(missing.length > 0){
+      errorBox.textContent = 'Fill in all seven prompts before generating — even a rough sentence is enough.';
+      errorBox.classList.add('active');
+      return;
+    }
+    errorBox.classList.remove('active');
+
+    wizard.style.display = 'none';
+    loading.classList.add('active');
+
+    const userMessage = `Here is the raw situation for each beat. Write polished landing page copy for each one, following the framework and style rules exactly.
+
+1. Recognition (raw): ${answers.scene}
+2. Hidden Consequence (raw): ${answers.consequence}
+3. Mechanism (raw): ${answers.mechanism}
+4. Real Cost (raw): ${answers.cost}
+5. Proof (raw): ${answers.proof}
+6. Deeper Principle (raw): ${answers.principle}
+7. Close (raw): ${answers.close}`;
+
+    try{
+      const response = await fetch("https://api.anthropic.com/v1/messages", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          model: "claude-sonnet-4-6",
+          max_tokens: 1000,
+          system: SYSTEM_PROMPT,
+          messages: [{ role: "user", content: userMessage }]
+        })
+      });
+
+      if(!response.ok){
+        throw new Error('Request failed');
+      }
+
+      const data = await response.json();
+      const textBlock = data.content.find(item => item.type === 'text');
+      if(!textBlock){
+        throw new Error('No text in response');
+      }
+
+      const cleaned = textBlock.text.replace(/```json|```/g, '').trim();
+      const parsed = JSON.parse(cleaned);
+
+      renderResults(parsed);
+      loading.classList.remove('active');
+      resultsEl.classList.add('active');
+
+    } catch(err){
+      loading.classList.remove('active');
+      wizard.style.display = 'block';
+      errorBox.textContent = "Something went wrong generating your copy. Check your answers and try again.";
+      errorBox.classList.add('active');
+    }
+  }
+
+  const beatLabels = {
+    scene: 'Beat 1 — Recognition',
+    consequence: 'Beat 2 — Hidden Consequence',
+    mechanism: 'Beat 3 — The Mechanism',
+    cost: 'Beat 4 — The Real Cost',
+    proof: 'Beat 5 — Proof It\'s Fixable',
+    principle: 'Beat 6 — The Deeper Principle',
+    close: 'Beat 7 — The Close'
+  };
+
+  function renderResults(parsed){
+    resultBlocks.innerHTML = '';
+    const order = ['scene','consequence','mechanism','cost','proof','principle','close'];
+    order.forEach(key=>{
+      const block = document.createElement('div');
+      block.className = 'result-block';
+      const label = document.createElement('div');
+      label.className = 'beat-label';
+      label.textContent = beatLabels[key];
+      const text = document.createElement('p');
+      text.className = 'beat-text';
+      text.textContent = parsed[key] || '';
+      const btn = document.createElement('button');
+      btn.className = 'copy-btn';
+      btn.textContent = 'Copy';
+      btn.addEventListener('click', ()=>{
+        navigator.clipboard.writeText(parsed[key] || '');
+        btn.textContent = 'Copied';
+        btn.classList.add('copied');
+        setTimeout(()=>{ btn.textContent = 'Copy'; btn.classList.remove('copied'); }, 1500);
+      });
+      block.appendChild(label);
+      block.appendChild(text);
+      block.appendChild(btn);
+      resultBlocks.appendChild(block);
+    });
+  }
+
+  showStep(0);
+</script>
+
+</body>
+</html>
