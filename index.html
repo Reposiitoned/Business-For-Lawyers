@@ -211,6 +211,19 @@
     letter-spacing:.02em; color:rgba(235,231,220,0.68);
   }
 
+  .proof-video{
+    margin-bottom:36px; max-width:640px;
+  }
+  .proof-video .frame{
+    position:relative; width:100%; padding-top:56.25%;
+    background:#000; border:1px solid var(--line); border-radius:2px;
+    overflow:hidden;
+  }
+  .proof-video .caption{
+    margin-top:14px; font-family:var(--mono); font-size:13px;
+    color:var(--ink-soft); letter-spacing:.02em;
+  }
+
   .hero-video{
     margin-top:40px; max-width:640px;
   }
@@ -411,12 +424,20 @@
 
   .proof{ background:var(--paper); border-top:1px solid var(--line); }
   .proof-grid{
-    display:grid; grid-template-columns:repeat(2,1fr); gap:1px;
-    background:var(--line); border:1px solid var(--line); margin-top:8px;
+    display:flex; align-items:flex-start; gap:0;
+    border:1px solid var(--line); margin-top:8px;
+    background:var(--paper);
   }
+  .proof-col{
+    display:flex; flex-direction:column; flex:1; min-width:0;
+  }
+  .proof-col:first-child{ border-right:1px solid var(--line); }
   .proof-card{
     background:var(--paper); padding:32px 28px;
+    border-bottom:1px solid var(--line);
   }
+  .proof-col:last-child .proof-card:last-child{ border-bottom:none; }
+  .proof-col:first-child .proof-card:last-child{ border-bottom:none; }
   .proof-card blockquote{
     font-family:var(--serif); font-size:16.5px; font-style:italic; font-weight:500;
     color:var(--ink); line-height:1.55; margin:0 0 16px;
@@ -426,7 +447,9 @@
   }
   .proof-card .attribution strong{ color:var(--ink); font-family:var(--sans); font-weight:600; display:block; margin-bottom:2px; }
   @media (max-width:820px){
-    .proof-grid{ grid-template-columns:1fr; }
+    .proof-grid{ flex-direction:column; }
+    .proof-col:first-child{ border-right:none; }
+    .proof-col:first-child .proof-card:last-child{ border-bottom:1px solid var(--line); }
   }
 
   .proof-quote{
@@ -800,55 +823,61 @@
     <div class="actions">
       <a class="btn btn-primary" href="#contact">Find Your Broken Promise</a>
     </div>
-    <div class="hero-video reveal">
-      <div class="frame">
-        <video controls preload="metadata" playsinline style="width:100%;height:100%;position:absolute;top:0;left:0;object-fit:cover;">
-          <source src="about-us-video.mp4" type="video/mp4">
-          Your browser doesn't support embedded video. <a href="about-us-video.mp4">Download the video</a> instead.
-        </video>
-      </div>
-      <p class="caption">Meet the team behind the Promise Process.</p>
-    </div>
   </div>
 </section>
 
 
 <section class="standard-section">
-  <div class="wrap" style="max-width:680px;">
-    <div class="eyebrow">See The Real Cost</div>
-    <h2 style="margin-top:18px;">What is a broken promise actually costing you?</h2>
-    <p style="margin-top:16px; font-size:16.5px; color:var(--ink-soft);">Enter your own numbers into the Broken Promises Calculator and see the real, calculable cost — in time, energy, and revenue.</p>
-    <a class="btn btn-primary" href="calculator.html" style="margin-top:28px; display:inline-block;">Open The Calculator</a>
+  <div class="wrap">
+    <div style="max-width:680px;">
+      <div class="eyebrow">See The Real Cost</div>
+      <h2 style="margin-top:18px;">What is a broken promise actually costing you?</h2>
+      <p style="margin-top:16px; font-size:16.5px; color:var(--ink-soft);">Enter your own numbers into the Broken Promises Calculator and see the real, calculable cost — in time, energy, and revenue.</p>
+      <a class="btn btn-primary" href="calculator.html" style="margin-top:28px; display:inline-block;">Open The Calculator</a>
+    </div>
   </div>
 </section>
 
 
 <section class="proof">
   <div class="wrap">
+    <div class="proof-video reveal">
+      <div class="frame">
+        <video controls preload="metadata" playsinline style="width:100%;height:100%;position:absolute;top:0;left:0;object-fit:cover;">
+          <source src="about-us-video.mp4" type="video/mp4">
+          Your browser doesn't support embedded video. <a href="about-us-video.mp4">Download the video</a> instead.
+        </video>
+      </div>
+      <p class="caption">Twelve years of Business for Lawyers. Hear it straight from Roy.</p>
+    </div>
     <div class="section-head reveal">
-      <p style="font-family:var(--serif); font-size:19px; font-style:italic; color:var(--ink); max-width:640px; margin:0;">In fifteen years working exclusively with law firms, we've learned to spot exactly which promise is slipping — often before the Principal can see it themselves. That diagnosis is the first thing we do together, in your first session.</p>
+      <p style="font-family:var(--serif); font-size:19px; font-style:italic; color:var(--ink); max-width:640px; margin:0;">In twelve years working exclusively with law firms, we've learned to spot exactly which promise is slipping — often before the Principal can see it themselves. That diagnosis is the first thing we do together, in your first session.</p>
     </div>
 
     <div class="proof-grid reveal">
-      <div class="proof-card">
-        <blockquote>"I was exhausting myself chasing enquiries on Facebook, and most of what came in were people shopping for the cheapest quote — it felt like a constant fight not to be treated as a commodity. Once we changed direction and focused on building relationships with wealth managers and financial planners instead, everything shifted. Today my diary is full of complex, high-value estate planning matters, referred by advisers who already trust our work before the client ever calls."</blockquote>
-        <div class="attribution"><strong>Shirley Tascone</strong>Wills &amp; Estate Planning · SBT Legal · WA</div>
+      <div class="proof-col">
+        <div class="proof-card">
+          <blockquote>"I was exhausting myself chasing enquiries on Facebook, and most of what came in were people shopping for the cheapest quote — it felt like a constant fight not to be treated as a commodity. Once we changed direction and focused on building relationships with wealth managers and financial planners instead, everything shifted. Today my diary is full of complex, high-value estate planning matters, referred by advisers who already trust our work before the client ever calls."</blockquote>
+          <div class="attribution"><strong>Shirley Tascone</strong>Wills &amp; Estate Planning · SBT Legal · WA</div>
+        </div>
+        <div class="proof-card">
+          <blockquote>"As we grew, everything got stuck with me. Putting simple, written procedures in place meant our lawyers could run their own files with confidence, instead of everything needing to go through me. Clients notice the difference too — we get regular positive feedback on our follow-up and service."</blockquote>
+          <div class="attribution"><strong>Patrick Sheridan</strong>Solicitor · Sheridan Legal · NSW</div>
+        </div>
       </div>
-      <div class="proof-card">
-        <blockquote>"As we grew, everything got stuck with me. Putting simple, written procedures in place meant our lawyers could run their own files with confidence, instead of everything needing to go through me. Clients notice the difference too — we get regular positive feedback on our follow-up and service."</blockquote>
-        <div class="attribution"><strong>Patrick Sheridan</strong>Solicitor · Sheridan Legal · NSW</div>
-      </div>
-      <div class="proof-card">
-        <blockquote>"Roy challenges you to rethink how you run the firm from the ground up, and he keeps you accountable for actually getting results — not just having a plan."</blockquote>
-        <div class="attribution"><strong>Christine Matsinger</strong>Partner · McColm Matsinger Lawyers · QLD</div>
-      </div>
-      <div class="proof-card">
-        <blockquote>"Working with Roy changed how we think about growing our firm. What could have been a steep learning curve turned into something straightforward, thanks to his direct, no-nonsense approach. I have no hesitation recommending him to any firm serious about growth."</blockquote>
-        <div class="attribution"><strong>Don Gayler</strong>Solicitor · Gayler Legal · QLD</div>
-      </div>
-      <div class="proof-card">
-        <blockquote>"Roy has been a lifesaver for our firm. He made the whole process genuinely easy to follow, and we've been grateful for his help every step of the way."</blockquote>
-        <div class="attribution"><strong>Leanne Gayler</strong>Practice Manager · Gayler Legal · QLD</div>
+      <div class="proof-col">
+        <div class="proof-card">
+          <blockquote>"Working with Roy changed how we think about growing our firm. What could have been a steep learning curve turned into something straightforward, thanks to his direct, no-nonsense approach. I have no hesitation recommending him to any firm serious about growth."</blockquote>
+          <div class="attribution"><strong>Don Gayler</strong>Solicitor · Gayler Legal · QLD</div>
+        </div>
+        <div class="proof-card">
+          <blockquote>"Roy has been a lifesaver for our firm. He made the whole process genuinely easy to follow, and we've been grateful for his help every step of the way."</blockquote>
+          <div class="attribution"><strong>Leanne Gayler</strong>Practice Manager · Gayler Legal · QLD</div>
+        </div>
+        <div class="proof-card">
+          <blockquote>"Roy challenges you to rethink how you run the firm from the ground up, and he keeps you accountable for actually getting results — not just having a plan."</blockquote>
+          <div class="attribution"><strong>Christine Matsinger</strong>Partner · McColm Matsinger Lawyers · QLD</div>
+        </div>
       </div>
     </div>
   </div>
@@ -859,19 +888,14 @@
   <div class="wrap">
     <div class="about-inner">
       <div class="reveal">
-        <div class="eyebrow">About the Firm</div>
-        <h2 style="font-size:clamp(26px,3.2vw,36px); margin-top:16px;">Fifteen years, one industry.</h2>
+        <div class="eyebrow">About Us</div>
+        <h2 style="font-size:clamp(26px,3.2vw,36px); margin-top:16px;">Twelve years of Business for Lawyers.</h2>
       </div>
       <div class="reveal">
-        <p>Business for Lawyers has spent fifteen years working inside law firms — not consulting from the outside, but sitting with principals and partners who are exceptional at law and were never taught how to run the business underneath it.</p>
-        <p>Law is not a generic small business. Confidentiality rules constrain what you can say publicly. Referral culture makes marketing feel like it shouldn't be necessary, until it's the only thing standing between you and the next retirement in your network. The billable hour makes "spend time on positioning" feel like the least urgent thing on the list — right up until it's the only thing that would have prevented the last twelve months of taking whatever came through the door.</p>
-        <p>This site sets out the method: one promise, four links, built specifically for firms like yours.</p>
+        <p>Business for Lawyers has spent twelve years working inside law firms — not consulting from the outside, but sitting with principals and partners who are exceptional at law and were never taught how to run the business underneath it.</p>
+        <p>Law is not a generic small business. Confidentiality rules constrain what you can say publicly. Referral culture makes marketing feel like it shouldn't be necessary, until it's the only thing standing between you and the next retirement in your network. And the next referrer who goes quiet. The billable hour makes "spend time on positioning" feel like the least urgent thing on the list — right up until it's the only thing that would have prevented the last twelve months of taking whatever came through the door.</p>
+        <p>Our method makes it easier to uphold your promises, with a tailored solution for your law firm.</p>
         <p><a href="about.html" style="font-family:var(--mono); font-size:12px; text-transform:uppercase; letter-spacing:.06em; color:var(--oxblood); text-decoration:none;">More about how we work →</a></p>
-        <div class="stat-row">
-          <div class="stat"><div class="n">15</div><div class="l">Years in the profession</div></div>
-          <div class="stat"><div class="n">4</div><div class="l">Links, one process</div></div>
-          <div class="stat"><div class="n">1</div><div class="l">Standard worth holding</div></div>
-        </div>
       </div>
     </div>
   </div>
@@ -884,8 +908,8 @@
       <h2>Trust doesn't average out.</h2>
     </div>
     <div class="reveal">
-      <p>Most businesses run on a ledger: do enough good, and it outweighs the bad. <strong>Trust doesn't work that way.</strong> One broken promise can sink a relationship that six kept ones built.</p>
-      <p>Six things done right and two done badly isn't a passing grade — it's the two your client remembers. If you want to grow, and keep the profit that comes with it, every promise has to be kept. Not most. Every one.</p>
+      <p>Most businesses run on a ledger: if they do more good than bad, it works. <strong>Trust doesn't work that way.</strong> One broken promise can sink a relationship that six kept promises built.</p>
+      <p>Six things done right and two done badly aren't a job well done; they're the two missteps your client remembers, talks about, and measures you by. If you want to grow, and keep the profit that comes with it, every promise has to be kept. Not most. Every one.</p>
     </div>
   </div>
 </section>
