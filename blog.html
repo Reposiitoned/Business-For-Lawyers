@@ -560,51 +560,77 @@
 
 <section>
   <div class="wrap">
-    <div class="blog-grid">
-      <div class="blog-card reveal">
-        <span class="cat">Positioning</span>
-        <h3>The $250 Quick Job That Costs You the $25,000 File</h3>
-        <p>Why the referral you said yes to last month might be the reason the referral you actually wanted went somewhere else.</p>
-        <span class="meta">2 min read</span>
-        <a class="read" href="blog-250-job.html">Read more →</a>
-      </div>
-      <div class="blog-card reveal">
-        <span class="cat">Marketing</span>
-        <h3>What Happens When Your Two Best Referrers Both Disappear in the Same Year</h3>
-        <p>Most firms find out their marketing was actually a mailing list the year it stops working.</p>
-        <span class="meta">2 min read</span>
-        <a class="read" href="blog-referrers-disappear.html">Read more →</a>
-      </div>
-      <div class="blog-card reveal">
-        <span class="cat">Sales</span>
-        <h3>Why the Better Lawyer Still Loses the Client</h3>
-        <p>Responsiveness beats expertise more often than any principal wants to admit — here's the fix.</p>
-        <span class="meta">2 min read</span>
-        <a class="read" href="blog-better-lawyer.html">Read more →</a>
-      </div>
-      <div class="blog-card reveal">
-        <span class="cat">Delivery</span>
-        <h3>The Three-Star Review You Didn't See Coming</h3>
-        <p>A won matter and a happy client are not the same thing. What happens in the gap between them.</p>
-        <span class="meta">2 min read</span>
-        <a class="read" href="blog-three-star-review.html">Read more →</a>
-      </div>
-      <div class="blog-card reveal">
-        <span class="cat">Positioning</span>
-        <h3>How to Say No to a Referral Without Losing the Referrer</h3>
-        <p>The conversation most principals avoid, and the script that keeps the relationship intact.</p>
-        <span class="meta">2 min read</span>
-        <a class="read" href="blog-say-no.html">Read more →</a>
-      </div>
-      <div class="blog-card reveal">
-        <span class="cat">Marketing</span>
-        <h3>Why “We Do Everything” Is the Most Expensive Thing You Can Say</h3>
-        <p>Generalist positioning feels safe and costs more than any firm realises, in fees left on the table.</p>
-        <span class="meta">1 min read</span>
-        <a class="read" href="blog-we-do-everything.html">Read more →</a>
-      </div>
-    </div>
+    <div class="blog-grid" id="blogGrid"></div>
   </div>
+
+  <script>
+    // To add a new post: add one object here. Everything else updates automatically.
+    const posts = [
+      {
+        category: "Positioning",
+        title: "The $250 Quick Job That Costs You the $25,000 File",
+        excerpt: "Why the referral you said yes to last month might be the reason the referral you actually wanted went somewhere else.",
+        readTime: "2 min read",
+        url: "blog-250-job.html"
+      },
+      {
+        category: "Marketing",
+        title: "What Happens When Your Two Best Referrers Both Disappear in the Same Year",
+        excerpt: "Most firms find out their marketing was actually a mailing list the year it stops working.",
+        readTime: "2 min read",
+        url: "blog-referrers-disappear.html"
+      },
+      {
+        category: "Sales",
+        title: "Why the Better Lawyer Still Loses the Client",
+        excerpt: "Responsiveness beats expertise more often than any principal wants to admit — here's the fix.",
+        readTime: "2 min read",
+        url: "blog-better-lawyer.html"
+      },
+      {
+        category: "Delivery",
+        title: "The Three-Star Review You Didn't See Coming",
+        excerpt: "A won matter and a happy client are not the same thing. What happens in the gap between them.",
+        readTime: "2 min read",
+        url: "blog-three-star-review.html"
+      },
+      {
+        category: "Positioning",
+        title: "How to Say No to a Referral Without Losing the Referrer",
+        excerpt: "The conversation most principals avoid, and the script that keeps the relationship intact.",
+        readTime: "2 min read",
+        url: "blog-say-no.html"
+      },
+      {
+        category: "Marketing",
+        title: "Why \u201cWe Do Everything\u201d Is the Most Expensive Thing You Can Say",
+        excerpt: "Generalist positioning feels safe and costs more than any firm realises, in fees left on the table.",
+        readTime: "1 min read",
+        url: "blog-we-do-everything.html"
+      },
+      {
+        category: "Delivery",
+        title: "What Broken Promises Actually Cost an 8-Person Firm",
+        excerpt: "The real maths behind the Broken Promises Calculator, shown in full \u2014 so you can check it against your own firm.",
+        readTime: "6 min read",
+        url: "blog-8-person-firm-maths.html"
+      }
+    ];
+
+    const grid = document.getElementById('blogGrid');
+    posts.forEach(post => {
+      const card = document.createElement('div');
+      card.className = 'blog-card reveal';
+      card.innerHTML = `
+        <span class="cat">${post.category}</span>
+        <h3>${post.title}</h3>
+        <p>${post.excerpt}</p>
+        <span class="meta">${post.readTime}</span>
+        <a class="read" href="${post.url}">Read more \u2192</a>
+      `;
+      grid.appendChild(card);
+    });
+  </script>
 </section>
 
 <section style="padding:0 0 64px; text-align:center;">
