@@ -1,0 +1,965 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>What Broken Promises Actually Cost an 8-Person Firm — Business for Lawyers</title>
+<meta name="description" content="The real, calculable cost of broken promises for an 8-person law firm — walked through in full, with the maths shown.">
+
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Business for Lawyers">
+<meta property="og:title" content="Business for Lawyers — Build your practice on promises kept, not broken.">
+<meta property="og:description" content="A method for Australian law firm principals ready to grow — built on the promises you make, and how systematically you keep them.">
+<meta property="og:url" content="https://businessforlawyers.com.au">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Business for Lawyers — Build your practice on promises kept, not broken.">
+<meta name="twitter:description" content="A method for Australian law firm principals ready to grow — built on the promises you make, and how systematically you keep them.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700;9..144,900&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+
+  :root{
+    --paper:      #EBE7DC;
+    --paper-2:    #E1DCCC;
+    --ink:        #14181E;
+    --ink-soft:   #3B4048;
+    --navy:       #182231;
+    --navy-2:     #0F1620;
+    --brass:      #9C7A3C;
+    --brass-lt:   #C7A25E;
+    --oxblood:    #6E2530;
+    --oxblood-lt: #8C3542;
+    --line:       #C7C0AC;
+    --line-dark:  rgba(235,231,220,0.18);
+    --paper-on-navy: #EBE7DC;
+
+    --serif: "Fraunces", ui-serif, Georgia, serif;
+    --sans:  "IBM Plex Sans", -apple-system, Segoe UI, sans-serif;
+    --mono:  "IBM Plex Mono", ui-monospace, monospace;
+
+    --maxw: 1180px;
+  }
+
+  *{ box-sizing:border-box; }
+  html{ scroll-behavior:smooth; }
+  body{
+    margin:0;
+    background:var(--paper);
+    color:var(--ink);
+    font-family:var(--sans);
+    font-size:16px;
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+  @media (prefers-reduced-motion: reduce){
+    html{ scroll-behavior:auto; }
+    *{ animation-duration:0.001ms !important; transition-duration:0.001ms !important; }
+  }
+
+  h1,h2,h3,h4{
+    font-family:var(--serif);
+    font-weight:600;
+    line-height:1.08;
+    margin:0;
+    letter-spacing:-0.01em;
+  }
+
+  a{ color:inherit; }
+  img,svg{ display:block; max-width:100%; }
+  .wrap{ max-width:var(--maxw); margin:0 auto; padding:0 32px; }
+
+  .eyebrow{
+    font-family:var(--mono);
+    font-size:12.5px;
+    letter-spacing:0.14em;
+    text-transform:uppercase;
+    color:var(--brass);
+    display:flex;
+    align-items:center;
+    gap:10px;
+  }
+  .eyebrow::before{
+    content:"";
+    width:22px; height:1px;
+    background:var(--brass);
+    display:inline-block;
+  }
+  .on-navy .eyebrow{ color:var(--brass-lt); }
+  .on-navy .eyebrow::before{ background:var(--brass-lt); }
+
+  /* ---------- NAV ---------- */
+  header.site{
+    position:sticky; top:0; z-index:50;
+    background:rgba(235,231,220,0.92);
+    backdrop-filter:blur(8px);
+    border-bottom:1px solid var(--line);
+  }
+  .nav-inner{
+    max-width:var(--maxw); margin:0 auto; padding:16px 32px;
+    display:flex; align-items:center; justify-content:space-between; gap:24px;
+  }
+  .brand{
+    font-family:var(--serif); font-weight:700; font-size:18px;
+    letter-spacing:-0.01em;
+    display:flex; flex-direction:column; line-height:1.15;
+  }
+  .brand img{ height:34px; width:auto; display:block; }
+  .brand small{
+    font-family:var(--mono); font-weight:400; font-size:10.5px;
+    letter-spacing:0.12em; color:var(--ink-soft); text-transform:uppercase;
+  }
+  nav.links{
+    display:flex; gap:26px; flex-wrap:wrap;
+  }
+  nav.links a{
+    font-family:var(--mono); font-size:12.5px; text-transform:uppercase;
+    letter-spacing:0.06em; text-decoration:none; color:var(--ink-soft);
+    padding-bottom:3px; border-bottom:1px solid transparent;
+    transition:color .15s, border-color .15s;
+    white-space:nowrap;
+  }
+  nav.links a:hover{ color:var(--oxblood); border-color:var(--oxblood); }
+  .nav-cta{
+    font-family:var(--mono); font-size:12px; text-transform:uppercase; letter-spacing:.08em;
+    background:var(--navy); color:var(--paper-on-navy); padding:9px 16px;
+    text-decoration:none; white-space:nowrap; border:1px solid var(--navy);
+    transition:background .15s;
+  }
+  .nav-cta:hover{ background:var(--oxblood); border-color:var(--oxblood); }
+
+  @media (max-width:900px){
+    nav.links{ display:none; }
+  }
+
+  /* ---------- HERO ---------- */
+  .hero{
+    background:
+      radial-gradient(1200px 600px at 85% -10%, rgba(156,122,60,0.16), transparent 60%),
+      linear-gradient(180deg, var(--navy) 0%, var(--navy-2) 100%);
+    color:var(--paper-on-navy);
+    padding:96px 0 84px;
+    position:relative;
+    overflow:hidden;
+  }
+  .hero::after{
+    content:"";
+    position:absolute; inset:0;
+    background-image:
+      repeating-linear-gradient(180deg, rgba(235,231,220,0.035) 0px, rgba(235,231,220,0.035) 1px, transparent 1px, transparent 44px);
+    pointer-events:none;
+  }
+  .hero-inner{ max-width:var(--maxw); margin:0 auto; padding:0 32px; position:relative; z-index:1; }
+  .hero .preamble{
+    font-family:var(--mono); font-size:16px; letter-spacing:.03em;
+    color:rgba(235,231,220,0.88); margin-bottom:20px;
+  }
+  .hero .eyebrow{ margin-bottom:26px; }
+  .hero .subhead{
+    font-family:var(--sans); font-size:21px; font-weight:600;
+    color:rgba(235,231,220,0.92); line-height:1.4;
+    max-width:640px; margin:-8px 0 34px;
+  }
+
+  .hero h1{
+    font-size:clamp(34px, 5.6vw, 62px);
+    max-width:34ch;
+    margin-bottom:26px;
+  }
+  .hero h1 em{ font-style:italic; color:var(--brass-lt); }
+  .hero p.lede{
+    font-size:18px; max-width:56ch; color:rgba(235,231,220,0.82);
+    margin-bottom:38px;
+  }
+  .hero-laws{ margin-top:34px; max-width:640px; }
+  .hero-laws h2{
+    font-family:var(--serif); font-size:clamp(20px,2.6vw,26px); font-weight:600;
+    color:var(--paper-on-navy); margin-bottom:14px; line-height:1.25;
+  }
+  .hero-laws > p{ font-size:16.5px; color:rgba(235,231,220,0.82); margin:0 0 18px; }
+  .hero-laws ul{ margin:0; padding:0; list-style:none; }
+  .hero-laws li{
+    position:relative; padding-left:22px; margin-bottom:10px; font-size:16px;
+    color:rgba(235,231,220,0.92);
+  }
+  .hero-laws li::before{
+    content:"—"; position:absolute; left:0; color:var(--brass-lt); font-family:var(--mono);
+  }
+  .hero-laws li strong{ color:var(--brass-lt); }
+
+  .hero .actions{ display:flex; gap:16px; flex-wrap:wrap; }
+  .btn{
+    font-family:var(--mono); font-size:13px; text-transform:uppercase; letter-spacing:.07em;
+    padding:14px 22px; text-decoration:none; display:inline-block;
+    border:1px solid currentColor; transition:all .18s;
+  }
+  .btn-primary{ background:var(--brass-lt); color:var(--navy-2); border-color:var(--brass-lt); }
+  .btn-primary:hover{ background:transparent; color:var(--brass-lt); }
+  .btn-ghost{ color:var(--paper-on-navy); }
+  .btn-ghost:hover{ background:rgba(235,231,220,0.08); }
+
+  .hero-visual{
+    margin-top:40px; max-width:640px;
+  }
+  .hero-visual img{
+    width:100%; height:auto; display:block;
+    border:1px solid var(--line-dark);
+  }
+  .hero-visual .caption{
+    margin-top:14px; font-family:var(--mono); font-size:13px;
+    letter-spacing:.02em; color:rgba(235,231,220,0.68);
+  }
+
+  .proof-video{
+    margin-bottom:36px; max-width:640px;
+  }
+  .proof-video .frame{
+    position:relative; width:100%; padding-top:56.25%;
+    background:#000; border:1px solid var(--line); border-radius:2px;
+    overflow:hidden;
+  }
+  .proof-video .caption{
+    margin-top:14px; font-family:var(--mono); font-size:13px;
+    color:var(--ink-soft); letter-spacing:.02em;
+  }
+
+  .hero-video{
+    margin-top:40px; max-width:640px;
+  }
+  .hero-video .frame{
+    position:relative; width:100%; padding-top:56.25%; /* 16:9 */
+    background:#000; border:1px solid rgba(235,231,220,0.18); border-radius:2px;
+    overflow:hidden;
+  }
+  .hero-video .frame iframe{
+    position:absolute; top:0; left:0; width:100%; height:100%; border:0;
+  }
+  .hero-video .caption{
+    margin-top:14px; font-family:var(--mono); font-size:13px;
+    color:rgba(235,231,220,0.62); letter-spacing:.02em;
+  }
+
+  .hero-docket{
+    margin-top:56px; padding-top:28px; border-top:1px solid var(--line-dark);
+    display:flex; gap:36px; flex-wrap:wrap;
+  }
+  .hero-docket .item{ font-family:var(--mono); font-size:12px; color:rgba(235,231,220,0.6); }
+  .hero-docket .item strong{ display:block; color:var(--paper-on-navy); font-size:15px; margin-bottom:4px; font-family:var(--sans); font-weight:600; }
+
+  /* ---------- SECTION GENERIC ---------- */
+  section{ padding:88px 0; }
+  section.tight{ padding:64px 0; }
+  .section-head{ max-width:640px; margin-bottom:48px; }
+  .section-head h2{ font-size:clamp(28px,3.6vw,42px); margin-top:18px; }
+  .section-head p{ margin-top:16px; font-size:16.5px; color:var(--ink-soft); max-width:58ch; }
+
+  /* ---------- PROCESS STRIP ---------- */
+  .process{ background:var(--paper-2); border-top:1px solid var(--line); border-bottom:1px solid var(--line); }
+  .life-grid{
+    display:grid; grid-template-columns:repeat(4,1fr); gap:0;
+    border-top:1px solid var(--line);
+  }
+  .life-grid .cell{
+    padding:28px 26px; border-right:1px solid var(--line);
+    position:relative;
+  }
+  .life-grid .cell:last-child{ border-right:none; }
+  .life-grid .roman{
+    font-family:var(--mono); font-size:12px; color:var(--brass); letter-spacing:.08em;
+  }
+  .life-grid .cell h4{ font-size:19px; margin:10px 0 8px; }
+  .life-grid .cell p{ font-size:14px; color:var(--ink-soft); margin:0; }
+  @media (max-width:860px){
+    .life-grid{ grid-template-columns:1fr; }
+    .life-grid .cell{ border-right:none; border-bottom:1px solid var(--line); }
+  }
+
+  .lifecycle-diagram{
+    max-width:640px; margin:0 auto 48px;
+  }
+  .lifecycle-diagram img{
+    width:100%; height:auto; display:block;
+    border:1px solid var(--line);
+  }
+
+  .attract-wrap{
+    max-width:var(--maxw); margin:64px auto 0; padding:48px 32px 0;
+    border-top:1px dashed var(--line);
+  }
+  .attract-head{ max-width:640px; margin-bottom:32px; }
+  .attract-head .label{
+    font-family:var(--mono); font-size:11.5px; color:var(--brass); text-transform:uppercase;
+    letter-spacing:.1em; display:block; margin-bottom:10px;
+  }
+  .attract-head h4{ font-size:26px; margin-bottom:12px; }
+  .attract-head p{ font-size:15.5px; color:var(--ink-soft); margin:0; }
+  .attract-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:24px; }
+  .attract-card{ background:var(--paper-2); border:1px solid var(--line); padding:24px; }
+  .attract-card .qnum{ font-family:var(--mono); font-size:12px; color:var(--oxblood); text-transform:uppercase; letter-spacing:.06em; }
+  .attract-card h5{ font-family:var(--serif); font-size:18px; font-weight:600; margin:10px 0 8px; }
+  .attract-card p{ font-size:14px; color:var(--ink-soft); margin:0; }
+  .attract-close{
+    margin-top:28px; font-family:var(--serif); font-style:italic; font-size:17px; color:var(--ink);
+    border-left:3px solid var(--brass); padding-left:18px;
+  }
+  @media (max-width:820px){ .attract-grid{ grid-template-columns:1fr; } }
+
+  /* ---------- THE STANDARD ---------- */
+  .calc-inputs{
+    display:flex; gap:32px; flex-wrap:wrap; align-items:flex-end;
+    margin:8px 0 32px; padding:24px; background:var(--paper-2);
+    border:1px solid var(--line); border-radius:4px;
+  }
+  .calc-field label{
+    display:block; font-family:var(--mono); font-size:12.5px; color:var(--ink-soft);
+    margin-bottom:8px; letter-spacing:.02em;
+  }
+  .calc-field input{
+    font-family:var(--sans); font-size:20px; font-weight:600; color:var(--ink);
+    border:none; border-bottom:2px solid var(--brass); background:transparent;
+    width:130px; padding:2px 0;
+  }
+  .calc-field input:focus{ outline:none; border-bottom-color:var(--oxblood); }
+  .calc-total{
+    margin-left:auto; text-align:right;
+  }
+  .calc-total .label{ font-family:var(--mono); font-size:12.5px; color:var(--ink-soft); margin-bottom:6px; }
+  .calc-total .amount{ font-family:var(--mono); font-size:34px; color:var(--oxblood); font-weight:700; }
+  @media (max-width:700px){
+    .calc-inputs{ flex-direction:column; align-items:stretch; }
+    .calc-total{ margin-left:0; text-align:left; }
+  }
+
+  .leaks{ background:var(--paper); border-top:1px solid var(--line); }
+  .leaks-grid{
+    display:grid; grid-template-columns:repeat(3,1fr); gap:1px;
+    background:var(--line); margin-top:8px; border:1px solid var(--line);
+  }
+  .leak-card{ background:var(--paper); padding:32px 28px; }
+  .leak-card .amount{
+    font-family:var(--mono); font-size:30px; color:var(--brass);
+    display:block; margin-bottom:12px; letter-spacing:-.01em;
+  }
+  .leak-card h4{ font-size:17.5px; margin:0 0 10px; color:var(--ink); }
+  .leak-card p{ font-size:14.5px; color:var(--ink-soft); margin:0; line-height:1.6; }
+  .leaks-close{
+    margin-top:36px; padding-top:28px; border-top:1px solid var(--line);
+    display:flex; align-items:center; justify-content:space-between; gap:24px; flex-wrap:wrap;
+  }
+  .leaks-close p{ max-width:52ch; font-size:15.5px; color:var(--ink-soft); margin:0; }
+  @media (max-width:820px){
+    .leaks-grid{ grid-template-columns:1fr; }
+  }
+
+  .ledger{ background:var(--paper); border-top:1px solid var(--line); }
+  .ledger .wrap{ max-width:720px; }
+  .ledger p{ font-size:17px; line-height:1.7; color:var(--ink-soft); margin:0 0 18px; }
+  .ledger p:last-child{ margin-bottom:0; }
+  .ledger strong{ color:var(--ink); font-weight:700; }
+
+  .manifesto{
+    background:var(--navy); padding:56px 0;
+    text-align:center;
+  }
+  .manifesto .wrap{ max-width:820px; }
+  .manifesto p{
+    font-family:var(--serif); font-weight:600; font-style:italic;
+    font-size:clamp(28px, 4.2vw, 46px); line-height:1.3;
+    color:var(--paper-on-navy); margin:0;
+  }
+  .manifesto p em{ color:var(--brass-lt); font-style:italic; }
+
+  .standard-section{ background:var(--paper); border-top:1px solid var(--line); }
+  .standard-list{ border-top:1px solid var(--line); }
+  .standard-row{
+    display:grid; grid-template-columns:200px 1fr; gap:28px;
+    padding:32px 0; border-bottom:1px solid var(--line); align-items:start;
+  }
+  .standard-row .link-name{
+    font-family:var(--mono); font-size:12px; text-transform:uppercase; letter-spacing:.06em;
+    color:var(--brass); padding-top:2px;
+  }
+  .standard-row p{
+    font-family:var(--serif); font-style:italic; font-size:18px; color:var(--ink); margin:0; line-height:1.5;
+  }
+  .standard-close{
+    margin-top:32px; padding-top:28px; border-top:1px dashed var(--line);
+    display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:20px;
+  }
+  .standard-close p{ font-size:16px; color:var(--ink-soft); margin:0; max-width:52ch; }
+  @media (max-width:700px){
+    .standard-row{ grid-template-columns:1fr; gap:8px; }
+  }
+
+  /* ---------- FILE SECTIONS ---------- */
+  .exhibit{ border-bottom:1px solid var(--line); }
+  .exhibit-inner{
+    max-width:var(--maxw); margin:0 auto; padding:88px 32px;
+    display:grid; grid-template-columns:1fr 1fr; gap:64px; align-items:start;
+  }
+  @media (max-width:920px){ .exhibit-inner{ grid-template-columns:1fr; gap:36px; } }
+
+  .exhibit-num{
+    font-family:var(--mono); font-size:13px; color:var(--brass);
+    letter-spacing:.1em; margin-bottom:14px; display:block;
+  }
+  .file h3{ font-size:clamp(26px,3.2vw,36px); margin-bottom:6px; }
+  .file .subtitle{
+    font-family:var(--serif); font-style:italic; font-weight:500; font-size:18px;
+    color:var(--oxblood); margin-bottom:22px;
+  }
+  .vignette{
+    font-size:16px; line-height:1.75; color:var(--ink-soft);
+  }
+  .vignette p{ margin:0 0 16px; }
+
+  .pullquote{
+    border-left:3px solid var(--oxblood);
+    padding:4px 0 4px 22px;
+    font-family:var(--serif); font-size:20px; font-style:italic; font-weight:500;
+    color:var(--ink);
+    margin-top:26px;
+  }
+
+  .proof{ background:var(--paper); border-top:1px solid var(--line); }
+  .proof-grid{
+    display:flex; align-items:flex-start; gap:0;
+    border:1px solid var(--line); margin-top:8px;
+    background:var(--paper);
+  }
+  .proof-col{
+    display:flex; flex-direction:column; flex:1; min-width:0;
+  }
+  .proof-col:first-child{ border-right:1px solid var(--line); }
+  .proof-card{
+    background:var(--paper); padding:32px 28px;
+    border-bottom:1px solid var(--line);
+  }
+  .proof-col:last-child .proof-card:last-child{ border-bottom:none; }
+  .proof-col:first-child .proof-card:last-child{ border-bottom:none; }
+  .proof-card blockquote{
+    font-family:var(--serif); font-size:16.5px; font-style:italic; font-weight:500;
+    color:var(--ink); line-height:1.55; margin:0 0 16px;
+  }
+  .proof-card .attribution{
+    font-family:var(--mono); font-size:13px; color:var(--ink-soft);
+  }
+  .proof-card .attribution strong{ color:var(--ink); font-family:var(--sans); font-weight:600; display:block; margin-bottom:2px; }
+  @media (max-width:820px){
+    .proof-grid{ flex-direction:column; }
+    .proof-col:first-child{ border-right:none; }
+    .proof-col:first-child .proof-card:last-child{ border-bottom:1px solid var(--line); }
+  }
+
+  .proof-quote{
+    max-width:760px; margin:0 auto;
+  }
+  .proof-quote blockquote{
+    border-left:3px solid var(--oxblood);
+    padding:4px 0 4px 24px;
+    font-family:var(--serif); font-size:22px; font-style:italic; font-weight:500;
+    color:var(--ink); line-height:1.5; margin:0;
+  }
+  .proof-quote .attribution{
+    margin-top:20px; padding-left:27px;
+    font-family:var(--mono); font-size:14px; color:var(--ink-soft);
+  }
+  .proof-quote .attribution strong{ color:var(--ink); font-family:var(--sans); font-weight:600; }
+
+  .cost-box{
+    background:var(--paper);
+    border:1px solid var(--line);
+    padding:28px;
+  }
+  .cost-box .label{
+    font-family:var(--mono); font-size:11.5px; text-transform:uppercase; letter-spacing:.1em;
+    color:var(--oxblood); margin-bottom:16px; display:block;
+  }
+  .cost-box ul{ margin:0; padding:0; list-style:none; }
+  .cost-box li{
+    position:relative; padding-left:22px; margin-bottom:14px; font-size:15px; color:var(--ink-soft);
+  }
+  .cost-box li:last-child{ margin-bottom:0; }
+  .cost-box li::before{
+    content:"—"; position:absolute; left:0; color:var(--brass); font-family:var(--mono);
+  }
+  .the-standard{
+    margin-top:24px; padding-top:20px; border-top:1px dashed var(--line);
+  }
+  .the-standard .label{
+    font-family:var(--mono); font-size:11.5px; text-transform:uppercase; letter-spacing:.1em;
+    color:var(--brass); display:block; margin-bottom:8px;
+  }
+  .the-standard p{ margin:0; font-size:15px; color:var(--ink-soft); }
+
+  /* ---------- METHOD ---------- */
+  .method{ background:var(--navy); color:var(--paper-on-navy); }
+  .method .section-head p{ color:rgba(235,231,220,0.72); }
+  .method-grid{
+    display:grid; grid-template-columns:repeat(4,1fr); gap:1px;
+    background:var(--line-dark);
+    border:1px solid var(--line-dark);
+  }
+  .method-card{
+    background:var(--navy); padding:32px 26px;
+  }
+  .method-card .num{ font-family:var(--mono); font-size:26px; color:var(--brass-lt); }
+  .method-card h4{ font-size:19px; margin:14px 0 10px; color:var(--paper-on-navy); }
+  .method-card p{ font-size:14px; color:rgba(235,231,220,0.68); margin:0; }
+  @media (max-width:860px){ .method-grid{ grid-template-columns:1fr; } }
+
+  /* ---------- COMPARISON ---------- */
+  .compare{ background:var(--paper); }
+  .compare-table{ border-top:1px solid var(--line); }
+  .compare-row{
+    display:grid; grid-template-columns:1fr 1.2fr 1.2fr;
+    border-bottom:1px solid var(--line);
+  }
+  .compare-row.head{ border-bottom:2px solid var(--navy); }
+  .compare-cell{ padding:26px 24px; }
+  .compare-row .metric{
+    font-family:var(--mono); font-size:12.5px; text-transform:uppercase; letter-spacing:.06em;
+    color:var(--ink-soft); display:flex; align-items:center;
+  }
+  .compare-row.head .metric{ color:transparent; }
+  .compare-cell.default{ background:var(--paper-2); }
+  .compare-cell.default p{ color:var(--ink-soft); font-style:italic; }
+  .compare-cell.engineered{ border-left:3px solid var(--brass); }
+  .compare-cell.engineered p{ color:var(--ink); font-weight:500; }
+  .compare-cell p{ margin:0; font-size:15px; line-height:1.6; }
+  .compare-head-label{
+    font-family:var(--mono); font-size:11.5px; text-transform:uppercase; letter-spacing:.08em;
+  }
+  .compare-head-label.default{ color:var(--ink-soft); }
+  .compare-head-label.engineered{ color:var(--oxblood); }
+  .compare-cta{
+    margin-top:36px; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:20px;
+  }
+  .compare-cta p{ font-family:var(--serif); font-style:italic; font-size:19px; margin:0; max-width:48ch; color:var(--ink); }
+  @media (max-width:760px){
+    .compare-row{ grid-template-columns:1fr; }
+    .compare-row.head{ display:none; }
+    .compare-cell.engineered{ border-left:none; border-top:3px solid var(--brass); }
+    .compare-row .metric{ padding-bottom:0; }
+  }
+
+  /* ---------- ASSESSMENT ---------- */
+  .assessment{ background:var(--paper-2); }
+  .assess-panel{
+    background:var(--paper); border:1px solid var(--line);
+    padding:40px; max-width:760px; margin:0 auto;
+  }
+  .q-block{ margin-bottom:30px; }
+  .q-block:last-of-type{ margin-bottom:0; }
+  .q-block .q-label{
+    font-family:var(--mono); font-size:11.5px; color:var(--brass); text-transform:uppercase;
+    letter-spacing:.08em; margin-bottom:8px; display:block;
+  }
+  .q-block p.q-text{ font-size:16.5px; margin:0 0 14px; font-weight:500; }
+  .scale{ display:flex; gap:8px; flex-wrap:wrap; }
+  .scale button{
+    font-family:var(--mono); font-size:13px; padding:10px 16px;
+    border:1px solid var(--line); background:transparent; color:var(--ink-soft);
+    cursor:pointer; transition:all .15s;
+  }
+  .scale button:hover{ border-color:var(--oxblood); color:var(--oxblood); }
+  .scale button.active{ background:var(--navy); color:var(--paper-on-navy); border-color:var(--navy); }
+
+  .assess-submit{
+    margin-top:34px; padding-top:26px; border-top:1px solid var(--line);
+    display:flex; justify-content:flex-end;
+  }
+  .assess-submit button{
+    font-family:var(--mono); text-transform:uppercase; letter-spacing:.07em; font-size:13px;
+    padding:14px 26px; background:var(--oxblood); color:var(--paper-on-navy); border:1px solid var(--oxblood);
+    cursor:pointer; transition:opacity .15s;
+  }
+  .assess-submit button:disabled{ opacity:.35; cursor:not-allowed; }
+  .assess-submit button:not(:disabled):hover{ background:transparent; color:var(--oxblood); }
+
+  .verdict{
+    display:none; margin-top:30px; padding-top:30px; border-top:2px solid var(--navy);
+  }
+  .verdict.show{ display:block; }
+  .verdict .label{ font-family:var(--mono); font-size:11.5px; color:var(--oxblood); text-transform:uppercase; letter-spacing:.1em; }
+  .verdict h4{ font-size:26px; margin:10px 0 12px; }
+  .verdict p{ font-size:15.5px; color:var(--ink-soft); max-width:60ch; }
+  .verdict .btn{ margin-top:20px; }
+
+  /* ---------- ABOUT ---------- */
+  .about-inner{
+    display:grid; grid-template-columns:0.9fr 1.1fr; gap:64px; align-items:start;
+  }
+  @media (max-width:900px){ .about-inner{ grid-template-columns:1fr; gap:36px; } }
+  .about-inner p{ font-size:16px; color:var(--ink-soft); margin:0 0 16px; }
+  .stat-row{ display:flex; gap:36px; margin-top:28px; flex-wrap:wrap; }
+  .stat{ }
+  .stat .n{ font-family:var(--serif); font-size:34px; font-weight:700; color:var(--oxblood); }
+  .stat .l{ font-family:var(--mono); font-size:11.5px; text-transform:uppercase; letter-spacing:.06em; color:var(--ink-soft); }
+
+  /* ---------- CONTACT ---------- */
+  .contact{ background:var(--navy); color:var(--paper-on-navy); }
+  .contact .section-head p{ color:rgba(235,231,220,0.72); }
+  .contact-grid{ display:grid; grid-template-columns:1fr 1fr; gap:56px; }
+  @media (max-width:900px){ .contact-grid{ grid-template-columns:1fr; } }
+  .form-row{ margin-bottom:18px; }
+  .form-row label{
+    display:block; font-family:var(--mono); font-size:11.5px; text-transform:uppercase;
+    letter-spacing:.07em; color:var(--brass-lt); margin-bottom:8px;
+  }
+  .form-row input, .form-row textarea{
+    width:100%; background:rgba(235,231,220,0.06); border:1px solid var(--line-dark);
+    color:var(--paper-on-navy); padding:12px 14px; font-family:var(--sans); font-size:14.5px;
+  }
+  .form-row textarea{ min-height:96px; resize:vertical; }
+  .form-row input:focus, .form-row textarea:focus{ outline:2px solid var(--brass-lt); outline-offset:2px; }
+  .contact-note{ font-size:13.5px; color:rgba(235,231,220,0.55); margin-top:6px; }
+  .contact-info .line{ display:flex; gap:14px; margin-bottom:20px; font-size:15px; }
+  .contact-info .line .k{ font-family:var(--mono); font-size:11.5px; text-transform:uppercase; color:var(--brass-lt); min-width:88px; }
+  .form-confirm{
+    display:none; padding:18px; border:1px solid var(--brass-lt); font-size:14px; margin-top:16px;
+  }
+  .form-confirm.show{ display:block; }
+
+  /* ---------- FOOTER ---------- */
+  footer{ background:var(--navy-2); color:rgba(235,231,220,0.55); padding:36px 0; }
+  .footer-inner{
+    display:flex; justify-content:space-between; flex-wrap:wrap; gap:16px;
+    font-family:var(--mono); font-size:12px; letter-spacing:.03em;
+  }
+  footer a{ color:rgba(235,231,220,0.75); text-decoration:none; }
+  footer a:hover{ color:var(--brass-lt); }
+
+  /* reveal on scroll */
+  .reveal{ opacity:0; transform:translateY(14px); transition:opacity .6s ease, transform .6s ease; }
+  .reveal.in{ opacity:1; transform:translateY(0); }
+
+  :focus-visible{ outline:2px solid var(--oxblood); outline-offset:2px; }
+
+  /* ---------- PAGE HERO (interior pages) ---------- */
+  .page-hero{
+    background: linear-gradient(180deg, var(--navy) 0%, var(--navy-2) 100%);
+    color:var(--paper-on-navy);
+    padding:72px 0 56px;
+  }
+  .page-hero .wrap{ max-width:var(--maxw); }
+  .page-hero .crumb{
+    font-family:var(--mono); font-size:12px; letter-spacing:.1em; text-transform:uppercase;
+    color:rgba(235,231,220,0.55); margin-bottom:18px;
+  }
+  .page-hero .crumb a{ color:rgba(235,231,220,0.8); text-decoration:none; }
+  .page-hero .crumb a:hover{ color:var(--brass-lt); }
+  .page-hero h1{ font-size:clamp(32px,5.2vw,54px); margin-bottom:10px; }
+  .page-hero .tag{
+    font-family:var(--serif); font-style:italic; font-weight:500; font-size:19px;
+    color:var(--brass-lt); margin-bottom:22px;
+  }
+  .page-hero p.lede{ font-size:17px; max-width:60ch; color:rgba(235,231,220,0.8); margin:0; }
+
+  /* ---------- PROCESS NAV (prev/next between pages) ---------- */
+  .lifecycle-nav{ border-top:1px solid var(--line); background:var(--paper-2); }
+  .lifecycle-nav .row{
+    display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:18px;
+    padding:36px 0;
+  }
+  .lifecycle-nav a{ text-decoration:none; }
+  .lifecycle-nav .dir{
+    font-family:var(--mono); font-size:11px; text-transform:uppercase; letter-spacing:.08em;
+    color:var(--brass); display:block; margin-bottom:6px;
+  }
+  .lifecycle-nav .name{ font-family:var(--serif); font-weight:600; font-size:21px; color:var(--ink); }
+  .lifecycle-nav .next{ text-align:right; }
+  .lifecycle-nav a:hover .name{ color:var(--oxblood); }
+
+  nav.links a.active{ color:var(--oxblood); border-color:var(--oxblood); }
+
+  .sequence{ border-top:1px solid var(--line); }
+  .sequence-row{
+    display:grid; grid-template-columns:64px 1fr; gap:28px;
+    padding:40px 0; border-bottom:1px solid var(--line);
+  }
+  .sequence-row .num{
+    font-family:var(--mono); font-size:30px; color:var(--brass); line-height:1;
+    padding-top:4px;
+  }
+  .sequence-row h4{
+    font-size:21px; margin:0 0 12px;
+  }
+  .sequence-row p{
+    font-size:15.5px; line-height:1.75; color:var(--ink-soft); margin:0;
+  }
+  .sequence-row .read{
+    display:inline-block; margin-top:14px; font-family:var(--mono); font-size:12px;
+    text-transform:uppercase; letter-spacing:.06em; color:var(--oxblood); text-decoration:none;
+  }
+  @media (max-width:640px){
+    .sequence-row{ grid-template-columns:1fr; gap:10px; }
+    .sequence-row .num{ padding-top:0; }
+  }
+
+  /* ---------- QUALIFY (who it's for / not for) ---------- */
+  .qualify{ background:var(--paper-2); border-top:1px solid var(--line); border-bottom:1px solid var(--line); }
+  .qualify-grid{ display:grid; grid-template-columns:1fr 1fr; gap:1px; background:var(--line); border:1px solid var(--line); }
+  .qualify-col{ background:var(--paper); padding:36px 32px; }
+  .qualify-col.not{ background:var(--paper-2); }
+  .qualify-col .label{
+    font-family:var(--mono); font-size:11.5px; text-transform:uppercase; letter-spacing:.08em;
+    display:block; margin-bottom:18px;
+  }
+  .qualify-col.yes .label{ color:var(--brass); }
+  .qualify-col.not .label{ color:var(--oxblood); }
+  .qualify-col ul{ margin:0; padding:0; list-style:none; }
+  .qualify-col li{
+    position:relative; padding-left:22px; margin-bottom:14px; font-size:15px; color:var(--ink-soft); line-height:1.6;
+  }
+  .qualify-col li:last-child{ margin-bottom:0; }
+  .qualify-col.yes li::before{ content:"—"; position:absolute; left:0; color:var(--brass); font-family:var(--mono); }
+  .qualify-col.not li::before{ content:"—"; position:absolute; left:0; color:var(--oxblood); font-family:var(--mono); }
+  @media (max-width:760px){ .qualify-grid{ grid-template-columns:1fr; } }
+
+  /* ---------- BLOG ---------- */
+  .blog-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:26px; }
+  .blog-card{
+    background:var(--paper-2); border:1px solid var(--line); padding:28px;
+    display:flex; flex-direction:column;
+  }
+  .blog-card .cat{
+    font-family:var(--mono); font-size:11px; text-transform:uppercase; letter-spacing:.08em; color:var(--brass);
+    margin-bottom:12px;
+  }
+  .blog-card h3{ font-size:19px; margin:0 0 10px; line-height:1.25; }
+  .blog-card p{ font-size:14px; color:var(--ink-soft); margin:0; flex:1; }
+  .blog-card .read{
+    margin-top:16px; font-family:var(--mono); font-size:12px; text-transform:uppercase; letter-spacing:.06em;
+    color:var(--oxblood); text-decoration:none;
+  }
+  .blog-card .meta{
+    font-family:var(--mono); font-size:11px; color:var(--ink-soft); margin-top:14px; opacity:.7;
+  }
+  @media (max-width:900px){ .blog-grid{ grid-template-columns:1fr 1fr; } }
+  @media (max-width:620px){ .blog-grid{ grid-template-columns:1fr; } }
+
+  /* ---------- ARTICLE ---------- */
+  .article-hero{ padding:56px 0 0; }
+  .article-hero .crumb{ margin-bottom:18px; }
+  .article-hero h1{ font-size:clamp(28px,4.4vw,42px); max-width:20ch; margin-bottom:14px; }
+  .article-meta{
+    font-family:var(--mono); font-size:12px; text-transform:uppercase; letter-spacing:.06em;
+    color:var(--brass-lt); display:flex; gap:14px; align-items:center;
+  }
+  .article-body{ max-width:680px; margin:0 auto; padding:48px 32px 24px; }
+  .article-body p{ font-size:17px; line-height:1.85; color:var(--ink); margin:0 0 22px; }
+  .article-lesson{
+    max-width:680px; margin:0 auto 56px; padding:0 32px;
+  }
+  .article-lesson .box{
+    border-left:3px solid var(--oxblood); padding:6px 0 6px 22px;
+    font-family:var(--serif); font-style:italic; font-size:19px; color:var(--ink);
+  }
+  .article-back{
+    max-width:680px; margin:0 auto; padding:0 32px 56px;
+  }
+  .article-back a{
+    font-family:var(--mono); font-size:12.5px; text-transform:uppercase; letter-spacing:.06em;
+    color:var(--oxblood); text-decoration:none;
+  }
+
+  /* ---------- PROGRAM PAGE ---------- */
+  .quarter-grid{
+    display:grid; grid-template-columns:1fr 1fr; gap:28px;
+  }
+  .quarter-card{
+    background:var(--paper-2); border:1px solid var(--line); padding:32px;
+  }
+  .quarter-card .qlabel{
+    font-family:var(--mono); font-size:11.5px; text-transform:uppercase; letter-spacing:.08em;
+    color:var(--brass); display:block; margin-bottom:14px;
+  }
+  .quarter-card h3{ font-size:23px; margin-bottom:6px; }
+  .quarter-card .qtag{
+    font-family:var(--serif); font-style:italic; font-size:16px; color:var(--oxblood); margin-bottom:16px;
+  }
+  .quarter-card p{ font-size:15px; line-height:1.7; color:var(--ink-soft); margin:0; }
+  @media (max-width:820px){ .quarter-grid{ grid-template-columns:1fr; } }
+
+  .payoff-list{ margin:0; padding:0; list-style:none; }
+  .payoff-list li{
+    position:relative; padding-left:26px; margin-bottom:18px; font-size:16px;
+    color:var(--ink-soft); line-height:1.6;
+  }
+  .payoff-list li:last-child{ margin-bottom:0; }
+  .payoff-list li::before{
+    content:"—"; position:absolute; left:0; color:var(--brass); font-family:var(--mono);
+  }
+  .payoff-list li strong{ color:var(--ink); }
+  .article-hero{
+    background:var(--navy); color:var(--paper-on-navy); padding:56px 0 48px;
+  }
+  .article-hero .eyebrow{
+    font-family:var(--mono); font-size:13px; letter-spacing:.05em; text-transform:uppercase;
+    color:var(--brass-lt); margin-bottom:16px;
+  }
+  .article-hero h1{
+    font-family:var(--serif); font-weight:700; font-size:clamp(28px,4vw,42px);
+    line-height:1.25; margin:0 0 16px; max-width:16ch;
+  }
+  .article-hero .dek{
+    font-size:17px; color:rgba(235,231,220,0.82); max-width:60ch; margin:0;
+  }
+  .article-body{ background:var(--paper); padding:56px 0 72px; }
+  .article-body .prose{ max-width:680px; }
+  .prose p{ font-size:17px; line-height:1.75; color:var(--ink-soft); margin:0 0 22px; }
+  .prose h2{
+    font-family:var(--serif); font-size:26px; font-weight:600; color:var(--ink);
+    margin:44px 0 18px; line-height:1.3;
+  }
+  .prose h2:first-child{ margin-top:0; }
+  .prose strong{ color:var(--ink); font-weight:700; }
+  .prose em{ font-style:italic; }
+  .prose ul{ margin:0 0 22px; padding-left:22px; }
+  .prose li{ font-size:17px; line-height:1.7; color:var(--ink-soft); margin-bottom:8px; }
+  .prose a{ color:var(--oxblood); }
+  .prose .callout{
+    background:var(--paper-2); border:1px solid var(--line); border-radius:2px;
+    padding:24px 28px; margin:28px 0; font-family:var(--mono); font-size:15px;
+    color:var(--ink); line-height:1.6;
+  }
+  .article-cta{
+    margin-top:40px; padding-top:32px; border-top:1px solid var(--line);
+  }
+</style>
+</head>
+<body>
+
+<header class="site">
+  <div class="nav-inner">
+    <div class="brand">
+      <a href="index.html" style="text-decoration:none; color:inherit; display:block;"><img src="data:image/png;base64,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" alt="Business for Lawyers — The Brief"></a>
+    </div>
+    <nav class="links">
+      <a href="index.html">Home</a>
+      <a href="calculator.html">Calculator</a>
+      <a href="about.html">About</a>
+      <a href="blog.html" class="active">Blog</a>
+    </nav>
+    <a class="nav-cta" href="index.html#contact">Let's Talk</a>
+  </div>
+</header>
+
+<section class="article-hero">
+  <div class="wrap">
+    <div class="eyebrow">The Broken Promises Calculator — Explained</div>
+    <h1>What Broken Promises Actually Cost an 8-Person Firm</h1>
+    <p class="dek">The maths behind the numbers, shown in full — so you can check it against your own firm rather than take our word for it.</p>
+  </div>
+</section>
+
+<section class="article-body">
+  <div class="wrap">
+    <div class="prose">
+
+      <p>If you run a law firm with a team of eight — say, four fee-earners and four support staff covering admin and accounts — your turnover is probably sitting somewhere between $1.1 million and $1.5 million a year. That sounds healthy. It often is.</p>
+
+      <p>It's also, almost certainly, quietly leaking over $300,000 of that straight off your bottom line. Not because anyone did anything wrong. Because nobody built a process to stop it.</p>
+
+      <p>Here's the maths, in full, so you can check it against your own firm.</p>
+
+      <h2>The one distinction that changes the whole calculation</h2>
+
+      <p>Before the numbers: when we talk about "professionals" in this context, we mean <strong>fee-earners</strong> — the lawyers and conveyancers actually doing chargeable work. Not your bookkeeper, not your receptionist, not your admin support. That distinction matters, because every leak below is something a fee-earner does, not something support staff can be blamed for.</p>
+
+      <p>So for an 8-person firm structured as 4 fee-earners and 4 support staff, the number that goes into every calculation below is <strong>4</strong> — not 8. Get that wrong, and you'll either underestimate a smaller firm's exposure or overstate a support-heavy one's.</p>
+
+      <h2>Leak one: free advice, no costs agreement</h2>
+
+      <p>Picture this: a caller rings in, describes their situation, and one of your fee-earners spends twenty-five minutes talking them through it — properly, thoroughly, the way you'd want your name attached to. No costs agreement gets signed. The caller says "I'll think about it" and never calls back.</p>
+
+      <p>If that happens twice a week, per fee-earner:</p>
+
+      <div class="callout">4 fee-earners × 2 calls/week × 25 minutes × 52 weeks × $400/hour = <strong>$69,333 a year</strong></div>
+
+      <p>That's over four full working weeks of billable time, every year, given away before a single retainer is signed.</p>
+
+      <h2>Leak two: partner rework and chasing</h2>
+
+      <p>Every firm has it: a file that comes back across a partner's desk because the handover wasn't clean the first time. A junior's draft that needs redoing. A client update that got missed and now needs an apologetic follow-up call.</p>
+
+      <p>At a conservative one hour a week, per fee-earner:</p>
+
+      <div class="callout">4 fee-earners × 1 hour/week × 52 weeks × $400/hour = <strong>$83,200 a year</strong></div>
+
+      <p>That's not one bad file. That's the ordinary cost of a process that depends on memory and goodwill instead of a system.</p>
+
+      <h2>Leak three: ghosted leads and referrals</h2>
+
+      <p>A warm lead — a referral from an accountant, a financial planner, a past client — goes quiet before it's ever billed. No dramatic falling out. They just stop returning calls, for reasons that usually have nothing to do with you.</p>
+
+      <p>At two ghosted leads or referrals a month, per fee-earner, and a conservative $1,800 average matter value:</p>
+
+      <div class="callout">4 fee-earners × 2/month × $1,800 × 12 months = <strong>$172,800 a year</strong></div>
+
+      <p>This is usually the biggest number of the three, and the easiest to miss — because a lead that never converts never shows up as a loss anywhere in your accounts. It just never existed, as far as your books are concerned.</p>
+
+      <h2>The total</h2>
+
+      <p>$69,333 + $83,200 + $172,800 = <strong>$325,333 a year.</strong></p>
+
+      <p>Against $1.1–$1.5 million in turnover, that's somewhere between 22% and 30% of total revenue — not profit, revenue — leaking out through three specific, nameable gaps, none of which required a single mistake serious enough to remember.</p>
+
+      <h2>Why this comes straight off profit, not just revenue</h2>
+
+      <p>Here's the part that makes $325,333 sting more than it might first appear to. A healthy gross profit margin for a small Australian law firm — an 8-person team, roughly this size — typically sits between 55% and 70%. That's the margin on your <em>existing</em> revenue, after the direct cost of delivering the work but before fixed overhead like rent, admin salaries, and software.</p>
+
+      <p>The leaks above aren't existing revenue, though — they're revenue that never happened at all. And recovering money that was never there doesn't require a single extra dollar of rent, a new hire, or a bigger office. Your fixed overhead doesn't move. Which means the money recovered from closing these leaks doesn't just contribute at your average margin — it tends to fall to the bottom line at an even higher rate, because none of it has to carry a share of costs that were already being paid regardless.</p>
+
+      <p>In practical terms: somewhere between 55 and 70 cents of every dollar recovered here can land as pure profit. Sometimes more.</p>
+
+      <h2>What it actually takes to recover it</h2>
+
+      <p>$325,333 sounds like a number that requires a dramatic fix. In hours, it doesn't.</p>
+
+      <p>At $400 an hour, that's 813 extra billable hours a year — across four fee-earners, that's about 203 hours each, across a 46-week working year. Spread over a five-day week, that's <strong>under an hour a day, per fee-earner</strong> — roughly 53 minutes.</p>
+
+      <p>And you don't need to recover all of it to feel the difference. Even getting back half of it — a genuinely conservative target — is:</p>
+
+      <ul>
+        <li><strong>$162,667 back on the bottom line</strong></li>
+        <li><strong>About 26 minutes a day, per fee-earner</strong></li>
+      </ul>
+
+      <p>Apply the profit-margin logic from above to that recovered $162,667, and — since your overheads barely move to capture it — somewhere between 55% and 70% of it converts straight to profit. That's <strong>over $80,000 in extra profit this year</strong>, from roughly 26 minutes a day per fee-earner.</p>
+
+      <p>That's the real scale of this problem. Not "hire more staff" or "work weekends." Twenty-six minutes a day, redirected from the three leaks above to the work that was already meant to happen.</p>
+
+      <h2>And that's before reputation</h2>
+
+      <p>Every one of these three numbers is a direct, measurable cost. None of it accounts for the client who never complains but quietly stops referring you, the review that never gets written because the experience was merely fine instead of memorable, or the adviser who starts sending clients elsewhere because one file went quiet for too long. In our experience, that hidden reputational layer often runs two to four times higher again than the direct number above.</p>
+
+      <h2>Why this happens even when the legal work is excellent</h2>
+
+      <p>None of these three leaks are caused by bad lawyering. They're caused by the absence of a process — something to catch the enquiry before it becomes a free consultation, something to catch the file before it needs redoing, something to catch the referral before it goes quiet.</p>
+
+      <p>A promise your client is implicitly relying on — that their matter gets full attention, that nothing falls through the cracks — depends entirely on a process existing to protect it. Where that process doesn't exist yet, the promise survives purely on individual effort and memory. That works, right up until it doesn't.</p>
+
+      <h2>Check your own numbers</h2>
+
+      <p>These figures assume a specific shape: four fee-earners, a $400 hourly rate, and the patterns we've seen repeated across years of working with firms this size. Your own numbers will be different. The <a href="calculator.html">Broken Promises Calculator</a> lets you plug in your actual team size and rate and see exactly where you stand — not as an estimate, but as your own maths, laid out the same way it is here.</p>
+
+      <div class="article-cta">
+        <a class="btn btn-primary" href="calculator.html">Open The Calculator</a>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap footer-inner">
+    <span>Business for Lawyers — Build your practice on promises kept, not broken. — businessforlawyers.com.au</span>
+    <span><a href="positioning.html">Positioning</a> · <a href="marketing.html">Marketing</a> · <a href="sales.html">Sales</a> · <a href="delivery.html">Delivery</a> · <a href="blog.html">Blog</a> · <a href="about.html">About</a></span>
+  </div>
+</footer>
+
+</body>
+</html>
