@@ -286,6 +286,49 @@
     .calc-total{ margin-left:0; text-align:left; }
   }
 
+  .email-capture{
+    display:flex; gap:24px; flex-wrap:wrap; align-items:center; justify-content:space-between;
+    margin:0 0 32px; padding:22px 24px; background:var(--navy);
+    border:1px solid var(--navy); border-radius:4px;
+  }
+  .email-capture .ec-copy{ max-width:340px; }
+  .email-capture .ec-copy .label{
+    font-family:var(--mono); font-size:11.5px; color:var(--brass-lt); text-transform:uppercase;
+    letter-spacing:.1em; display:block; margin-bottom:6px;
+  }
+  .email-capture .ec-copy p{
+    font-size:14.5px; color:rgba(235,231,220,0.85); margin:0; line-height:1.5;
+  }
+  .ec-form{
+    display:flex; gap:10px; flex-wrap:wrap; align-items:center; flex:1 1 auto; justify-content:flex-end;
+  }
+  .ec-form input[type="text"], .ec-form input[type="email"]{
+    font-family:var(--sans); font-size:14px; color:var(--paper-on-navy);
+    background:rgba(235,231,220,0.08); border:1px solid rgba(235,231,220,0.25);
+    padding:11px 14px; border-radius:3px; min-width:150px;
+  }
+  .ec-form input[type="text"]::placeholder, .ec-form input[type="email"]::placeholder{ color:rgba(235,231,220,0.5); }
+  .ec-form input[type="text"]:focus, .ec-form input[type="email"]:focus{
+    outline:none; border-color:var(--brass-lt);
+  }
+  .ec-form button{
+    font-family:var(--mono); font-size:12.5px; text-transform:uppercase; letter-spacing:.06em;
+    background:var(--brass-lt); color:var(--navy-2); border:1px solid var(--brass-lt);
+    padding:12px 18px; cursor:pointer; border-radius:3px; white-space:nowrap;
+    transition:background .15s, color .15s;
+  }
+  .ec-form button:hover{ background:transparent; color:var(--brass-lt); }
+  .ec-form button:disabled{ opacity:.6; cursor:default; }
+  .email-capture .ec-success, .email-capture .ec-error{
+    font-family:var(--mono); font-size:13px; color:var(--brass-lt);
+  }
+  .email-capture .ec-error{ color:var(--oxblood-lt); }
+  @media (max-width:700px){
+    .email-capture{ flex-direction:column; align-items:stretch; }
+    .ec-form{ justify-content:stretch; }
+    .ec-form input[type="text"], .ec-form input[type="email"]{ flex:1 1 auto; }
+  }
+
   .leaks{ background:var(--paper); border-top:1px solid var(--line); }
   .leaks-grid{
     display:grid; grid-template-columns:repeat(3,1fr); gap:1px;
@@ -806,6 +849,29 @@
       </div>
     </div>
 
+    <div class="email-capture reveal">
+      <div class="ec-copy">
+        <span class="label">Optional</span>
+        <p>Want this number in your inbox instead of losing it when you close this tab?</p>
+      </div>
+      <form id="calcEmailForm" class="ec-form">
+        <input type="text" name="name" id="ecName" placeholder="Name" required>
+        <input type="email" name="email" id="ecEmail" placeholder="Email address" required>
+        <input type="hidden" name="_subject" value="Calculator results request">
+        <input type="hidden" name="source" value="Broken Promises Calculator">
+        <input type="hidden" name="professionals" id="ecStaff">
+        <input type="hidden" name="hourly_rate" id="ecRate">
+        <input type="hidden" name="total_leak" id="ecTotal">
+        <input type="hidden" name="reputational_2x" id="ecRep2">
+        <input type="hidden" name="reputational_3x" id="ecRep3">
+        <input type="hidden" name="reputational_4x" id="ecRep4">
+        <input type="hidden" name="maths_article" value="https://businessforlawyers.com.au/blog-8-person-firm-maths.html">
+        <button type="submit" id="ecSubmit">Email Me These Results</button>
+      </form>
+      <div class="ec-success" id="ecSuccess" style="display:none;">Sent — check your inbox.</div>
+      <div class="ec-error" id="ecError" style="display:none;">Something went wrong — please try again.</div>
+    </div>
+
     <div class="leaks-grid reveal">
       <div class="leak-card">
         <span class="amount" id="calcIntake">$60,167/yr</span>
@@ -923,6 +989,51 @@
       staffEl.addEventListener('input', recalc);
       rateEl.addEventListener('input', recalc);
       recalc();
+    })();
+  </script>
+
+  <script>
+    (function(){
+      var form = document.getElementById('calcEmailForm');
+      var submitBtn = document.getElementById('ecSubmit');
+      var successEl = document.getElementById('ecSuccess');
+      var errorEl = document.getElementById('ecError');
+      var staffEl = document.getElementById('calcStaff');
+      var rateEl = document.getElementById('calcRate');
+      var totalEl = document.getElementById('calcTotal');
+
+      form.addEventListener('submit', function(e){
+        e.preventDefault();
+        errorEl.style.display = 'none';
+
+        // Sync hidden fields with whatever the visitor last calculated
+        document.getElementById('ecStaff').value = staffEl.value;
+        document.getElementById('ecRate').value = rateEl.value;
+        document.getElementById('ecTotal').value = totalEl.textContent;
+        document.getElementById('ecRep2').value = document.getElementById('calcRep2').textContent;
+        document.getElementById('ecRep3').value = document.getElementById('calcRep3').textContent;
+        document.getElementById('ecRep4').value = document.getElementById('calcRep4').textContent;
+
+        submitBtn.disabled = true;
+        submitBtn.textContent = 'Sending…';
+
+        fetch('https://formspree.io/f/mlgqpjwo', {
+          method: 'POST',
+          headers: { 'Accept': 'application/json' },
+          body: new FormData(form)
+        }).then(function(response){
+          if (response.ok){
+            form.style.display = 'none';
+            successEl.style.display = 'block';
+          } else {
+            throw new Error('Submission failed');
+          }
+        }).catch(function(){
+          errorEl.style.display = 'block';
+          submitBtn.disabled = false;
+          submitBtn.textContent = 'Email Me These Results';
+        });
+      });
     })();
   </script>
 </section>
