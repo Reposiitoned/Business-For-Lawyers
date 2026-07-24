@@ -370,6 +370,27 @@
   }
   .manifesto p em{ color:var(--brass-lt); font-style:italic; }
 
+  .program{ background:var(--navy); color:var(--paper-on-navy); }
+  .program .section-head p{ color:rgba(235,231,220,0.78); }
+  .program-stages{
+    display:grid; grid-template-columns:repeat(4,1fr); gap:1px;
+    background:rgba(235,231,220,0.18); border:1px solid rgba(235,231,220,0.18); margin-top:8px;
+  }
+  .program-stage{ background:var(--navy); padding:28px 24px; }
+  .program-stage .when{
+    font-family:var(--mono); font-size:12px; letter-spacing:.04em; text-transform:uppercase;
+    color:var(--brass-lt); margin-bottom:10px;
+  }
+  .program-stage h4{ font-size:17px; font-weight:600; margin:0 0 10px; color:var(--paper-on-navy); }
+  .program-stage p{ font-size:14.5px; line-height:1.6; color:rgba(235,231,220,0.78); margin:0; }
+  .program-result{
+    margin-top:32px; padding-top:28px; border-top:1px solid rgba(235,231,220,0.18);
+    font-family:var(--serif); font-style:italic; font-size:19px; color:var(--paper-on-navy);
+    max-width:640px;
+  }
+  @media (max-width:900px){ .program-stages{ grid-template-columns:1fr 1fr; } }
+  @media (max-width:600px){ .program-stages{ grid-template-columns:1fr; } }
+
   .standard-section{ background:var(--paper); border-top:1px solid var(--line); }
   .standard-list{ border-top:1px solid var(--line); }
   .standard-row{
@@ -839,6 +860,43 @@
 </section>
 
 
+<section class="program">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <div class="eyebrow">Working Together</div>
+      <h2>A year, in four stages.</h2>
+    </div>
+
+    <div class="program-stages reveal">
+      <div class="program-stage">
+        <div class="when">Weeks 1–4</div>
+        <h4>Investigation</h4>
+        <p>We find out exactly where your promises are being made, kept, or broken — across client intake, matter delivery, financial visibility, and team accountability — and identify what needs to change.</p>
+      </div>
+      <div class="program-stage">
+        <div class="when">Weeks 5–6</div>
+        <h4>Planning</h4>
+        <p>Two weeks to turn that into a committed plan for the year ahead.</p>
+      </div>
+      <div class="program-stage">
+        <div class="when">Weeks 7–12</div>
+        <h4>Implementation</h4>
+        <p>The plan goes into practice — hands-on work embedding it into how the firm actually runs, not just how it's meant to run.</p>
+      </div>
+      <div class="program-stage">
+        <div class="when">From Month 4</div>
+        <h4>Quarterly Action &amp; Review</h4>
+        <p>Work the plan with clear KPIs, tracked every quarter against your stated goals. Every month, a rhythm of continuous improvement — sharpening knowledge and skills across the whole practice, not just at the top.</p>
+      </div>
+    </div>
+
+    <p class="program-result reveal" style="font-weight:700; font-style:normal;">We build sustainable legal practices, inside and out.</p>
+    <p class="program-result reveal" style="margin-top:16px;">In the market, success comes from intentional repetition that builds your reputation and trust — not from flash-in-the-pan activity that spikes interest before going quiet again.</p>
+    <p class="program-result reveal" style="margin-top:16px;">Inside the firm, the result is fewer leaks, higher margins, and a team that trusts the process enough to keep it running without you.</p>
+  </div>
+</section>
+
+
 <section class="proof">
   <div class="wrap">
     <div class="proof-video reveal">
@@ -892,10 +950,9 @@
         <h2 style="font-size:clamp(26px,3.2vw,36px); margin-top:16px;">Twelve years of Business for Lawyers.</h2>
       </div>
       <div class="reveal">
-        <p>Business for Lawyers has spent twelve years working inside law firms — not consulting from the outside, but sitting with principals and partners who are exceptional at law and were never taught how to run the business underneath it.</p>
-        <p>Law is not a generic small business. Confidentiality rules constrain what you can say publicly. Referral culture makes marketing feel like it shouldn't be necessary, until it's the only thing standing between you and the next retirement in your network. And the next referrer who goes quiet. The billable hour makes "spend time on positioning" feel like the least urgent thing on the list — right up until it's the only thing that would have prevented the last twelve months of taking whatever came through the door.</p>
-        <p>Our method makes it easier to uphold your promises, with a tailored solution for your law firm.</p>
-        <p><a href="about.html" style="font-family:var(--mono); font-size:12px; text-transform:uppercase; letter-spacing:.06em; color:var(--oxblood); text-decoration:none;">More about how we work →</a></p>
+        <p>I didn't set out to build a business for lawyers — it found me, twelve years ago, through an accountant's decision to stop coaching accountants. One of the clients I inherited that year, I still work with today.</p>
+        <p>Lawyers hold one of the most important roles in any community. Most aren't business people, and it costs them — a lifetime of good work without a business worth what the effort deserved. That's the gap I spend my days closing.</p>
+        <p><a href="about.html" style="font-family:var(--mono); font-size:12px; text-transform:uppercase; letter-spacing:.06em; color:var(--oxblood); text-decoration:none;">Read the full story →</a></p>
       </div>
     </div>
   </div>
