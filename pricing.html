@@ -680,9 +680,9 @@
 <section class="assessment">
   <div class="wrap">
     <div class="section-head reveal">
-      <div class="eyebrow">Before You See The Investment</div>
-      <h2>Three Honest Questions</h2>
-      <p>There's no wrong answer here — only an honest one. What you choose decides what we show you next.</p>
+      <div class="eyebrow">Understanding Where You Are Now</div>
+      <h2>Three Diagnostic Questions</h2>
+      <p>These three questions reveal where your practice is relying on founder grit instead of real systems—and what staying exactly where you are is really costing you in time and profit.</p>
     </div>
 
     <div class="assess-panel reveal">
@@ -722,32 +722,25 @@
         <button id="assess-submit-btn" disabled>See Your Investment in Growth</button>
       </div>
 
-      <div class="verdict" id="verdict-ready">
-        <span class="label">You're Ready</span>
+      <div class="verdict" id="verdict-result">
+        <span class="label">Now You Know Where You Stand</span>
         <h4>Here's what The Promise Engagement costs.</h4>
-        <p>A fixed monthly investment, not an open-ended engagement — sized to the scale of your practice.</p>
+        <p>A fixed monthly investment, not an open-ended engagement — sized to the scale of your practice. Whatever you just answered, the next step is the same: a conversation, not a decision made alone on a webpage.</p>
         <div class="quarter-grid" style="margin-top:24px;">
           <div class="quarter-card">
             <span class="qlabel">For Smaller Firms</span>
-            <h3>[ADD PRICE] / month</h3>
+            <h3>$1,500 + GST / month</h3>
             <div class="qtag">2–7 staff</div>
             <p>Covers the full Discovery quarter and the ongoing operating rhythm across Positioning, Marketing, Sales and Delivery.</p>
           </div>
           <div class="quarter-card">
             <span class="qlabel">For Established Firms</span>
-            <h3>[ADD PRICE] / month</h3>
+            <h3>$2,000 + GST / month</h3>
             <div class="qtag">8–20 staff</div>
             <p>Covers the same rhythm scaled across a larger team, including deeper governance across referrer, intake, and delivery standards.</p>
           </div>
         </div>
-        <a class="btn btn-primary" href="index.html#contact" style="margin-top:32px; display:inline-block;">Start The Discovery</a>
-      </div>
-
-      <div class="verdict" id="verdict-notyet">
-        <span class="label">Not Yet — And That's Fine</span>
-        <h4>This works best when you're already sure.</h4>
-        <p>The Promise Engagement is a year-long commitment, and it only works if you're bringing the will to change, not just the budget. That's not a judgement — some years are for steadying the ship, not rebuilding it. When you're ready to answer differently, we'll be here.</p>
-        <a class="btn btn-secondary" href="index.html#contact" style="margin-top:20px; display:inline-block;">Talk It Through First, No Pressure</a>
+        <a class="btn btn-primary" href="index.html#contact" style="margin-top:32px; display:inline-block;">Book Your Discovery Call</a>
       </div>
 
     </div>
@@ -771,8 +764,7 @@
   // ---------- Qualifying quiz ----------
   const answers = {1:null, 2:null, 3:null};
   const submitBtn = document.getElementById('assess-submit-btn');
-  const verdictReady = document.getElementById('verdict-ready');
-  const verdictNotYet = document.getElementById('verdict-notyet');
+  const verdictResult = document.getElementById('verdict-result');
 
   document.querySelectorAll('.scale').forEach(scale=>{
     const qNum = scale.dataset.q;
@@ -788,16 +780,8 @@
   });
 
   submitBtn.addEventListener('click', ()=>{
-    const total = answers[1] + answers[2] + answers[3];
-    verdictReady.classList.remove('show');
-    verdictNotYet.classList.remove('show');
-    if(total >= 4){
-      verdictReady.classList.add('show');
-      verdictReady.scrollIntoView({behavior:'smooth', block:'center'});
-    } else {
-      verdictNotYet.classList.add('show');
-      verdictNotYet.scrollIntoView({behavior:'smooth', block:'center'});
-    }
+    verdictResult.classList.add('show');
+    verdictResult.scrollIntoView({behavior:'smooth', block:'center'});
     submitBtn.disabled = true;
     submitBtn.textContent = 'Answered';
   });
