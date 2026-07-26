@@ -1,0 +1,4 @@
+AuthType Basic
+AuthName "Business for Lawyers — Client Access"
+AuthUserFile /home/u778251490/domains/businessforlawyers.com.au/public_html/for-clients/.htpasswd
+Require valid-user
