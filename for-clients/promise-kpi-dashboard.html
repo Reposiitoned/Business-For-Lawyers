@@ -117,15 +117,20 @@
   .meter-value{font-family:'Fraunces'; font-size:40px; font-weight:700; color:var(--navy);}
   .meter-value-label{font-size:13px; color:var(--muted); max-width:420px; margin:2px auto 0; line-height:1.5;}
   .meter-legend-row{
-    display:flex; justify-content:center; gap:0; margin:18px auto 4px; max-width:600px;
+    display:flex; justify-content:center; gap:0; margin:18px auto 4px; max-width:640px;
     border:1px solid var(--line); border-radius:8px; overflow:hidden;
   }
-  .meter-legend-item{flex:1; display:flex; flex-direction:column;}
+  .meter-legend-item{flex:1; display:flex; flex-direction:column; text-align:center;}
   .meter-legend-swatch{height:14px;}
+  .meter-legend-name{
+    font-family:'IBM Plex Sans'; font-size:11px; font-weight:600; padding:8px 4px 2px; color:var(--navy);
+    background:#fff; border-right:1px solid var(--line); line-height:1.25;
+  }
   .meter-legend-range{
-    font-family:'IBM Plex Mono'; font-size:11px; padding:6px 4px; color:var(--ink);
+    font-family:'IBM Plex Mono'; font-size:10.5px; padding:2px 4px 8px; color:var(--muted);
     border-right:1px solid var(--line); background:#fff;
   }
+  .meter-legend-item:last-child .meter-legend-name,
   .meter-legend-item:last-child .meter-legend-range{border-right:none;}
   .meter-caption{
     font-family:'IBM Plex Mono'; font-size:11px; letter-spacing:0.1em; text-transform:uppercase;
@@ -633,23 +638,15 @@
 
   function renderPromiseMeter(){
     const health = computeOverallHealth();
-    const cx=340, cy=290, rOuter=280, rInner=150, labelR=(rOuter+rInner)/2 + 20;
+    const cx=340, cy=290, rOuter=280, rInner=150;
     const n = PROMISE_METER_BANDS.length;
     const step = 180/n;
 
-    let wedges='', labels='';
+    let wedges='';
     PROMISE_METER_BANDS.forEach((band,i)=>{
       const startAngle = 180 - i*step;
       const endAngle = 180 - (i+1)*step;
-      const midAngle = (startAngle+endAngle)/2;
       wedges += `<path d="${describeWedge(cx,cy,rOuter,rInner,startAngle,endAngle)}" fill="${band.color}" stroke="var(--paper)" stroke-width="2"><title>${band.label} — ${band.signal}</title></path>`;
-      const lp = polarPoint(cx,cy,labelR,midAngle);
-      const rot = labelRotation(midAngle);
-      const fSize = band.label.length>13 ? 13.5 : band.label.length>9 ? 15.5 : 18;
-      labels += `<text x="${lp.x.toFixed(2)}" y="${lp.y.toFixed(2)}" transform="rotate(${rot.toFixed(2)} ${lp.x.toFixed(2)} ${lp.y.toFixed(2)})"
-        text-anchor="middle" dominant-baseline="middle"
-        font-family="IBM Plex Sans" font-weight="700" font-size="${fSize}"
-        fill="#fff" stroke="var(--navy-deep)" stroke-width="3" paint-order="stroke" letter-spacing="0.3">${band.label.toUpperCase()}</text>`;
     });
 
     // needle: score 0 -> angle 180 (Catastrophic/left), score 100 -> angle 0 (Kept/right)
@@ -671,6 +668,7 @@
       return `
         <div class="meter-legend-item" title="${b.label} — ${b.signal}">
           <div class="meter-legend-swatch" style="background:${b.color};"></div>
+          <div class="meter-legend-name">${b.label}</div>
           <div class="meter-legend-range">${rangeText}</div>
         </div>`;
     }).join('');
@@ -680,7 +678,6 @@
     wrap.innerHTML = `
       <svg viewBox="0 0 680 340" style="width:100%; max-width:640px; display:block; margin:0 auto;">
         ${wedges}
-        ${labels}
         ${needle}
         <circle cx="${cx}" cy="${cy}" r="${rInner-2}" fill="var(--paper)"/>
       </svg>
