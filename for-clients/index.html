@@ -1,0 +1,225 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>For Clients — Business for Lawyers</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap');
+
+  :root{
+    --navy: #14213D;
+    --navy-deep: #0B1526;
+    --navy-mid: #1C2C4F;
+    --brass: #B08D57;
+    --brass-light: #D9BD8C;
+    --brass-dim: #5C5138;
+    --oxblood: #6B2737;
+    --cream: #F6F1E7;
+    --paper: #FBF8F2;
+    --ink: #201D1A;
+    --muted: #726B60;
+    --line: rgba(20,33,61,0.12);
+    --radius: 14px;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    font-family:'IBM Plex Sans', sans-serif; color:var(--ink);
+    -webkit-font-smoothing:antialiased; background:var(--cream);
+  }
+  h1,h2,h3,.display{font-family:'Fraunces', serif;}
+  .mono{font-family:'IBM Plex Mono', monospace;}
+  a{color:inherit;}
+
+  /* ---------- Nav ---------- */
+  nav.sitenav{
+    display:flex; align-items:center; justify-content:space-between;
+    padding:18px 32px; background:var(--cream); border-bottom:1px solid var(--line);
+  }
+  .nav-brand{font-family:'Fraunces'; font-weight:600; font-size:17px; color:var(--navy); letter-spacing:0.01em;}
+  .nav-links{display:flex; gap:28px; align-items:center;}
+  .nav-links a{
+    font-size:13px; font-weight:500; color:var(--muted); text-decoration:none;
+    padding-bottom:2px; border-bottom:1px solid transparent; transition:all .15s ease;
+  }
+  .nav-links a:hover{color:var(--navy);}
+  .nav-links a.active{color:var(--navy); border-bottom-color:var(--brass);}
+
+  /* ---------- Gate (threshold) ---------- */
+  .gate{
+    min-height:calc(100vh - 64px);
+    background:
+      radial-gradient(ellipse 900px 500px at 50% 0%, var(--navy-mid) 0%, var(--navy) 55%, var(--navy-deep) 100%);
+    display:flex; align-items:center; justify-content:center; flex-direction:column;
+    padding:60px 24px; position:relative; overflow:hidden;
+  }
+  .gate::before{
+    content:''; position:absolute; inset:0; opacity:0.05; pointer-events:none;
+    background-image: repeating-linear-gradient(0deg, transparent, transparent 39px, var(--brass) 39px, var(--brass) 40px);
+  }
+  .gate-content{position:relative; z-index:1; display:flex; flex-direction:column; align-items:center; max-width:420px; text-align:center;}
+  .gate-eyebrow{
+    font-family:'IBM Plex Mono'; font-size:11px; letter-spacing:0.22em; text-transform:uppercase;
+    color:var(--brass-light); margin-bottom:22px; opacity:0.85;
+  }
+
+  /* Seal */
+  .seal-wrap{width:104px; height:104px; margin-bottom:30px; position:relative;}
+  .seal-wrap svg{width:100%; height:100%; display:block;}
+  .seal-ring{transition: stroke 0.6s ease;}
+  .seal-crack{transition: opacity 0.6s ease;}
+  .seal-check{opacity:0; transform:scale(0.6); transform-origin:52px 52px; transition: all 0.5s cubic-bezier(.34,1.56,.64,1) 0.15s;}
+  .unlocked .seal-crack{opacity:0;}
+  .unlocked .seal-check{opacity:1; transform:scale(1);}
+  .unlocked .seal-ring{stroke:var(--brass-light);}
+
+  .gate h1{color:#fff; font-size:26px; font-weight:600; line-height:1.25; margin:0 0 12px;}
+  .gate p.gate-sub{color:rgba(246,241,231,0.62); font-size:14px; line-height:1.6; margin:0 0 34px; max-width:340px;}
+
+  .gate-btn{
+    padding:14px 30px; border-radius:8px; border:1px solid var(--brass); background:var(--brass);
+    color:var(--navy-deep); font-family:'IBM Plex Sans'; font-weight:600; font-size:14px;
+    cursor:pointer; transition:all .15s ease;
+  }
+  .gate-btn:hover{background:var(--brass-light); border-color:var(--brass-light);}
+
+  /* ---------- Portal ---------- */
+  .portal{display:none; padding:56px 32px 80px; max-width:1080px; margin:0 auto;}
+  .portal.show{display:block; animation:fadeUp .5s ease;}
+  @keyframes fadeUp{ from{opacity:0; transform:translateY(10px);} to{opacity:1; transform:translateY(0);} }
+
+  .portal-head{margin-bottom:38px;}
+  .portal-eyebrow{
+    font-family:'IBM Plex Mono'; font-size:11px; letter-spacing:0.14em; text-transform:uppercase;
+    color:var(--brass); margin-bottom:8px; font-weight:500;
+  }
+  .portal-head h1{font-size:30px; color:var(--navy); margin:0 0 8px;}
+  .portal-head p{color:var(--muted); font-size:14.5px; max-width:520px; line-height:1.6; margin:0;}
+
+  .portal-grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:18px;}
+  .portal-card{
+    background:var(--paper); border:1px solid var(--line); border-radius:var(--radius);
+    padding:26px; display:flex; flex-direction:column; min-height:190px; position:relative;
+  }
+  .portal-card.live{border-color:var(--brass);}
+  .portal-card .card-tag{
+    font-family:'IBM Plex Mono'; font-size:10px; text-transform:uppercase; letter-spacing:0.08em;
+    padding:3px 9px; border-radius:100px; display:inline-block; width:fit-content; margin-bottom:16px;
+  }
+  .card-tag.tag-live{background:var(--navy); color:var(--cream);}
+  .card-tag.tag-soon{background:var(--line); color:var(--muted);}
+  .portal-card h3{font-size:18px; color:var(--navy); margin:0 0 8px; font-weight:600;}
+  .portal-card p{font-size:13px; color:var(--muted); line-height:1.55; margin:0 0 20px; flex:1;}
+  .portal-card .card-cta{
+    font-family:'IBM Plex Sans'; font-size:13px; font-weight:600; text-decoration:none;
+    color:var(--navy-deep); background:var(--brass); padding:9px 16px; border-radius:8px;
+    display:inline-flex; align-items:center; gap:6px; width:fit-content; transition:background .15s ease;
+  }
+  .card-cta:hover{background:var(--brass-light);}
+  .portal-card.soon{opacity:0.6;}
+  .portal-card.soon .card-cta{background:var(--line); color:var(--muted); cursor:default; pointer-events:none;}
+
+  @media (max-width:640px){
+    nav.sitenav{padding:14px 18px; flex-direction:column; gap:10px;}
+    .nav-links{gap:16px; flex-wrap:wrap; justify-content:center;}
+    .portal{padding:40px 18px 60px;}
+  }
+</style>
+</head>
+<body>
+
+<nav class="sitenav">
+  <div class="nav-brand">Business for Lawyers</div>
+  <div class="nav-links">
+    <a href="index.html">Home</a>
+    <a href="calculator.html">Calculator</a>
+    <a href="marketing.html">Marketing</a>
+    <a href="blog.html">Blog</a>
+    <a href="about.html">About</a>
+    <a href="for-clients.html" class="active">For Clients</a>
+  </div>
+</nav>
+
+<div id="gate-screen" class="gate">
+  <div class="gate-content">
+    <div class="gate-eyebrow">Client Access</div>
+
+    <div class="seal-wrap" id="seal">
+      <svg viewBox="0 0 104 104">
+        <circle class="seal-ring" cx="52" cy="52" r="44" fill="none" stroke="var(--brass-dim)" stroke-width="2"/>
+        <circle cx="52" cy="52" r="36" fill="none" stroke="var(--brass-dim)" stroke-width="1" opacity="0.5"/>
+        <!-- crack (locked state) -->
+        <path class="seal-crack" d="M 30 34 L 44 50 L 36 58 L 52 70 L 48 78" fill="none" stroke="var(--brass-dim)" stroke-width="2" stroke-linecap="round"/>
+        <path class="seal-crack" d="M 74 30 L 62 46 L 70 54" fill="none" stroke="var(--brass-dim)" stroke-width="2" stroke-linecap="round" opacity="0.7"/>
+        <!-- check (unlocked state) -->
+        <path class="seal-check" d="M 36 53 L 47 64 L 70 40" fill="none" stroke="var(--brass-light)" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </div>
+
+    <h1>You're through.</h1>
+    <p class="gate-sub">This is where your firm's numbers live — your KPI dashboard and the resources that go with it.</p>
+
+    <button class="gate-btn gate-enter" id="gate-enter">Enter Portal →</button>
+  </div>
+</div>
+
+<div class="portal" id="portal-screen">
+  <div class="portal-head">
+    <div class="portal-eyebrow">Client Portal</div>
+    <h1>Your practice, measured.</h1>
+    <p>Used consistently and properly, everything here strengthens your promise, grows your practice, and gets you the outcome you came for. Start with your KPI dashboard.</p>
+  </div>
+  <div class="portal-grid">
+    <div class="portal-card live">
+      <span class="card-tag tag-live">Live</span>
+      <h3>KPI Dashboard</h3>
+      <p>Track your firm's KPIs across Marketing, Sales and Delivery — customised to your practice area, size and stage. Log monthly, watch the trend.</p>
+      <a href="promise-kpi-dashboard.html" class="card-cta">Open Dashboard →</a>
+    </div>
+    <div class="portal-card soon">
+      <span class="card-tag tag-soon">Coming Soon</span>
+      <h3>Knowledgebase</h3>
+      <p>The full methodology — people, admin, leadership and finance — built out beyond the KPI model, for clients in active engagements.</p>
+      <a href="#" class="card-cta">Coming Soon</a>
+    </div>
+    <div class="portal-card soon">
+      <span class="card-tag tag-soon">Coming Soon</span>
+      <h3>Resources</h3>
+      <p>Templates, guides and downloads to support your engagement — added as they're built out.</p>
+      <a href="#" class="card-cta">Coming Soon</a>
+    </div>
+  </div>
+</div>
+
+<script>
+  // NOTE for Roy: password protection now lives at the server level (Hostinger's
+  // directory protection / .htaccess), so the browser already required a login
+  // before this page loaded. This page no longer asks for a code — the seal
+  // animation plays automatically as a welcome moment, then "Enter Portal"
+  // reveals the client area. If server-level auth is ever removed, this page
+  // itself is NOT a security layer — anyone with the URL could reach it.
+
+  const seal = document.getElementById('seal');
+  const enterBtn = document.getElementById('gate-enter');
+  const gateScreen = document.getElementById('gate-screen');
+  const portalScreen = document.getElementById('portal-screen');
+
+  // play the "mending seal" moment shortly after load
+  window.addEventListener('DOMContentLoaded', ()=>{
+    setTimeout(()=> seal.classList.add('unlocked'), 350);
+  });
+
+  enterBtn.addEventListener('click', ()=>{
+    gateScreen.style.transition = 'opacity 0.4s ease';
+    gateScreen.style.opacity = '0';
+    setTimeout(()=>{
+      gateScreen.style.display = 'none';
+      portalScreen.classList.add('show');
+      window.scrollTo(0,0);
+    }, 400);
+  });
+</script>
+
+</body>
+</html>
