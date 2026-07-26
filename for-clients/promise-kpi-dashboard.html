@@ -77,10 +77,17 @@
     display:block; font-family:'IBM Plex Mono', monospace; font-size:11px;
     letter-spacing:0.08em; text-transform:uppercase; color:var(--navy); margin-bottom:10px; font-weight:500;
   }
-  .field input[type=text]{
+  .field input[type=text], .field input[type=email], .field input[type=password]{
     width:100%; padding:10px 12px; border:1px solid var(--line); border-radius:8px;
     font-family:'IBM Plex Sans'; font-size:14px; background:#fff;
   }
+  .login-screen{min-height:100vh; display:flex; align-items:center; justify-content:center; padding:24px;}
+  .login-error{
+    background:#FBF3EC; border:1px solid var(--oxblood); color:var(--oxblood);
+    padding:10px 14px; border-radius:8px; font-size:13px; margin-bottom:18px; display:none;
+  }
+  .login-error.show{display:block;}
+  .login-loading{text-align:center; padding:80px 20px; color:var(--muted); font-family:'IBM Plex Sans';}
   .choice-row{display:flex; gap:8px; flex-wrap:wrap;}
   .choice{
     padding:10px 14px; border:1px solid var(--line); border-radius:8px; cursor:pointer;
@@ -209,6 +216,9 @@
   }
   .foot-note{font-size:11.5px; color:var(--muted); max-width:520px; line-height:1.5;}
 </style>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
 </head>
 <body>
 <div id="app"><div style="padding:60px;text-align:center;color:#726B60;font-family:'IBM Plex Sans'">Loading dashboard…</div></div>
@@ -287,19 +297,100 @@
     return metrics;
   }
 
-  let DATA = null; // { profile:{name,practiceArea,firmSize,growthStage}, metrics:[...with target], entries:{id:[{date,value}]} }
-  const STORAGE_KEY = 'promise-kpi-dashboard-v1';
+  // ---------- Firebase setup ----------
+  const firebaseConfig = {
+    apiKey: "AIzaSyDf-SIetS-P7kNZ4gII7SwimRsYzp6OGF4",
+    authDomain: "business-for-lawyers.firebaseapp.com",
+    projectId: "business-for-lawyers",
+    storageBucket: "business-for-lawyers.firebasestorage.app",
+    messagingSenderId: "446377312563",
+    appId: "1:446377312563:web:e9212c747b975321d97e46"
+  };
+  firebase.initializeApp(firebaseConfig);
+  const auth = firebase.auth();
+  const db = firebase.firestore();
 
-  async function loadData(){
+  let DATA = null; // { profile:{name,practiceArea,firmSize,growthStage}, metrics:[...with target], entries:{id:[{date,value}]} }
+  let currentUser = null;
+
+  async function loadData(uid){
     try{
-      const res = await window.storage.get(STORAGE_KEY, false);
-      if(res && res.value){ return JSON.parse(res.value); }
-    }catch(e){ /* no existing data */ }
+      const docSnap = await db.collection('users').doc(uid).get();
+      if(docSnap.exists){ return docSnap.data(); }
+    }catch(e){ console.error('Load failed', e); }
     return null;
   }
   async function saveData(){
-    try{ await window.storage.set(STORAGE_KEY, JSON.stringify(DATA), false); }
+    if(!currentUser) return;
+    try{ await db.collection('users').doc(currentUser.uid).set(DATA); }
     catch(e){ console.error('Storage save failed', e); }
+  }
+  async function deleteData(){
+    if(!currentUser) return;
+    try{ await db.collection('users').doc(currentUser.uid).delete(); }
+    catch(e){ console.error('Storage delete failed', e); }
+  }
+
+  // ---------- Login screen ----------
+  function renderLoginScreen(){
+    const app = document.getElementById('app');
+    app.innerHTML = '';
+    const wrap = document.createElement('div');
+    wrap.className = 'login-screen';
+    wrap.innerHTML = `
+      <div class="wizard" style="margin:0; width:100%; max-width:420px;">
+        <div class="eyebrow" style="margin-bottom:10px;">Client Access</div>
+        <h2>Sign in to your dashboard</h2>
+        <p class="lede">Use the login your Business for Lawyers contact gave you.</p>
+        <div class="login-error" id="login-error"></div>
+        <div class="field">
+          <label>Email</label>
+          <input type="email" id="login-email" placeholder="you@yourfirm.com.au" autocomplete="username"/>
+        </div>
+        <div class="field">
+          <label>Password</label>
+          <input type="password" id="login-password" placeholder="••••••••" autocomplete="current-password"/>
+        </div>
+        <div class="wizard-actions">
+          <button class="btn btn-primary" id="login-submit" style="width:100%; text-align:center;">Sign In</button>
+        </div>
+      </div>
+    `;
+    app.appendChild(wrap);
+
+    const emailInput = wrap.querySelector('#login-email');
+    const passInput = wrap.querySelector('#login-password');
+    const errorEl = wrap.querySelector('#login-error');
+    const submitBtn = wrap.querySelector('#login-submit');
+
+    async function attemptLogin(){
+      const email = emailInput.value.trim();
+      const password = passInput.value;
+      if(!email || !password){
+        errorEl.textContent = 'Enter both your email and password.';
+        errorEl.classList.add('show');
+        return;
+      }
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Signing in…';
+      errorEl.classList.remove('show');
+      try{
+        await auth.signInWithEmailAndPassword(email, password);
+        // onAuthStateChanged handles the rest
+      }catch(e){
+        errorEl.textContent = 'That email or password isn\'t recognised — check with your contact and try again.';
+        errorEl.classList.add('show');
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Sign In';
+      }
+    }
+    submitBtn.addEventListener('click', attemptLogin);
+    [emailInput, passInput].forEach(el=> el.addEventListener('keydown', (e)=>{ if(e.key==='Enter') attemptLogin(); }));
+  }
+
+  function renderLoadingScreen(){
+    const app = document.getElementById('app');
+    app.innerHTML = '<div class="login-loading">Loading your dashboard…</div>';
   }
 
   function monthKey(d){ const dt=new Date(d); return dt.getFullYear()+'-'+String(dt.getMonth()+1).padStart(2,'0'); }
@@ -479,12 +570,16 @@
           <span class="tag">${gsLabel}</span>
         </div>
       </div>
-      <div>
+      <div style="display:flex; gap:8px;">
         <button class="btn" id="edit-profile">Customise</button>
+        <button class="btn btn-ghost btn-sm" id="sign-out" style="align-self:center;">Sign Out</button>
       </div>
     `;
     div.querySelector('#edit-profile').addEventListener('click', ()=>{
       const app=document.getElementById('app'); app.innerHTML=''; app.appendChild(renderWizard(true));
+    });
+    div.querySelector('#sign-out').addEventListener('click', ()=>{
+      auth.signOut();
     });
     return div;
   }
@@ -846,17 +941,26 @@
     div.querySelector('#reset-all').addEventListener('click', async ()=>{
       if(confirm('This clears your firm profile and all logged data. Continue?')){
         DATA = null;
-        try{ await window.storage.delete(STORAGE_KEY, false); }catch(e){}
+        await deleteData();
         render();
       }
     });
     return div;
   }
 
-  (async function init(){
-    DATA = await loadData();
-    render();
-  })();
+  renderLoadingScreen();
+  auth.onAuthStateChanged(async (user)=>{
+    if(user){
+      currentUser = user;
+      renderLoadingScreen();
+      DATA = await loadData(user.uid);
+      render();
+    } else {
+      currentUser = null;
+      DATA = null;
+      renderLoginScreen();
+    }
+  });
 
 })();
 </script>
