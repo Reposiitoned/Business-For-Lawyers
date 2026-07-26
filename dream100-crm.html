@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Business for Lawyers — Dream 100 Tracker</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700;9..144,900&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper: #EBE7DC; --paper-2: #E1DCCC; --ink: #14181E; --ink-soft: #3B4048;
+    --navy: #182231; --navy-2: #0F1620; --brass: #9C7A3C; --brass-lt: #C7A25E;
+    --oxblood: #6E2530; --oxblood-lt: #8C3542; --line: #C7C0AC; --paper-on-navy: #EBE7DC;
+    --serif: "Fraunces", ui-serif, Georgia, serif;
+    --sans: "IBM Plex Sans", -apple-system, Segoe UI, sans-serif;
+    --mono: "IBM Plex Mono", ui-monospace, monospace;
+  }
+  *{ box-sizing:border-box; }
+  body{ margin:0; background:var(--paper); color:var(--ink); font-family:var(--sans); line-height:1.5; }
+  .wrap{ max-width:1280px; margin:0 auto; padding:0 28px; }
+
+  header.top{ background:var(--navy); color:var(--paper-on-navy); padding:40px 0 32px; }
+  header.top .eyebrow{ font-family:var(--mono); font-size:12px; letter-spacing:.05em; text-transform:uppercase; color:var(--brass-lt); margin-bottom:10px; }
+  header.top h1{ font-family:var(--serif); font-weight:700; font-size:clamp(24px,3.4vw,34px); margin:0 0 8px; }
+  header.top p{ font-size:15px; color:rgba(235,231,220,0.78); max-width:70ch; margin:0; }
+
+  main{ padding:36px 0 80px; }
+
+  .stat-row{ display:grid; grid-template-columns:repeat(auto-fit,minmax(120px,1fr)); gap:1px; background:var(--line); border:1px solid var(--line); margin-bottom:32px; }
+  .stat-card{ background:#fff; padding:16px 14px; text-align:center; }
+  .stat-card .n{ font-family:var(--mono); font-size:26px; font-weight:700; color:var(--oxblood); }
+  .stat-card .l{ font-family:var(--mono); font-size:10.5px; text-transform:uppercase; letter-spacing:.04em; color:var(--ink-soft); margin-top:4px; line-height:1.3; }
+
+  .toolbar{ display:flex; gap:12px; flex-wrap:wrap; align-items:center; justify-content:space-between; margin-bottom:20px; }
+  .toolbar .left{ display:flex; gap:10px; flex-wrap:wrap; align-items:center; }
+  input[type="text"], input[type="date"], select, textarea{
+    font-family:var(--sans); font-size:13px; color:var(--ink);
+    border:1px solid var(--line); border-radius:2px; padding:8px 10px; background:#fff;
+  }
+  input[type="text"]:focus, select:focus, textarea:focus{ outline:none; border-color:var(--brass); }
+  #searchBox{ min-width:220px; }
+
+  .btn{ font-family:var(--mono); font-size:12px; text-transform:uppercase; letter-spacing:.04em; padding:9px 16px; border-radius:2px; cursor:pointer; border:1px solid transparent; }
+  .btn-primary{ background:var(--brass); color:var(--navy-2); font-weight:600; border-color:var(--brass); }
+  .btn-primary:hover{ background:var(--brass-lt); }
+  .btn-ghost{ background:transparent; border-color:var(--line); color:var(--ink-soft); }
+  .btn-ghost:hover{ border-color:var(--ink-soft); color:var(--ink); }
+
+  .add-form{ background:#fff; border:1px solid var(--line); border-radius:2px; padding:20px; margin-bottom:24px; display:none; }
+  .add-form.open{ display:block; }
+  .add-form .grid{ display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:12px; margin-bottom:14px; }
+  .add-form label{ display:block; font-family:var(--mono); font-size:10.5px; text-transform:uppercase; letter-spacing:.04em; color:var(--ink-soft); margin-bottom:5px; }
+  .add-form input, .add-form select{ width:100%; }
+
+  table{ width:100%; border-collapse:collapse; background:#fff; }
+  thead th{
+    font-family:var(--mono); font-size:10.5px; text-transform:uppercase; letter-spacing:.04em;
+    color:var(--ink-soft); text-align:left; padding:10px 12px; border-bottom:2px solid var(--line);
+    white-space:nowrap;
+  }
+  tbody td{ padding:10px 12px; border-bottom:1px solid var(--line); font-size:13px; vertical-align:top; }
+  tbody tr:hover{ background:var(--paper-2); }
+  td input[type="text"], td input[type="date"], td select, td textarea{ width:100%; border:1px solid transparent; background:transparent; padding:4px 6px; }
+  td input[type="text"]:hover, td select:hover, td textarea:hover{ border-color:var(--line); }
+  td input[type="text"]:focus, td select:focus, td textarea:focus{ border-color:var(--brass); background:#fff; }
+  td textarea{ resize:vertical; min-height:32px; font-family:var(--sans); font-size:12.5px; }
+  .firm-link{ color:var(--oxblood); text-decoration:none; font-size:12px; }
+  .firm-link:hover{ text-decoration:underline; }
+
+  .stage-select{ font-family:var(--mono); font-size:11.5px; font-weight:600; }
+  .stage-Not-Started{ color:var(--ink-soft); }
+  .stage-Connected{ color:#8C3542; }
+  .stage-Engaged{ color:#9C7A3C; }
+  .stage-Value-Touch{ color:#6E5A2E; }
+  .stage-Staying-Present{ color:#4A6B8C; }
+  .stage-Ask-Made{ color:#2E5A8C; }
+  .stage-Call-Booked{ color:#1D9E75; }
+  .stage-Signed{ color:#0F6E56; font-weight:700; }
+  .stage-Declined{ color:#888780; text-decoration:line-through; }
+
+  .del-btn{ background:none; border:none; color:var(--ink-soft); cursor:pointer; font-family:var(--mono); font-size:11px; padding:4px 8px; }
+  .del-btn:hover{ color:var(--oxblood); }
+
+  .empty-state{ text-align:center; padding:60px 20px; color:var(--ink-soft); font-size:14px; }
+  .loading{ text-align:center; padding:60px 20px; color:var(--ink-soft); font-family:var(--mono); font-size:13px; }
+  .save-flash{ font-family:var(--mono); font-size:11px; color:var(--ink-soft); margin-left:8px; opacity:0; transition:opacity .3s; }
+  .save-flash.show{ opacity:1; }
+
+  @media (max-width:900px){
+    table, thead, tbody, tr, th, td{ display:block; }
+    thead{ display:none; }
+    tbody tr{ border:1px solid var(--line); margin-bottom:12px; border-radius:2px; }
+    tbody td{ border-bottom:none; display:flex; justify-content:space-between; align-items:center; gap:10px; }
+    tbody td::before{ content:attr(data-label); font-family:var(--mono); font-size:10px; text-transform:uppercase; color:var(--ink-soft); flex-shrink:0; }
+  }
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap">
+    <div class="eyebrow">Internal Tool — Sales</div>
+    <h1>The Dream 100 Tracker</h1>
+    <p>Track every firm through the five-touch sequence: Connect &rarr; Engage &rarr; Value Touch &rarr; Stay Present &rarr; Ask. Data is saved automatically and only visible to you.</p>
+  </div>
+</header>
+
+<main>
+  <div class="wrap">
+
+    <div class="stat-row" id="statRow"></div>
+
+    <div class="toolbar">
+      <div class="left">
+        <button class="btn btn-primary" id="addBtn">+ Add Firm</button>
+        <input type="text" id="searchBox" placeholder="Search firm or contact name…">
+        <select id="stageFilter">
+          <option value="">All stages</option>
+          <option value="Not Started">Not Started</option>
+          <option value="Connected">Connected</option>
+          <option value="Engaged">Engaged</option>
+          <option value="Value Touch">Value Touch Delivered</option>
+          <option value="Staying Present">Staying Present</option>
+          <option value="Ask Made">Ask Made</option>
+          <option value="Call Booked">Call Booked</option>
+          <option value="Signed">Signed</option>
+          <option value="Declined">Declined / Not a Fit</option>
+        </select>
+      </div>
+      <div class="left">
+        <span class="save-flash" id="saveFlash">Saved</span>
+        <button class="btn btn-ghost" id="exportBtn">Export CSV</button>
+      </div>
+    </div>
+
+    <div class="add-form" id="addForm">
+      <div class="grid">
+        <div>
+          <label for="newFirm">Firm name</label>
+          <input type="text" id="newFirm" placeholder="e.g. Smith & Associates">
+        </div>
+        <div>
+          <label for="newContact">Contact name</label>
+          <input type="text" id="newContact" placeholder="e.g. Sarah Smith, Principal">
+        </div>
+        <div>
+          <label for="newLinkedin">LinkedIn URL</label>
+          <input type="text" id="newLinkedin" placeholder="linkedin.com/in/...">
+        </div>
+        <div>
+          <label for="newPractice">Practice area</label>
+          <input type="text" id="newPractice" placeholder="e.g. Wills &amp; Estates">
+        </div>
+      </div>
+      <button class="btn btn-primary" id="saveNewBtn">Add to List</button>
+      <button class="btn btn-ghost" id="cancelNewBtn">Cancel</button>
+    </div>
+
+    <div id="loadingState" class="loading">Loading your list…</div>
+    <div id="emptyState" class="empty-state" style="display:none;">No firms yet. Click "+ Add Firm" to start building your Dream 100.</div>
+
+    <div style="overflow-x:auto;">
+      <table id="crmTable" style="display:none;">
+        <thead>
+          <tr>
+            <th style="width:16%;">Firm</th>
+            <th style="width:14%;">Contact</th>
+            <th style="width:10%;">LinkedIn</th>
+            <th style="width:10%;">Practice Area</th>
+            <th style="width:13%;">Stage</th>
+            <th style="width:10%;">Last Touch</th>
+            <th style="width:15%;">Next Action</th>
+            <th style="width:8%;">Notes</th>
+            <th style="width:4%;"></th>
+          </tr>
+        </thead>
+        <tbody id="crmBody"></tbody>
+      </table>
+    </div>
+
+  </div>
+</main>
+
+<script>
+  const STAGES = ['Not Started','Connected','Engaged','Value Touch','Staying Present','Ask Made','Call Booked','Signed','Declined'];
+  const STAGE_LABELS = {
+    'Not Started':'Not Started','Connected':'Connected','Engaged':'Engaged',
+    'Value Touch':'Value Touch Delivered','Staying Present':'Staying Present',
+    'Ask Made':'Ask Made','Call Booked':'Call Booked','Signed':'Signed',
+    'Declined':'Declined / Not a Fit'
+  };
+  const STORAGE_KEY = 'dream100-firms';
+
+  let firms = [];
+  let saveTimeout = null;
+
+  function uid(){ return 'f' + Date.now() + Math.random().toString(36).slice(2,8); }
+
+  function stageClass(stage){ return 'stage-' + stage.replace(/\s+/g,'-'); }
+
+  async function loadFirms(){
+    document.getElementById('loadingState').style.display = 'block';
+    try{
+      const result = await window.storage.get(STORAGE_KEY, false);
+      firms = result && result.value ? JSON.parse(result.value) : [];
+    }catch(err){
+      firms = [];
+    }
+    document.getElementById('loadingState').style.display = 'none';
+    render();
+  }
+
+  function scheduleSave(){
+    clearTimeout(saveTimeout);
+    saveTimeout = setTimeout(saveFirms, 500);
+  }
+
+  async function saveFirms(){
+    try{
+      const result = await window.storage.set(STORAGE_KEY, JSON.stringify(firms), false);
+      if(result){
+        const flash = document.getElementById('saveFlash');
+        flash.classList.add('show');
+        setTimeout(()=> flash.classList.remove('show'), 1200);
+      }
+    }catch(err){
+      console.error('Save failed', err);
+    }
+  }
+
+  function renderStats(){
+    const counts = {};
+    STAGES.forEach(s => counts[s] = 0);
+    firms.forEach(f => { counts[f.stage] = (counts[f.stage]||0) + 1; });
+    const statRow = document.getElementById('statRow');
+    statRow.innerHTML = '';
+    const total = document.createElement('div');
+    total.className = 'stat-card';
+    total.innerHTML = `<div class="n">${firms.length}</div><div class="l">Total Firms</div>`;
+    statRow.appendChild(total);
+    STAGES.forEach(s => {
+      const card = document.createElement('div');
+      card.className = 'stat-card';
+      card.innerHTML = `<div class="n">${counts[s]}</div><div class="l">${STAGE_LABELS[s]}</div>`;
+      statRow.appendChild(card);
+    });
+  }
+
+  function matchesFilters(firm){
+    const search = document.getElementById('searchBox').value.toLowerCase();
+    const stageFilter = document.getElementById('stageFilter').value;
+    const searchMatch = !search || firm.firm.toLowerCase().includes(search) || firm.contact.toLowerCase().includes(search);
+    const stageMatch = !stageFilter || firm.stage === stageFilter;
+    return searchMatch && stageMatch;
+  }
+
+  function render(){
+    renderStats();
+    const table = document.getElementById('crmTable');
+    const emptyState = document.getElementById('emptyState');
+    const body = document.getElementById('crmBody');
+    body.innerHTML = '';
+
+    const visible = firms.filter(matchesFilters);
+
+    if(firms.length === 0){
+      table.style.display = 'none';
+      emptyState.style.display = 'block';
+      emptyState.textContent = 'No firms yet. Click "+ Add Firm" to start building your Dream 100.';
+      return;
+    }
+    if(visible.length === 0){
+      table.style.display = 'none';
+      emptyState.style.display = 'block';
+      emptyState.textContent = 'No firms match your search or filter.';
+      return;
+    }
+    emptyState.style.display = 'none';
+    table.style.display = 'table';
+
+    visible.forEach(firm => {
+      const tr = document.createElement('tr');
+
+      const tdFirm = document.createElement('td');
+      tdFirm.setAttribute('data-label','Firm');
+      const firmInput = document.createElement('input');
+      firmInput.type = 'text'; firmInput.value = firm.firm;
+      firmInput.addEventListener('input', e => { firm.firm = e.target.value; scheduleSave(); renderStats(); });
+      tdFirm.appendChild(firmInput);
+
+      const tdContact = document.createElement('td');
+      tdContact.setAttribute('data-label','Contact');
+      const contactInput = document.createElement('input');
+      contactInput.type = 'text'; contactInput.value = firm.contact;
+      contactInput.addEventListener('input', e => { firm.contact = e.target.value; scheduleSave(); });
+      tdContact.appendChild(contactInput);
+
+      const tdLinkedin = document.createElement('td');
+      tdLinkedin.setAttribute('data-label','LinkedIn');
+      if(firm.linkedin){
+        const a = document.createElement('a');
+        a.href = firm.linkedin.startsWith('http') ? firm.linkedin : 'https://' + firm.linkedin;
+        a.target = '_blank'; a.className = 'firm-link'; a.textContent = 'Profile \u2192';
+        tdLinkedin.appendChild(a);
+      }
+      const linkedinInput = document.createElement('input');
+      linkedinInput.type = 'text'; linkedinInput.value = firm.linkedin; linkedinInput.style.marginTop = '4px';
+      linkedinInput.placeholder = 'URL';
+      linkedinInput.addEventListener('input', e => { firm.linkedin = e.target.value; scheduleSave(); render(); });
+      tdLinkedin.appendChild(linkedinInput);
+
+      const tdPractice = document.createElement('td');
+      tdPractice.setAttribute('data-label','Practice Area');
+      const practiceInput = document.createElement('input');
+      practiceInput.type = 'text'; practiceInput.value = firm.practice;
+      practiceInput.addEventListener('input', e => { firm.practice = e.target.value; scheduleSave(); });
+      tdPractice.appendChild(practiceInput);
+
+      const tdStage = document.createElement('td');
+      tdStage.setAttribute('data-label','Stage');
+      const stageSelect = document.createElement('select');
+      stageSelect.className = 'stage-select ' + stageClass(firm.stage);
+      STAGES.forEach(s => {
+        const opt = document.createElement('option');
+        opt.value = s; opt.textContent = STAGE_LABELS[s];
+        if(s === firm.stage) opt.selected = true;
+        stageSelect.appendChild(opt);
+      });
+      stageSelect.addEventListener('change', e => {
+        firm.stage = e.target.value;
+        stageSelect.className = 'stage-select ' + stageClass(firm.stage);
+        scheduleSave(); renderStats();
+      });
+      tdStage.appendChild(stageSelect);
+
+      const tdTouch = document.createElement('td');
+      tdTouch.setAttribute('data-label','Last Touch');
+      const touchInput = document.createElement('input');
+      touchInput.type = 'date'; touchInput.value = firm.lastTouch || '';
+      touchInput.addEventListener('input', e => { firm.lastTouch = e.target.value; scheduleSave(); });
+      tdTouch.appendChild(touchInput);
+
+      const tdNext = document.createElement('td');
+      tdNext.setAttribute('data-label','Next Action');
+      const nextInput = document.createElement('input');
+      nextInput.type = 'text'; nextInput.value = firm.nextAction; nextInput.placeholder = 'e.g. Comment on latest post';
+      nextInput.addEventListener('input', e => { firm.nextAction = e.target.value; scheduleSave(); });
+      tdNext.appendChild(nextInput);
+
+      const tdNotes = document.createElement('td');
+      tdNotes.setAttribute('data-label','Notes');
+      const notesArea = document.createElement('textarea');
+      notesArea.value = firm.notes; notesArea.rows = 1;
+      notesArea.addEventListener('input', e => { firm.notes = e.target.value; scheduleSave(); });
+      tdNotes.appendChild(notesArea);
+
+      const tdDel = document.createElement('td');
+      tdDel.setAttribute('data-label','');
+      const delBtn = document.createElement('button');
+      delBtn.className = 'del-btn'; delBtn.textContent = 'Remove';
+      delBtn.addEventListener('click', () => {
+        if(confirm(`Remove ${firm.firm || 'this firm'} from the list?`)){
+          firms = firms.filter(f => f.id !== firm.id);
+          scheduleSave(); render();
+        }
+      });
+      tdDel.appendChild(delBtn);
+
+      tr.appendChild(tdFirm); tr.appendChild(tdContact); tr.appendChild(tdLinkedin);
+      tr.appendChild(tdPractice); tr.appendChild(tdStage); tr.appendChild(tdTouch);
+      tr.appendChild(tdNext); tr.appendChild(tdNotes); tr.appendChild(tdDel);
+      body.appendChild(tr);
+    });
+  }
+
+  document.getElementById('addBtn').addEventListener('click', () => {
+    document.getElementById('addForm').classList.add('open');
+    document.getElementById('newFirm').focus();
+  });
+  document.getElementById('cancelNewBtn').addEventListener('click', () => {
+    document.getElementById('addForm').classList.remove('open');
+  });
+  document.getElementById('saveNewBtn').addEventListener('click', () => {
+    const firmName = document.getElementById('newFirm').value.trim();
+    if(!firmName){ alert('Firm name is required.'); return; }
+    firms.push({
+      id: uid(),
+      firm: firmName,
+      contact: document.getElementById('newContact').value.trim(),
+      linkedin: document.getElementById('newLinkedin').value.trim(),
+      practice: document.getElementById('newPractice').value.trim(),
+      stage: 'Not Started',
+      lastTouch: '',
+      nextAction: '',
+      notes: ''
+    });
+    ['newFirm','newContact','newLinkedin','newPractice'].forEach(id => document.getElementById(id).value = '');
+    document.getElementById('addForm').classList.remove('open');
+    scheduleSave();
+    render();
+  });
+
+  document.getElementById('searchBox').addEventListener('input', render);
+  document.getElementById('stageFilter').addEventListener('change', render);
+
+  document.getElementById('exportBtn').addEventListener('click', () => {
+    const headers = ['Firm','Contact','LinkedIn','Practice Area','Stage','Last Touch','Next Action','Notes'];
+    const rows = firms.map(f => [f.firm, f.contact, f.linkedin, f.practice, STAGE_LABELS[f.stage], f.lastTouch, f.nextAction, f.notes]);
+    const csv = [headers, ...rows].map(row =>
+      row.map(cell => `"${(cell||'').toString().replace(/"/g,'""')}"`).join(',')
+    ).join('\n');
+    const blob = new Blob([csv], { type: 'text/csv' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url; a.download = 'dream100-tracker.csv';
+    a.click();
+    URL.revokeObjectURL(url);
+  });
+
+  loadFirms();
+</script>
+
+</body>
+</html>
