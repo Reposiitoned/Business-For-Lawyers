@@ -1,0 +1,864 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Promise KPI Dashboard</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap');
+
+  :root{
+    --navy: #14213D;
+    --navy-deep: #0B1526;
+    --brass: #B08D57;
+    --brass-light: #D9BD8C;
+    --oxblood: #6B2737;
+    --oxblood-light: #8C3B4B;
+    --cream: #F6F1E7;
+    --paper: #FBF8F2;
+    --ink: #201D1A;
+    --muted: #726B60;
+    --line: rgba(20,33,61,0.12);
+    --radius: 14px;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;background:transparent;}
+  body{
+    font-family:'IBM Plex Sans', sans-serif;
+    color:var(--ink);
+    -webkit-font-smoothing:antialiased;
+  }
+  #app{max-width:1180px;margin:0 auto;padding:28px 20px 60px;}
+
+  h1,h2,h3,.display{font-family:'Fraunces', serif;}
+  .mono{font-family:'IBM Plex Mono', monospace;}
+
+  /* ---------- Header ---------- */
+  .topbar{
+    display:flex; align-items:flex-end; justify-content:space-between;
+    gap:16px; flex-wrap:wrap; margin-bottom:22px;
+    border-bottom:1px solid var(--line); padding-bottom:18px;
+  }
+  .brandline{display:flex; flex-direction:column; gap:4px;}
+  .eyebrow{
+    font-family:'IBM Plex Mono', monospace; font-size:11px; letter-spacing:0.14em;
+    text-transform:uppercase; color:var(--brass); font-weight:500;
+  }
+  .firmname{font-size:26px; font-weight:600; color:var(--navy); line-height:1.1;}
+  .tags{display:flex; gap:8px; flex-wrap:wrap; margin-top:6px;}
+  .tag{
+    font-family:'IBM Plex Mono', monospace; font-size:11px; padding:4px 10px;
+    border:1px solid var(--line); border-radius:100px; color:var(--muted);
+    background:var(--paper);
+  }
+  .btn{
+    font-family:'IBM Plex Sans', sans-serif; font-size:13px; font-weight:500;
+    border:1px solid var(--navy); background:transparent; color:var(--navy);
+    padding:9px 16px; border-radius:8px; cursor:pointer; transition:all .15s ease;
+  }
+  .btn:hover{background:var(--navy); color:var(--cream);}
+  .btn-primary{background:var(--navy); color:var(--cream); border-color:var(--navy);}
+  .btn-primary:hover{background:var(--navy-deep);}
+  .btn-brass{background:var(--brass); color:var(--navy-deep); border-color:var(--brass); font-weight:600;}
+  .btn-brass:hover{background:var(--brass-light);}
+  .btn-ghost{border-color:transparent; color:var(--muted);}
+  .btn-ghost:hover{background:var(--line); color:var(--ink);}
+  .btn-sm{padding:6px 12px; font-size:12px;}
+
+  /* ---------- Setup wizard ---------- */
+  .wizard{
+    background:var(--paper); border:1px solid var(--line); border-radius:var(--radius);
+    padding:36px; max-width:680px; margin:40px auto;
+  }
+  .wizard h2{color:var(--navy); font-size:24px; margin:0 0 6px;}
+  .wizard p.lede{color:var(--muted); margin:0 0 28px; font-size:14px; line-height:1.6;}
+  .field{margin-bottom:24px;}
+  .field label{
+    display:block; font-family:'IBM Plex Mono', monospace; font-size:11px;
+    letter-spacing:0.08em; text-transform:uppercase; color:var(--navy); margin-bottom:10px; font-weight:500;
+  }
+  .field input[type=text]{
+    width:100%; padding:10px 12px; border:1px solid var(--line); border-radius:8px;
+    font-family:'IBM Plex Sans'; font-size:14px; background:#fff;
+  }
+  .choice-row{display:flex; gap:8px; flex-wrap:wrap;}
+  .choice{
+    padding:10px 14px; border:1px solid var(--line); border-radius:8px; cursor:pointer;
+    font-size:13px; background:#fff; transition:all .15s ease; color:var(--ink);
+  }
+  .choice:hover{border-color:var(--brass);}
+  .choice.selected{
+    background:var(--navy); color:var(--cream); border-color:var(--navy);
+  }
+  .wizard-actions{display:flex; justify-content:flex-end; margin-top:32px;}
+  .topkpi-group{margin-bottom:22px;}
+  .topkpi-group-title{
+    font-family:'IBM Plex Mono'; font-size:11px; text-transform:uppercase; letter-spacing:0.08em;
+    color:var(--brass); margin-bottom:10px; font-weight:600;
+  }
+
+  /* ---------- Promise Meter (fire-danger-style gauge) ---------- */
+  .promise-meter-panel{
+    background:var(--paper); border:1px solid var(--line); border-radius:var(--radius);
+    padding:24px 20px 20px; margin-bottom:22px; text-align:center;
+  }
+  .meter-value-row{margin-top:-18px;}
+  .meter-value{font-family:'Fraunces'; font-size:40px; font-weight:700; color:var(--navy);}
+  .meter-value-label{font-size:13px; color:var(--muted); max-width:420px; margin:2px auto 0; line-height:1.5;}
+  .meter-legend-row{
+    display:flex; justify-content:center; gap:0; margin:18px auto 4px; max-width:600px;
+    border:1px solid var(--line); border-radius:8px; overflow:hidden;
+  }
+  .meter-legend-item{flex:1; display:flex; flex-direction:column;}
+  .meter-legend-swatch{height:14px;}
+  .meter-legend-range{
+    font-family:'IBM Plex Mono'; font-size:11px; padding:6px 4px; color:var(--ink);
+    border-right:1px solid var(--line); background:#fff;
+  }
+  .meter-legend-item:last-child .meter-legend-range{border-right:none;}
+  .meter-caption{
+    font-family:'IBM Plex Mono'; font-size:11px; letter-spacing:0.1em; text-transform:uppercase;
+    color:var(--muted); margin-top:10px;
+  }
+
+  /* ---------- Consistency row ---------- */
+  .toprow{margin-bottom:26px;}
+  .panel{
+    background:var(--paper); border:1px solid var(--line); border-radius:var(--radius); padding:20px;
+  }
+  .consistency-panel{display:flex; align-items:center; gap:28px; flex-wrap:wrap;}
+  .streak{display:flex; flex-direction:column; align-items:center; min-width:90px;}
+  .streak-num{font-family:'Fraunces'; font-size:34px; color:var(--brass); font-weight:700; line-height:1;}
+  .streak-label{font-size:11px; color:var(--muted); font-family:'IBM Plex Mono'; text-transform:uppercase; letter-spacing:0.08em; margin-top:6px;}
+  .divider-v{width:1px; align-self:stretch; background:var(--line);}
+  .status-list{flex:1; min-width:220px;}
+  .status-list-title{font-size:11px; font-family:'IBM Plex Mono'; text-transform:uppercase; letter-spacing:0.08em; color:var(--navy); margin-bottom:10px;}
+  .status-row{display:flex; align-items:center; gap:8px; font-size:12.5px; margin-bottom:6px; color:var(--ink);}
+  .dot{width:8px; height:8px; border-radius:50%; flex:none;}
+  .dot-green{background:#4C7A5A;}
+  .dot-amber{background:var(--brass);}
+  .dot-red{background:var(--oxblood);}
+  .dot-gray{background:#C9C2B4;}
+
+  /* ---------- Sections ---------- */
+  .section{margin-bottom:30px;}
+  .section-head{display:flex; align-items:baseline; gap:12px; margin-bottom:14px;}
+  .section-num{font-family:'IBM Plex Mono'; color:var(--brass); font-size:13px;}
+  .section-title{font-family:'Fraunces'; font-size:21px; color:var(--navy); font-weight:600;}
+  .section-priority{
+    font-family:'IBM Plex Mono'; font-size:10.5px; text-transform:uppercase; letter-spacing:0.08em;
+    background:var(--oxblood); color:#fff; padding:3px 9px; border-radius:100px;
+  }
+  .card-grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:14px;}
+  .card{
+    background:#fff; border:1px solid var(--line); border-radius:var(--radius); padding:18px;
+    position:relative;
+  }
+  .card.priority{border-color:var(--brass); box-shadow:0 0 0 1px var(--brass);}
+  .card.top-kpi{border-color:var(--navy); box-shadow:0 0 0 2px var(--navy);}
+  .top-kpi-badge{
+    display:inline-block; font-family:'IBM Plex Mono'; font-size:10px; text-transform:uppercase;
+    letter-spacing:0.06em; background:var(--navy); color:var(--cream); padding:3px 9px;
+    border-radius:100px; margin-bottom:10px;
+  }
+  .card-label{font-size:13.5px; font-weight:600; color:var(--navy); margin-bottom:2px; line-height:1.3;}
+  .card-note{font-size:11.5px; color:var(--muted); line-height:1.4; margin-bottom:12px; min-height:16px;}
+  .card-values{display:flex; align-items:baseline; gap:10px; margin-bottom:10px;}
+  .card-current{font-family:'Fraunces'; font-size:26px; color:var(--ink); font-weight:600;}
+  .card-delta{font-family:'IBM Plex Mono'; font-size:12px;}
+  .delta-up{color:#4C7A5A;} .delta-down{color:var(--oxblood);} .delta-flat{color:var(--muted);}
+  .spark{width:100%; height:40px; display:block; margin-bottom:10px;}
+  .card-foot{display:flex; align-items:center; justify-content:space-between; gap:8px;}
+  .target-inline{display:flex; align-items:center; gap:6px; font-size:11.5px; color:var(--muted);}
+  .target-inline input{
+    width:64px; padding:4px 6px; border:1px solid var(--line); border-radius:6px; font-size:12px;
+    font-family:'IBM Plex Mono'; text-align:right;
+  }
+  .entry-row{display:none; margin-top:12px; gap:8px; align-items:center;}
+  .entry-row.open{display:flex;}
+  .entry-row input{
+    flex:1; padding:7px 9px; border:1px solid var(--brass); border-radius:6px; font-size:13px;
+    font-family:'IBM Plex Mono';
+  }
+
+  .commitment-banner{
+    background:var(--navy); color:var(--cream); border-radius:var(--radius);
+    padding:16px 20px; margin-bottom:20px; display:flex; gap:14px; align-items:flex-start;
+  }
+  .commitment-banner .quote-mark{font-family:'Fraunces'; font-size:30px; color:var(--brass); line-height:0.8; margin-top:4px;}
+  .commitment-banner .commitment-text{font-size:14px; line-height:1.5; font-style:italic;}
+  .commitment-banner .commitment-label{
+    font-family:'IBM Plex Mono'; font-size:10.5px; text-transform:uppercase; letter-spacing:0.08em;
+    color:var(--brass-light); margin-bottom:4px; font-style:normal;
+  }
+
+  .nudge-banner{
+    background:#FBF3EC; border:1px solid var(--brass); border-radius:var(--radius);
+    padding:14px 18px; margin-bottom:20px; display:flex; align-items:center; gap:12px; flex-wrap:wrap;
+  }
+  .nudge-banner .nudge-text{font-size:13.5px; color:var(--ink); flex:1; min-width:200px;}
+  .nudge-banner .nudge-text strong{color:var(--navy);}
+
+  .status-row .nudge{
+    font-size:10.5px; color:var(--muted); font-style:italic; margin-left:8px;
+  }
+
+  footer.foot{
+    margin-top:40px; padding-top:18px; border-top:1px solid var(--line);
+    display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;
+  }
+  .foot-note{font-size:11.5px; color:var(--muted); max-width:520px; line-height:1.5;}
+</style>
+</head>
+<body>
+<div id="app"><div style="padding:60px;text-align:center;color:#726B60;font-family:'IBM Plex Sans'">Loading dashboard…</div></div>
+
+<script>
+(function(){
+
+  const PRACTICE_AREAS = [
+    {id:'conveyancing', label:'Conveyancing'},
+    {id:'wills', label:'Wills & Estates'},
+    {id:'family', label:'Family Law'},
+    {id:'commercial', label:'Business Leases / Commercial'},
+    {id:'general', label:'General / Other'},
+  ];
+  const FIRM_SIZES = [
+    {id:'solo', label:'1–2 lawyers'},
+    {id:'boardroom', label:'2–7 staff'},
+    {id:'promise', label:'8–20 staff'},
+  ];
+  const GROWTH_STAGES = [
+    {id:'plateaued', label:'Plateaued / breaking even', priority:'delivery', note:'Fix the leaks before spending more on marketing.'},
+    {id:'strained', label:'Growing but strained', priority:'sales', note:'The bottleneck is usually conversion, not enquiry volume.'},
+    {id:'stable', label:'Stable, wants scale', priority:'marketing', note:'Delivery is solid enough to support more volume.'},
+  ];
+
+  function baseMetrics(){
+    return [
+      {id:'referralShare', section:'marketing', label:'Referral Share of Enquiries', unit:'%', dir:'up',
+        note:'Share of new enquiries from referrals vs. paid/other sources.'},
+      {id:'enquiryToBooking', section:'marketing', label:'Enquiry → Consultation Rate', unit:'%', dir:'up',
+        note:'Enquiries that convert to a booked consultation.'},
+      {id:'quoteToInstruction', section:'sales', label:'Quote → Instruction Rate', unit:'%', dir:'up',
+        note:'Consultations that convert to instructed matters.'},
+      {id:'timeToInstruction', section:'sales', label:'Time: Enquiry → Instruction', unit:'days', dir:'down',
+        note:'How long it takes a lead to become a client.'},
+      {id:'firmInitiatedContact', section:'delivery', label:'Firm-Initiated Contact Ratio', unit:'%', dir:'up',
+        note:'Updates the firm sends vs. updates clients have to chase.'},
+      {id:'repeatInstruction', section:'delivery', label:'Repeat Instruction Rate', unit:'%', dir:'up',
+        note:'Existing clients returning with new matters.'},
+    ];
+  }
+
+  const PRACTICE_SIGNATURE = {
+    conveyancing: {id:'settlementOnTime', section:'delivery', label:'Time-to-Settlement Adherence', unit:'%', dir:'up',
+      note:'Matters settling on the date originally promised.'},
+    wills: {id:'complaintRate', section:'delivery', label:'Complaints per 100 Matters', unit:'#', dir:'down',
+      note:'Disputes or complaints — trust is the product here.'},
+    family: {id:'wipWriteoff', section:'delivery', label:'WIP Write-Offs', unit:'%', dir:'down',
+      note:'Unbilled time written off — scope creep risk is highest in family law.'},
+    commercial: {id:'avgMatterValue', section:'sales', label:'Average Matter Value', unit:'$', dir:'up',
+      note:'Fewer, larger matters — value per instruction matters more than volume.'},
+    general: {id:'complaintRate', section:'delivery', label:'Complaints per 100 Matters', unit:'#', dir:'down',
+      note:'General trust and quality signal.'},
+  };
+
+  const SECTION_META = {
+    marketing:{num:'01', title:'Marketing', sub:'Getting the right enquiries in the door.'},
+    sales:{num:'02', title:'Sales', sub:'Turning an enquiry into an instructed matter.'},
+    delivery:{num:'03', title:'Delivery', sub:'Keeping the promise once the matter is instructed.'},
+  };
+
+  function generateMetrics(practiceAreaIds){
+    const metrics = baseMetrics();
+    const ids = (practiceAreaIds && practiceAreaIds.length) ? practiceAreaIds : ['general'];
+    const byId = {};
+    ids.forEach(pid=>{
+      const sig = PRACTICE_SIGNATURE[pid] || PRACTICE_SIGNATURE.general;
+      const paLabel = (PRACTICE_AREAS.find(x=>x.id===pid)||{}).label || pid;
+      if(byId[sig.id]){
+        byId[sig.id].forAreas.push(paLabel);
+      } else {
+        byId[sig.id] = Object.assign({}, sig, {forAreas:[paLabel]});
+      }
+    });
+    Object.values(byId).forEach(m=> metrics.push(m));
+    return metrics;
+  }
+
+  let DATA = null; // { profile:{name,practiceArea,firmSize,growthStage}, metrics:[...with target], entries:{id:[{date,value}]} }
+  const STORAGE_KEY = 'promise-kpi-dashboard-v1';
+
+  async function loadData(){
+    try{
+      const res = await window.storage.get(STORAGE_KEY, false);
+      if(res && res.value){ return JSON.parse(res.value); }
+    }catch(e){ /* no existing data */ }
+    return null;
+  }
+  async function saveData(){
+    try{ await window.storage.set(STORAGE_KEY, JSON.stringify(DATA), false); }
+    catch(e){ console.error('Storage save failed', e); }
+  }
+
+  function monthKey(d){ const dt=new Date(d); return dt.getFullYear()+'-'+String(dt.getMonth()+1).padStart(2,'0'); }
+  function todayISO(){ return new Date().toISOString().slice(0,10); }
+  function fmtMonth(mk){
+    const [y,m]=mk.split('-'); const names=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+    return names[parseInt(m,10)-1]+' '+y;
+  }
+
+  function render(){
+    const app = document.getElementById('app');
+    if(!DATA || !DATA.profile){ app.innerHTML=''; app.appendChild(renderWizard()); return; }
+    if(!DATA.profile.topKpiPromptShown){ renderTopKpiPrompt(); return; }
+    app.innerHTML='';
+    app.appendChild(renderPromiseMeter());
+    app.appendChild(renderHeader());
+    const nudge = renderMonthlyNudge();
+    if(nudge) app.appendChild(nudge);
+    const topBanner = renderTopKpiBanner();
+    if(topBanner) app.appendChild(topBanner);
+    app.appendChild(renderTopRow());
+    ['marketing','sales','delivery'].forEach(sec=>{
+      app.appendChild(renderSection(sec));
+    });
+    app.appendChild(renderFooter());
+  }
+
+  // ---------- Wizard ----------
+  function renderWizard(edit){
+    const wrap = document.createElement('div');
+    wrap.className='wizard';
+    let sel = edit ? Object.assign({}, DATA.profile) : {name:'', practiceAreas:[], firmSize:null, growthStage:null, commitment:''};
+    if(sel.practiceArea && !sel.practiceAreas){ sel.practiceAreas = [sel.practiceArea]; }
+    if(!sel.practiceAreas) sel.practiceAreas = [];
+
+    wrap.innerHTML = `
+      <div class="eyebrow" style="margin-bottom:10px;">Build your practice on promises kept</div>
+      <h2>${edit?'Update your dashboard':'Set up your KPI dashboard'}</h2>
+      <p class="lede">Answer a few questions and we'll generate a Marketing / Sales / Delivery KPI set tailored to your firm — track it monthly to stay consistent.</p>
+      <div class="field">
+        <label>Firm name</label>
+        <input type="text" id="w-name" placeholder="e.g. Harrow & Bell Lawyers" value="${sel.name||''}"/>
+      </div>
+      <div class="field">
+        <label>Practice areas <span style="text-transform:none;font-weight:400;color:var(--muted);">(select all that apply)</span></label>
+        <div class="choice-row" id="w-practice">
+          ${PRACTICE_AREAS.map(p=>`<div class="choice ${(sel.practiceAreas||[]).includes(p.id)?'selected':''}" data-val="${p.id}">${p.label}</div>`).join('')}
+        </div>
+      </div>
+      <div class="field">
+        <label>Firm size</label>
+        <div class="choice-row" id="w-size">
+          ${FIRM_SIZES.map(p=>`<div class="choice ${sel.firmSize===p.id?'selected':''}" data-val="${p.id}">${p.label}</div>`).join('')}
+        </div>
+      </div>
+      <div class="field">
+        <label>Growth stage</label>
+        <div class="choice-row" id="w-stage">
+          ${GROWTH_STAGES.map(p=>`<div class="choice ${sel.growthStage===p.id?'selected':''}" data-val="${p.id}">${p.label}</div>`).join('')}
+        </div>
+      </div>
+      <div class="wizard-actions">
+        <button class="btn btn-primary" id="w-submit">${edit?'Save changes':'Generate my dashboard'}</button>
+      </div>
+    `;
+
+    function wireChoiceGroup(id, key){
+      wrap.querySelector('#'+id).addEventListener('click', (e)=>{
+        const c = e.target.closest('.choice'); if(!c) return;
+        wrap.querySelectorAll('#'+id+' .choice').forEach(el=>el.classList.remove('selected'));
+        c.classList.add('selected');
+        sel[key]=c.dataset.val;
+      });
+    }
+    wrap.querySelector('#w-practice').addEventListener('click', (e)=>{
+      const c = e.target.closest('.choice'); if(!c) return;
+      const val = c.dataset.val;
+      const idx = sel.practiceAreas.indexOf(val);
+      if(idx>=0){ sel.practiceAreas.splice(idx,1); c.classList.remove('selected'); }
+      else { sel.practiceAreas.push(val); c.classList.add('selected'); }
+    });
+    wireChoiceGroup('w-size','firmSize');
+    wireChoiceGroup('w-stage','growthStage');
+
+    wrap.querySelector('#w-submit').addEventListener('click', async ()=>{
+      sel.name = wrap.querySelector('#w-name').value.trim() || 'Your Firm';
+      if(!sel.practiceAreas.length || !sel.firmSize || !sel.growthStage){
+        alert('Please select at least one practice area, and make a selection for firm size and growth stage.');
+        return;
+      }
+      delete sel.practiceArea;
+      const isFirstSetup = !DATA || !DATA.profile;
+      const newMetrics = generateMetrics(sel.practiceAreas);
+      const prevEntries = (DATA && DATA.entries) ? DATA.entries : {};
+      const prevMetrics = (DATA && DATA.metrics) ? DATA.metrics : [];
+      const targetById = {}; prevMetrics.forEach(m=> targetById[m.id]=m.target);
+      newMetrics.forEach(m=> m.target = targetById[m.id] || '');
+      DATA = { profile: sel, metrics: newMetrics, entries: prevEntries };
+      await saveData();
+      if(isFirstSetup && !DATA.profile.topKpiPromptShown){
+        renderTopKpiPrompt();
+      } else {
+        render();
+      }
+    });
+
+    return wrap;
+  }
+
+  function renderTopKpiPrompt(){
+    const app = document.getElementById('app');
+    app.innerHTML = '';
+    const wrap = document.createElement('div');
+    wrap.className = 'wizard';
+    let picked = null;
+
+    const groupHTML = (sectionId)=>{
+      const meta = SECTION_META[sectionId];
+      const items = DATA.metrics.filter(m=>m.section===sectionId);
+      return `
+        <div class="topkpi-group">
+          <div class="topkpi-group-title">${meta.title}</div>
+          <div class="choice-row">
+            ${items.map(m=>`<div class="choice topkpi-choice" data-id="${m.id}">${m.label}</div>`).join('')}
+          </div>
+        </div>`;
+    };
+
+    wrap.innerHTML = `
+      <div class="eyebrow" style="margin-bottom:10px;">Your dashboard is ready</div>
+      <h2>What matters most, right now?</h2>
+      <p class="lede">You're about to track ${DATA.metrics.length} KPIs across Marketing, Sales and Delivery for ${DATA.profile.name}. Every one of them is worth watching — but pick the one that matters most right now, and we'll keep it pinned front and centre on your dashboard.</p>
+      ${groupHTML('marketing')}
+      ${groupHTML('sales')}
+      ${groupHTML('delivery')}
+      <div class="wizard-actions" style="justify-content:space-between; margin-top:28px;">
+        <button class="btn btn-ghost" id="tk-skip">Skip for now</button>
+        <button class="btn btn-primary" id="tk-save">Save and view dashboard</button>
+      </div>
+    `;
+    wrap.querySelectorAll('.topkpi-choice').forEach(el=>{
+      el.addEventListener('click', ()=>{
+        wrap.querySelectorAll('.topkpi-choice').forEach(c=>c.classList.remove('selected'));
+        el.classList.add('selected');
+        picked = el.dataset.id;
+      });
+    });
+    wrap.querySelector('#tk-save').addEventListener('click', async ()=>{
+      DATA.profile.topKpiId = picked || null;
+      DATA.profile.topKpiPromptShown = true;
+      await saveData();
+      render();
+    });
+    wrap.querySelector('#tk-skip').addEventListener('click', async ()=>{
+      DATA.profile.topKpiPromptShown = true;
+      await saveData();
+      render();
+    });
+    app.appendChild(wrap);
+  }
+
+  // ---------- Header ----------
+  function renderHeader(){
+    const p = DATA.profile;
+    const paLabels = (p.practiceAreas||[]).map(id => (PRACTICE_AREAS.find(x=>x.id===id)||{}).label).filter(Boolean);
+    const fsLabel = (FIRM_SIZES.find(x=>x.id===p.firmSize)||{}).label || '';
+    const gsLabel = (GROWTH_STAGES.find(x=>x.id===p.growthStage)||{}).label || '';
+    const div = document.createElement('div');
+    div.className='topbar';
+    div.innerHTML = `
+      <div class="brandline">
+        <div class="eyebrow">Promises kept, not broken</div>
+        <div class="firmname">${p.name}</div>
+        <div class="tags">
+          ${paLabels.map(l=>`<span class="tag">${l}</span>`).join('')}
+          <span class="tag">${fsLabel}</span>
+          <span class="tag">${gsLabel}</span>
+        </div>
+      </div>
+      <div>
+        <button class="btn" id="edit-profile">Customise</button>
+      </div>
+    `;
+    div.querySelector('#edit-profile').addEventListener('click', ()=>{
+      const app=document.getElementById('app'); app.innerHTML=''; app.appendChild(renderWizard(true));
+    });
+    return div;
+  }
+
+  // ---------- Top priority KPI banner + monthly nudge ----------
+  function getTopKpi(){
+    if(!DATA.profile.topKpiId) return null;
+    return DATA.metrics.find(m=>m.id===DATA.profile.topKpiId) || null;
+  }
+
+  function renderTopKpiBanner(){
+    const div = document.createElement('div');
+    div.className='commitment-banner';
+    div.style.cursor='pointer';
+    const top = getTopKpi();
+    if(!top){
+      div.innerHTML = `
+        <div class="quote-mark">&#9733;</div>
+        <div>
+          <div class="commitment-label">No top priority set</div>
+          <div class="commitment-text" style="opacity:0.75;">Click to pick the one KPI that matters most right now.</div>
+        </div>
+      `;
+    } else {
+      div.innerHTML = `
+        <div class="quote-mark">&#9733;</div>
+        <div>
+          <div class="commitment-label">Your top priority right now</div>
+          <div class="commitment-text">${top.label}</div>
+        </div>
+      `;
+    }
+    div.addEventListener('click', ()=> openTopKpiEditor(div));
+    return div;
+  }
+
+  function openTopKpiEditor(div){
+    div.style.cursor='default';
+    div.innerHTML = `
+      <div class="quote-mark">&#9733;</div>
+      <div style="flex:1;">
+        <div class="commitment-label">Choose your top priority</div>
+        <div class="choice-row" id="tk-inline-choices" style="margin-top:8px;">
+          ${DATA.metrics.map(m=>`<div class="choice tk-inline-choice ${DATA.profile.topKpiId===m.id?'selected':''}" data-id="${m.id}" style="background:#fff;">${m.label}</div>`).join('')}
+        </div>
+      </div>
+    `;
+    div.querySelectorAll('.tk-inline-choice').forEach(el=>{
+      el.addEventListener('click', async (e)=>{
+        e.stopPropagation();
+        DATA.profile.topKpiId = el.dataset.id;
+        await saveData();
+        render();
+      });
+    });
+  }
+
+  function renderMonthlyNudge(){
+    const thisMonth = monthKey(todayISO());
+    const loggedThisMonth = DATA.metrics.some(m => (DATA.entries[m.id]||[]).some(e=> monthKey(e.date)===thisMonth));
+    if(loggedThisMonth) return null;
+    const div = document.createElement('div');
+    div.className='nudge-banner';
+    div.innerHTML = `
+      <span class="nudge-text"><strong>Nothing logged for ${fmtMonth(thisMonth)} yet.</strong> A couple of minutes now keeps the trend line honest — pick any KPI below to start.</span>
+    `;
+    return div;
+  }
+
+  const PROMISE_METER_BANDS = [
+    {label:'Nobody Cares',    color:'#6B2737', min:0,  max:15,  signal:'The blind spot — unmonitored operational leakage.'},
+    {label:'Falling Behind',  color:'#9C3B3E', min:15, max:32,  signal:'The pain is felt — urgent need for intervention.'},
+    {label:'Getting Traction',color:'#C97A3D', min:32, max:50,  signal:'The new implementation is starting to stick.'},
+    {label:'On Track',        color:'#B08D57', min:50, max:70,  signal:'Predictable execution — hitting the baseline numbers.'},
+    {label:'Pulling Ahead',   color:'#8FA06B', min:70, max:90,  signal:'The system is optimising — beating benchmarks.'},
+    {label:'Everybody Cares', color:'#4C7A5A', min:90, max:101, signal:'Total autonomy — the team protects the standard without you.'},
+  ];
+
+  function polarPoint(cx,cy,r,angleDeg){
+    const rad = angleDeg*Math.PI/180;
+    return { x: cx + r*Math.cos(rad), y: cy - r*Math.sin(rad) };
+  }
+
+  function describeWedge(cx,cy,rOuter,rInner,startAngle,endAngle){
+    const oStart = polarPoint(cx,cy,rOuter,startAngle);
+    const oEnd   = polarPoint(cx,cy,rOuter,endAngle);
+    const iEnd   = polarPoint(cx,cy,rInner,endAngle);
+    const iStart = polarPoint(cx,cy,rInner,startAngle);
+    return `M ${oStart.x.toFixed(2)} ${oStart.y.toFixed(2)} A ${rOuter} ${rOuter} 0 0 1 ${oEnd.x.toFixed(2)} ${oEnd.y.toFixed(2)} L ${iEnd.x.toFixed(2)} ${iEnd.y.toFixed(2)} A ${rInner} ${rInner} 0 0 0 ${iStart.x.toFixed(2)} ${iStart.y.toFixed(2)} Z`;
+  }
+
+  function labelRotation(midAngle){
+    return midAngle<=90 ? -midAngle : (180-midAngle);
+  }
+
+  function renderPromiseMeter(){
+    const health = computeOverallHealth();
+    const cx=340, cy=290, rOuter=280, rInner=150, labelR=(rOuter+rInner)/2 + 20;
+    const n = PROMISE_METER_BANDS.length;
+    const step = 180/n;
+
+    let wedges='', labels='';
+    PROMISE_METER_BANDS.forEach((band,i)=>{
+      const startAngle = 180 - i*step;
+      const endAngle = 180 - (i+1)*step;
+      const midAngle = (startAngle+endAngle)/2;
+      wedges += `<path d="${describeWedge(cx,cy,rOuter,rInner,startAngle,endAngle)}" fill="${band.color}" stroke="var(--paper)" stroke-width="2"><title>${band.label} — ${band.signal}</title></path>`;
+      const lp = polarPoint(cx,cy,labelR,midAngle);
+      const rot = labelRotation(midAngle);
+      const fSize = band.label.length>13 ? 13.5 : band.label.length>9 ? 15.5 : 18;
+      labels += `<text x="${lp.x.toFixed(2)}" y="${lp.y.toFixed(2)}" transform="rotate(${rot.toFixed(2)} ${lp.x.toFixed(2)} ${lp.y.toFixed(2)})"
+        text-anchor="middle" dominant-baseline="middle"
+        font-family="IBM Plex Sans" font-weight="700" font-size="${fSize}"
+        fill="#fff" stroke="var(--navy-deep)" stroke-width="3" paint-order="stroke" letter-spacing="0.3">${band.label.toUpperCase()}</text>`;
+    });
+
+    // needle: score 0 -> angle 180 (Catastrophic/left), score 100 -> angle 0 (Kept/right)
+    const scoreForNeedle = health===null ? null : health;
+    let needle = '';
+    if(scoreForNeedle!==null){
+      const needleAngle = 180 - (Math.min(100,Math.max(0,scoreForNeedle))/100)*180;
+      const tip = polarPoint(cx,cy,rOuter-26,needleAngle);
+      const backL = polarPoint(cx,cy,18,needleAngle+90);
+      const backR = polarPoint(cx,cy,18,needleAngle-90);
+      needle = `
+        <polygon points="${tip.x.toFixed(2)},${tip.y.toFixed(2)} ${backL.x.toFixed(2)},${backL.y.toFixed(2)} ${backR.x.toFixed(2)},${backR.y.toFixed(2)}" fill="var(--navy)" stroke="var(--navy-deep)" stroke-width="1"/>
+        <circle cx="${cx}" cy="${cy}" r="20" fill="var(--brass)" stroke="var(--navy-deep)" stroke-width="2"/>
+      `;
+    }
+
+    const legendItems = PROMISE_METER_BANDS.map(b=>{
+      const rangeText = b.max>100 ? `${b.min}-100` : `${b.min}-${b.max-1}`;
+      return `
+        <div class="meter-legend-item" title="${b.label} — ${b.signal}">
+          <div class="meter-legend-swatch" style="background:${b.color};"></div>
+          <div class="meter-legend-range">${rangeText}</div>
+        </div>`;
+    }).join('');
+
+    const wrap = document.createElement('div');
+    wrap.className = 'promise-meter-panel';
+    wrap.innerHTML = `
+      <svg viewBox="0 0 680 340" style="width:100%; max-width:640px; display:block; margin:0 auto;">
+        ${wedges}
+        ${labels}
+        ${needle}
+        <circle cx="${cx}" cy="${cy}" r="${rInner-2}" fill="var(--paper)"/>
+      </svg>
+      <div class="meter-value-row">
+        <div class="meter-value">${health===null? '—' : health+'%'}</div>
+        <div class="meter-value-label">${health===null? 'Set targets and log your first month to see where you sit.' : 'Promise Health — average progress against target across every KPI.'}</div>
+      </div>
+      <div class="meter-legend-row">${legendItems}</div>
+      <div class="meter-caption">Promise Health Index</div>
+    `;
+    return wrap;
+  }
+
+  // ---------- Consistency ----------
+  function computeOverallHealth(){
+    let scores=[];
+    DATA.metrics.forEach(m=>{
+      if(!m.target || isNaN(parseFloat(m.target))) return; // no target set — can't score this KPI at all
+      const entries = DATA.entries[m.id]||[];
+      const target = parseFloat(m.target);
+      let pct;
+      if(!entries.length){
+        pct = 0; // target set but nothing logged yet — counts as zero progress, not excluded
+      } else {
+        const latest = entries[entries.length-1].value;
+        if(m.dir==='up'){ pct = target===0?0:(latest/target)*100; }
+        else { pct = latest===0? (target===0?100:0) : (target/latest)*100; }
+      }
+      pct = Math.max(0, Math.min(150, pct));
+      scores.push(Math.min(100,pct));
+    });
+    if(!scores.length) return null;
+    const sum = scores.reduce((a,b)=>a+b,0);
+    return Math.round(sum/scores.length);
+  }
+
+  function computeStreak(){
+    const allMonths = new Set();
+    Object.values(DATA.entries).forEach(list=> (list||[]).forEach(e=> allMonths.add(monthKey(e.date))));
+    if(!allMonths.size) return 0;
+    let streak=0;
+    let cursor = new Date();
+    while(true){
+      const mk = monthKey(cursor);
+      if(allMonths.has(mk)){ streak++; cursor.setMonth(cursor.getMonth()-1); }
+      else break;
+    }
+    return streak;
+  }
+
+  function lastUpdateStatus(metricId){
+    const entries = DATA.entries[metricId]||[];
+    if(!entries.length) return 'gray';
+    const last = new Date(entries[entries.length-1].date);
+    const now = new Date();
+    const monthsDiff = (now.getFullYear()-last.getFullYear())*12 + (now.getMonth()-last.getMonth());
+    if(monthsDiff<=0) return 'green';
+    if(monthsDiff===1) return 'amber';
+    return 'red';
+  }
+
+  function renderTopRow(){
+    const div = document.createElement('div');
+    div.className='toprow';
+    const streak = computeStreak();
+
+    const consistencyPanel = document.createElement('div');
+    consistencyPanel.className='panel consistency-panel';
+    const statusRows = DATA.metrics.map(m=>{
+      const st = lastUpdateStatus(m.id);
+      const cls = st==='green'?'dot-green':st==='amber'?'dot-amber':st==='red'?'dot-red':'dot-gray';
+      const entries = DATA.entries[m.id]||[];
+      const lastText = entries.length? fmtMonth(monthKey(entries[entries.length-1].date)) : 'No data yet';
+      let nudge = '';
+      if(st==='red'){
+        const last = new Date(entries[entries.length-1].date);
+        const now = new Date();
+        const monthsDiff = (now.getFullYear()-last.getFullYear())*12 + (now.getMonth()-last.getMonth());
+        nudge = `<span class="nudge">worth a look — ${monthsDiff} months since last entry</span>`;
+      } else if(st==='gray'){
+        nudge = `<span class="nudge">whenever you're ready</span>`;
+      }
+      return `<div class="status-row"><span class="dot ${cls}"></span><span>${m.label}${nudge}</span><span style="margin-left:auto;color:var(--muted);font-family:'IBM Plex Mono';font-size:11px;">${lastText}</span></div>`;
+    }).join('');
+    consistencyPanel.innerHTML = `
+      <div class="streak">
+        <div class="streak-num">${streak}</div>
+        <div class="streak-label">Month${streak===1?'':'s'} Tracked</div>
+      </div>
+      <div class="divider-v"></div>
+      <div class="status-list">
+        <div class="status-list-title">Last Logged, by KPI</div>
+        ${statusRows}
+      </div>
+    `;
+    div.appendChild(consistencyPanel);
+    return div;
+  }
+
+  // ---------- Sparkline ----------
+  function sparklineSVG(entries, dir){
+    const w=260,h=40,pad=4;
+    if(!entries.length) return `<svg class="spark" viewBox="0 0 ${w} ${h}"><line x1="0" y1="${h-pad}" x2="${w}" y2="${h-pad}" stroke="var(--line)" stroke-width="1"/></svg>`;
+    const vals = entries.map(e=>e.value);
+    const min = Math.min(...vals), max = Math.max(...vals);
+    const range = (max-min)||1;
+    const stepX = entries.length>1 ? (w-2*pad)/(entries.length-1) : 0;
+    const pts = entries.map((e,i)=>{
+      const x = pad + i*stepX;
+      const y = h-pad - ((e.value-min)/range)*(h-2*pad);
+      return [x,y];
+    });
+    const path = pts.map((p,i)=> (i===0?'M':'L')+p[0].toFixed(1)+' '+p[1].toFixed(1)).join(' ');
+    const color = 'var(--navy)';
+    const lastPt = pts[pts.length-1];
+    return `<svg class="spark" viewBox="0 0 ${w} ${h}">
+      <path d="${path}" fill="none" stroke="${color}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      <circle cx="${lastPt[0]}" cy="${lastPt[1]}" r="3" fill="var(--brass)"/>
+    </svg>`;
+  }
+
+  function renderSection(sectionId){
+    const meta = SECTION_META[sectionId];
+    const isPriority = GROWTH_STAGES.find(g=>g.id===DATA.profile.growthStage).priority === sectionId;
+    const metrics = DATA.metrics.filter(m=>m.section===sectionId);
+
+    const sec = document.createElement('div');
+    sec.className='section';
+    sec.innerHTML = `
+      <div class="section-head">
+        <span class="section-num">${meta.num}</span>
+        <span class="section-title">${meta.title}</span>
+        ${isPriority?'<span class="section-priority">Priority right now</span>':''}
+      </div>
+    `;
+    const grid = document.createElement('div');
+    grid.className='card-grid';
+    metrics.forEach(m=> grid.appendChild(renderCard(m, isPriority)));
+    sec.appendChild(grid);
+    return sec;
+  }
+
+  function renderCard(m, sectionPriority){
+    const entries = DATA.entries[m.id] || [];
+    const latest = entries.length? entries[entries.length-1].value : null;
+    const prev = entries.length>1? entries[entries.length-2].value : null;
+    let deltaHTML = '';
+    if(latest!==null && prev!==null){
+      const diff = latest-prev;
+      const good = (m.dir==='up' && diff>0) || (m.dir==='down' && diff<0);
+      const flat = diff===0;
+      const cls = flat?'delta-flat':(good?'delta-up':'delta-down');
+      const sign = diff>0?'+':'';
+      deltaHTML = `<span class="card-delta ${cls}">${sign}${diff.toFixed(1)} vs last</span>`;
+    }
+    const card = document.createElement('div');
+    const isTopKpi = DATA.profile.topKpiId === m.id;
+    card.className = 'card'+(sectionPriority?' priority':'')+(isTopKpi?' top-kpi':'');
+    card.innerHTML = `
+      ${isTopKpi ? '<div class="top-kpi-badge">&#9733; Top priority</div>' : ''}
+      <div class="card-label">${m.label}</div>
+      ${m.forAreas && m.forAreas.length ? `<div class="card-note" style="margin-bottom:2px;color:var(--brass);font-family:'IBM Plex Mono';font-size:10.5px;text-transform:uppercase;letter-spacing:0.06em;">${m.forAreas.join(' · ')}</div>` : ''}
+      <div class="card-note">${m.note}</div>
+      <div class="card-values">
+        <div class="card-current">${latest===null?'—':(m.unit==='$'?'$':'')+latest+(m.unit!=='$'&&m.unit!=='#'?m.unit:'')}</div>
+        ${deltaHTML}
+      </div>
+      ${sparklineSVG(entries, m.dir)}
+      <div class="card-foot">
+        <div class="target-inline">
+          Target <input type="text" inputmode="decimal" data-id="${m.id}" class="target-input" value="${m.target||''}" placeholder="—"/> ${m.unit==='$'?'':m.unit}
+        </div>
+        <button class="btn btn-sm btn-brass log-btn" data-id="${m.id}">+ Log month</button>
+      </div>
+      <div class="entry-row" id="entry-${m.id}">
+        <input type="text" inputmode="decimal" placeholder="Value for ${fmtMonth(monthKey(todayISO()))}" id="entry-input-${m.id}"/>
+        <button class="btn btn-sm btn-primary save-entry" data-id="${m.id}">Save</button>
+      </div>
+    `;
+    card.querySelector('.target-input').addEventListener('change', async (e)=>{
+      m.target = e.target.value;
+      await saveData();
+      render();
+    });
+    card.querySelector('.log-btn').addEventListener('click', ()=>{
+      const row = card.querySelector('#entry-'+m.id);
+      row.classList.toggle('open');
+      const input = card.querySelector('#entry-input-'+m.id);
+      if(row.classList.contains('open')) input.focus();
+    });
+    card.querySelector('.save-entry').addEventListener('click', async ()=>{
+      const input = card.querySelector('#entry-input-'+m.id);
+      const val = parseFloat(input.value);
+      if(isNaN(val)){ input.focus(); return; }
+      if(!DATA.entries[m.id]) DATA.entries[m.id]=[];
+      const mk = monthKey(todayISO());
+      const existingIdx = DATA.entries[m.id].findIndex(e=>monthKey(e.date)===mk);
+      if(existingIdx>=0){ DATA.entries[m.id][existingIdx] = {date: todayISO(), value: val}; }
+      else { DATA.entries[m.id].push({date: todayISO(), value: val}); }
+      DATA.entries[m.id].sort((a,b)=> new Date(a.date)-new Date(b.date));
+      await saveData();
+      render();
+    });
+    return card;
+  }
+
+  function renderFooter(){
+    const div = document.createElement('div');
+    div.className='foot';
+    div.innerHTML = `
+      <div class="foot-note">Log each KPI monthly to build an accurate trend. Set a target for any metric to see it reflected in your Promise Health score above.</div>
+      <button class="btn btn-ghost btn-sm" id="reset-all">Reset dashboard</button>
+    `;
+    div.querySelector('#reset-all').addEventListener('click', async ()=>{
+      if(confirm('This clears your firm profile and all logged data. Continue?')){
+        DATA = null;
+        try{ await window.storage.delete(STORAGE_KEY, false); }catch(e){}
+        render();
+      }
+    });
+    return div;
+  }
+
+  (async function init(){
+    DATA = await loadData();
+    render();
+  })();
+
+})();
+</script>
+</body>
+</html>
