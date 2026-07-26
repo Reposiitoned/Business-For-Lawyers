@@ -85,6 +85,35 @@
   .empty-state{ text-align:center; padding:60px 20px; color:var(--ink-soft); font-size:14px; }
   .loading{ text-align:center; padding:60px 20px; color:var(--ink-soft); font-family:var(--mono); font-size:13px; }
   .save-flash{ font-family:var(--mono); font-size:11px; color:var(--ink-soft); margin-left:8px; opacity:0; transition:opacity .3s; }
+
+  .templates-panel{ background:#fff; border:1px solid var(--line); border-radius:2px; margin-bottom:24px; }
+  .templates-toggle{
+    width:100%; display:flex; align-items:center; justify-content:space-between;
+    background:none; border:none; padding:14px 18px; cursor:pointer; text-align:left;
+    font-family:var(--mono); font-size:12px; text-transform:uppercase; letter-spacing:.05em; color:var(--ink);
+  }
+  .templates-toggle .arrow{ transition:transform .2s; color:var(--ink-soft); }
+  .templates-panel.open .templates-toggle .arrow{ transform:rotate(180deg); }
+  .templates-body{ display:none; padding:0 18px 20px; }
+  .templates-panel.open .templates-body{ display:block; }
+  .template-card{ border-top:1px solid var(--line); padding:16px 0; }
+  .template-card:first-child{ border-top:none; }
+  .template-card .t-label{
+    font-family:var(--mono); font-size:10.5px; text-transform:uppercase; letter-spacing:.04em;
+    color:var(--brass); margin-bottom:6px;
+  }
+  .template-card .t-when{ font-size:12.5px; color:var(--ink-soft); margin-bottom:10px; }
+  .template-card .t-text{
+    font-family:var(--sans); font-size:14px; line-height:1.55; background:var(--paper);
+    border:1px solid var(--line); border-radius:2px; padding:12px 14px; margin-bottom:10px;
+  }
+  .copy-btn{
+    font-family:var(--mono); font-size:11px; text-transform:uppercase; letter-spacing:.04em;
+    background:transparent; border:1px solid var(--line); color:var(--ink-soft);
+    padding:6px 12px; border-radius:2px; cursor:pointer;
+  }
+  .copy-btn:hover{ border-color:var(--brass); color:var(--brass); }
+  .copy-btn.copied{ border-color:var(--oxblood-lt); color:var(--oxblood-lt); }
   .save-flash.show{ opacity:1; }
 
   @media (max-width:900px){
@@ -110,6 +139,33 @@
   <div class="wrap">
 
     <div class="stat-row" id="statRow"></div>
+
+    <div class="templates-panel" id="templatesPanel">
+      <button class="templates-toggle" id="templatesToggle">
+        <span>Stage 1 — Connection Request Templates</span>
+        <span class="arrow">&#9660;</span>
+      </button>
+      <div class="templates-body">
+        <div class="template-card">
+          <div class="t-label">1 — Verified detail: reputation</div>
+          <div class="t-when">Use when you've checked reviews/local standing and found something genuine.</div>
+          <div class="t-text" id="tmpl1">Hi [First name] — been following [Firm]'s footprint in [family law/property/commercial] around [City/Region]. You've built a really solid reputation there. Would be great to connect.</div>
+          <button class="copy-btn" data-target="tmpl1">Copy</button>
+        </div>
+        <div class="template-card">
+          <div class="t-label">2 — Verified detail: growth / leadership</div>
+          <div class="t-when">Use when you've seen a real growth signal (hiring, expansion) — not just their headcount from your filter.</div>
+          <div class="t-text" id="tmpl2">Hi [First name] — noticed the team you've built over at [Firm]. Growing a practice to that size while keeping client standards high takes serious leadership. Would love to connect.</div>
+          <button class="copy-btn" data-target="tmpl2">Copy</button>
+        </div>
+        <div class="template-card">
+          <div class="t-label">3 — Honest-disclosure fallback</div>
+          <div class="t-when">Use when you've checked but have no specific detail to point to. Safe default — no fabricated detail required.</div>
+          <div class="t-text" id="tmpl3">Hi [First name] — I work alongside a lot of independent Australian firm owners and like to stay connected with the principals running solid practices. Would be great to connect.</div>
+          <button class="copy-btn" data-target="tmpl3">Copy</button>
+        </div>
+      </div>
+    </div>
 
     <div class="toolbar">
       <div class="left">
@@ -418,7 +474,21 @@
     URL.revokeObjectURL(url);
   });
 
-  loadFirms();
+  loadFirms();  document.getElementById('templatesToggle').addEventListener('click', () => {
+    document.getElementById('templatesPanel').classList.toggle('open');
+  });
+
+  document.querySelectorAll('.copy-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const text = document.getElementById(btn.dataset.target).textContent;
+      navigator.clipboard.writeText(text).then(() => {
+        const original = btn.textContent;
+        btn.textContent = 'Copied';
+        btn.classList.add('copied');
+        setTimeout(() => { btn.textContent = original; btn.classList.remove('copied'); }, 1500);
+      });
+    });
+  });
 </script>
 
 </body>
