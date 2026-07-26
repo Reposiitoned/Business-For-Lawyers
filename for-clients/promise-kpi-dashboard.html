@@ -88,6 +88,10 @@
   }
   .login-error.show{display:block;}
   .login-loading{text-align:center; padding:80px 20px; color:var(--muted); font-family:'IBM Plex Sans';}
+  .modal-overlay{
+    position:fixed; inset:0; background:rgba(11,21,38,0.55); z-index:1000;
+    display:flex; align-items:center; justify-content:center; padding:20px;
+  }
   .choice-row{display:flex; gap:8px; flex-wrap:wrap;}
   .choice{
     padding:10px 14px; border:1px solid var(--line); border-radius:8px; cursor:pointer;
@@ -354,6 +358,10 @@
         <div class="wizard-actions">
           <button class="btn btn-primary" id="login-submit" style="width:100%; text-align:center;">Sign In</button>
         </div>
+        <div id="login-success" class="login-error" style="background:#EEF5EE; border-color:#4C7A5A; color:#3A5E44; display:none;"></div>
+        <div style="text-align:center; margin-top:16px;">
+          <a href="#" id="forgot-password-link" style="font-size:12.5px; color:var(--muted); text-decoration:underline;">Forgot your password?</a>
+        </div>
       </div>
     `;
     app.appendChild(wrap);
@@ -361,7 +369,29 @@
     const emailInput = wrap.querySelector('#login-email');
     const passInput = wrap.querySelector('#login-password');
     const errorEl = wrap.querySelector('#login-error');
+    const successEl = wrap.querySelector('#login-success');
     const submitBtn = wrap.querySelector('#login-submit');
+    const forgotLink = wrap.querySelector('#forgot-password-link');
+
+    forgotLink.addEventListener('click', async (e)=>{
+      e.preventDefault();
+      const email = emailInput.value.trim();
+      errorEl.classList.remove('show');
+      successEl.style.display = 'none';
+      if(!email){
+        errorEl.textContent = 'Enter your email above first, then click "Forgot your password?" again.';
+        errorEl.classList.add('show');
+        return;
+      }
+      try{
+        await auth.sendPasswordResetEmail(email);
+        successEl.textContent = 'Check your inbox — we\'ve sent a link to set a new password.';
+        successEl.style.display = 'block';
+      }catch(err){
+        errorEl.textContent = 'Couldn\'t send that — double check the email address and try again.';
+        errorEl.classList.add('show');
+      }
+    });
 
     async function attemptLogin(){
       const email = emailInput.value.trim();
@@ -572,16 +602,95 @@
       </div>
       <div style="display:flex; gap:8px;">
         <button class="btn" id="edit-profile">Customise</button>
+        <button class="btn btn-ghost btn-sm" id="change-password" style="align-self:center;">Change Password</button>
         <button class="btn btn-ghost btn-sm" id="sign-out" style="align-self:center;">Sign Out</button>
       </div>
     `;
     div.querySelector('#edit-profile').addEventListener('click', ()=>{
       const app=document.getElementById('app'); app.innerHTML=''; app.appendChild(renderWizard(true));
     });
+    div.querySelector('#change-password').addEventListener('click', ()=>{
+      renderChangePasswordModal();
+    });
     div.querySelector('#sign-out').addEventListener('click', ()=>{
       auth.signOut();
     });
     return div;
+  }
+
+  // ---------- Change password modal ----------
+  function renderChangePasswordModal(){
+    const overlay = document.createElement('div');
+    overlay.className = 'modal-overlay';
+    overlay.innerHTML = `
+      <div class="wizard" style="max-width:400px; margin:0;">
+        <div class="eyebrow" style="margin-bottom:10px;">Account</div>
+        <h2>Change your password</h2>
+        <div class="login-error" id="cp-error"></div>
+        <div class="login-error" id="cp-success" style="background:#EEF5EE; border-color:#4C7A5A; color:#3A5E44; display:none;"></div>
+        <div class="field">
+          <label>Current password</label>
+          <input type="password" id="cp-current" autocomplete="current-password"/>
+        </div>
+        <div class="field">
+          <label>New password</label>
+          <input type="password" id="cp-new" autocomplete="new-password"/>
+        </div>
+        <div class="field">
+          <label>Confirm new password</label>
+          <input type="password" id="cp-confirm" autocomplete="new-password"/>
+        </div>
+        <div class="wizard-actions" style="justify-content:space-between;">
+          <button class="btn btn-ghost" id="cp-cancel">Cancel</button>
+          <button class="btn btn-primary" id="cp-save">Save New Password</button>
+        </div>
+      </div>
+    `;
+    document.body.appendChild(overlay);
+
+    const errorEl = overlay.querySelector('#cp-error');
+    const successEl = overlay.querySelector('#cp-success');
+    const closeModal = ()=> overlay.remove();
+
+    overlay.querySelector('#cp-cancel').addEventListener('click', closeModal);
+    overlay.addEventListener('click', (e)=>{ if(e.target === overlay) closeModal(); });
+
+    overlay.querySelector('#cp-save').addEventListener('click', async ()=>{
+      const current = overlay.querySelector('#cp-current').value;
+      const next = overlay.querySelector('#cp-new').value;
+      const confirm = overlay.querySelector('#cp-confirm').value;
+      errorEl.classList.remove('show');
+      successEl.style.display = 'none';
+
+      if(!current || !next || !confirm){
+        errorEl.textContent = 'Fill in all three fields.';
+        errorEl.classList.add('show');
+        return;
+      }
+      if(next.length < 6){
+        errorEl.textContent = 'New password needs to be at least 6 characters.';
+        errorEl.classList.add('show');
+        return;
+      }
+      if(next !== confirm){
+        errorEl.textContent = 'New password and confirmation don\'t match.';
+        errorEl.classList.add('show');
+        return;
+      }
+      try{
+        const credential = firebase.auth.EmailAuthProvider.credential(currentUser.email, current);
+        await currentUser.reauthenticateWithCredential(credential);
+        await currentUser.updatePassword(next);
+        successEl.textContent = 'Password updated. Use it next time you sign in.';
+        successEl.style.display = 'block';
+        overlay.querySelector('#cp-current').value = '';
+        overlay.querySelector('#cp-new').value = '';
+        overlay.querySelector('#cp-confirm').value = '';
+      }catch(e){
+        errorEl.textContent = 'Current password not recognised — try again.';
+        errorEl.classList.add('show');
+      }
+    });
   }
 
   // ---------- Top priority KPI banner + monthly nudge ----------
