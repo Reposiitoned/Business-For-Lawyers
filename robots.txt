@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+Disallow: /for-clients/
+Disallow: /tools-new-clients/
+
+Sitemap: https://businessforlawyers.com.au/sitemap.xml
