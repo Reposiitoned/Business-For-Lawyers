@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Completing 500 Priorities a Year Drives You Towards Your Desired Outcome — Business for Lawyers</title>
+<meta name="description" content="Two completed priorities a workday adds up to close to 500 a year. Here's why that number — not the plan, the follow-through — is what moves a firm toward its desired outcome.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy:#003e5f;
+    --ocean:#0a5b82;
+    --accent:#c9a961;
+    --mist:#f1f4f6;
+    --paper:#ffffff;
+    --ink:#1c2b33;
+    --ink-soft:#5c6b73;
+    --line:#dbe2e6;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    font-family:'DM Sans',sans-serif;
+    color:var(--ink);
+    background:var(--mist);
+  }
+
+  /* ===== Site header ===== */
+  .sitehead{
+    background:var(--navy); color:#fff; padding:18px 24px;
+  }
+  .sitehead-inner{max-width:920px; margin:0 auto; display:flex; align-items:center; justify-content:space-between;}
+  .brandrow{display:flex; align-items:center; gap:10px; font-size:11px; letter-spacing:0.14em; text-transform:uppercase; color:#bcd4e0;}
+  .brandrow .dot{width:5px;height:5px;border-radius:50%;background:var(--accent);}
+  .back-link{color:#dce8ee; font-size:12.5px; text-decoration:none; letter-spacing:0.02em;}
+  .back-link:hover{color:#fff;}
+
+  /* ===== Article shell ===== */
+  main{max-width:680px; margin:0 auto; padding:56px 24px 90px;}
+  .eyebrow{
+    display:flex; align-items:center; gap:8px; font-size:11.5px; font-weight:600; color:var(--ocean);
+    text-transform:uppercase; letter-spacing:0.1em; margin-bottom:16px;
+  }
+  .eyebrow .sep{color:var(--line);}
+  h1{
+    font-family:'Cormorant Garamond', Georgia, serif; font-weight:700; font-size:42px; line-height:1.12;
+    color:var(--navy); margin:0 0 22px; letter-spacing:0.005em;
+  }
+
+  /* ===== Video hook ===== */
+  .video-hook{margin:26px 0 6px;}
+  .video-frame{
+    position:relative; width:100%; max-width:360px; margin:0 auto;
+    aspect-ratio:9/16; border-radius:12px; overflow:hidden;
+    background:var(--navy); box-shadow:0 10px 30px -14px rgba(0,62,95,0.35);
+  }
+  .video-frame video{width:100%; height:100%; display:block; object-fit:cover;}
+  .video-caption{
+    font-size:12.5px; color:var(--ink-soft); font-style:italic; margin:10px 0 0;
+    text-align:center;
+  }
+
+  /* ===== Signature: the day-by-day build to 500 ===== */
+  .buildbar{margin:30px 0 40px;}
+  .buildbar-track{
+    display:flex; align-items:flex-end; gap:2px; height:34px; margin-bottom:10px;
+  }
+  .buildbar-track i{
+    flex:1; background:var(--line); border-radius:1px; display:block;
+  }
+  .buildbar-label{
+    display:flex; justify-content:space-between; font-size:11px; color:var(--ink-soft);
+    letter-spacing:0.04em; text-transform:uppercase;
+  }
+  .buildbar-label b{color:var(--accent); font-family:'DM Sans'; font-weight:700;}
+
+  .prose{font-size:17px; line-height:1.75; color:var(--ink);}
+  .prose p{margin:0 0 20px;}
+  .prose p:first-of-type::first-letter{
+    font-family:'Cormorant Garamond', Georgia, serif; font-weight:700; font-size:52px; line-height:0.8;
+    float:left; padding:5px 8px 0 0; color:var(--navy);
+  }
+  .pullnum{
+    font-family:'Cormorant Garamond', Georgia, serif; font-weight:700; color:var(--navy);
+  }
+
+  .divider{border:none; border-top:1px solid var(--line); margin:36px 0;}
+
+  .cta{
+    background:var(--navy); border-radius:12px; padding:28px 28px 24px; color:#fff;
+  }
+  .cta-text b{display:block; font-family:'Cormorant Garamond', Georgia, serif; font-weight:700; font-size:21px; margin-bottom:6px;}
+  .cta-text span{font-size:13.5px; color:#bcd4e0; line-height:1.5;}
+  .cta-form{margin-top:18px; display:flex; flex-direction:column; gap:10px;}
+  .cta-form .cta-row{display:flex; gap:10px; flex-wrap:wrap;}
+  .cta-form input{
+    flex:1; min-width:180px; font-family:'DM Sans'; font-size:14px; color:var(--ink);
+    background:#fff; border:1px solid transparent; border-radius:8px; padding:11px 13px;
+  }
+  .cta-form input:focus{outline:2px solid var(--accent); outline-offset:1px;}
+  .cta-btn{
+    background:var(--accent); color:var(--navy); border:none; font-weight:700; font-size:13.5px;
+    padding:12px 20px; border-radius:8px; white-space:nowrap; letter-spacing:0.01em; cursor:pointer;
+  }
+  .cta-btn:hover{filter:brightness(1.06);}
+  .cta-btn:disabled{opacity:0.6; cursor:default;}
+  .cta-error{color:#f0c9a8; font-size:12.5px; margin-top:2px; display:none;}
+  .cta-privacy{font-size:11.5px; color:#9fb9c6; line-height:1.5; margin:4px 0 0;}
+
+  footer{max-width:680px; margin:0 auto; padding:0 24px 60px; font-size:12px; color:var(--ink-soft);}
+
+  @media (max-width:600px){
+    h1{font-size:32px;}
+    .prose{font-size:16px;}
+    .cta-form .cta-row{flex-direction:column;}
+  }
+</style>
+</head>
+<body>
+
+  <div class="sitehead">
+    <div class="sitehead-inner">
+      <div class="brandrow"><span class="dot"></span> Business for Lawyers</div>
+      <a class="back-link" href="../blog.html">← Back to Insights</a>
+    </div>
+  </div>
+
+  <main>
+    <article>
+      <div class="eyebrow">Insights <span class="sep">·</span> Practice Growth</div>
+      <h1>Completing 500 Priorities a Year Drives You Towards Your Desired Outcome</h1>
+
+      <div class="video-hook">
+        <div class="video-frame">
+          <video controls preload="metadata" poster="500-priorities-video-poster.jpg">
+            <source src="500-priorities-video.mp4" type="video/mp4">
+          </video>
+        </div>
+        <p class="video-caption">60 seconds — why finishing your priorities beats getting through your inbox.</p>
+      </div>
+
+      <div class="buildbar" aria-hidden="true">
+        <div class="buildbar-track" id="buildTrack"></div>
+        <div class="buildbar-label"><span>Day 1</span><span><b>~500</b> completed priorities a year</span></div>
+      </div>
+
+      <div class="prose">
+        <p>Fulfilling each priority is important. Not planning it. Not thinking about it. Finishing it.</p>
+        <p>Most business owners set priorities every day. Few complete them. The gap between the two is where growth quietly leaks away.</p>
+        <p>Here's the math worth paying attention to: maintain an average of <span class="pullnum">two</span> completed priorities per workday, and you land close to <span class="pullnum">500</span> completed priorities a year. Not 500 tasks started. Not 500 ideas floated. 500 things finished.</p>
+        <p>That number compounds. Every priority completed is a decision made, a problem solved, a step taken. Stack 500 of them together and you don't inch towards your desired outcome — you catapult towards it.</p>
+        <p>The discipline isn't in setting priorities. Anyone can do that. The discipline is in finishing them, day after day, without letting "important" quietly slide into "someday."</p>
+        <p>Now scale it. If your whole team mirrors this same focus — two completed priorities each, every workday — the compounding effect multiplies across your entire firm.</p>
+        <p>Individual discipline builds momentum. Team-wide discipline builds firms.</p>
+        <p>Stop counting tasks on your list. Start counting the ones you finish.</p>
+      </div>
+
+      <hr class="divider">
+
+      <div class="cta">
+        <div class="cta-text">
+          <b>Start your own count</b>
+          <span>Complete two of your three daily priorities and you'll land close to 500 finished things a year. This free log keeps the count for you.</span>
+        </div>
+        <form class="cta-form" id="ctaForm">
+          <div class="cta-row">
+            <input type="text" id="ctaName" placeholder="Your name" required autocomplete="name">
+            <input type="email" id="ctaEmail" placeholder="you@yourfirm.com.au" required autocomplete="email">
+            <button type="submit" class="cta-btn" id="ctaSubmit">Unlock My Priorities →</button>
+          </div>
+          <div class="cta-error" id="ctaError"></div>
+          <p class="cta-privacy">No spam, unsubscribe any time. Everything you log stays in your browser — we never see your priorities.</p>
+        </form>
+      </div>
+    </article>
+  </main>
+
+  <footer>Business for Lawyers</footer>
+
+  <script>
+    // Build the day-by-day bar: 60 ticks, rising height, gold from ~day 2/workday pace onward
+    const track = document.getElementById('buildTrack');
+    const n = 60;
+    for(let i=0;i<n;i++){
+      const t = document.createElement('i');
+      const h = 6 + Math.round((i/(n-1)) * 28);
+      t.style.height = h + 'px';
+      if(i > n*0.55) t.style.background = 'var(--accent)';
+      track.appendChild(t);
+    }
+
+    // Signup form: same Basin endpoint and unlock flag as the priorities tool.
+    // Setting the flag here means anyone who signs up on this page lands in
+    // the tool already unlocked — no second email prompt.
+    const BASIN_ENDPOINT = 'https://usebasin.com/f/1dcbfba79560';
+    const TOOL_URL = 'bfl-firmpriorities.html';
+
+    const ctaForm = document.getElementById('ctaForm');
+    const ctaError = document.getElementById('ctaError');
+    const ctaSubmit = document.getElementById('ctaSubmit');
+
+    ctaForm.addEventListener('submit', async (e)=>{
+      e.preventDefault();
+      const name = document.getElementById('ctaName').value.trim();
+      const email = document.getElementById('ctaEmail').value.trim();
+      if(!name || !email) return;
+
+      ctaError.style.display = 'none';
+      ctaSubmit.disabled = true; ctaSubmit.textContent = 'Unlocking…';
+
+      try{
+        const fd = new FormData();
+        fd.append('name', name);
+        fd.append('email', email);
+        fd.append('source', 'priorities-tool');
+        fd.append('_subject', `Priorities Log unlocked — ${name}`);
+
+        const resp = await fetch(BASIN_ENDPOINT, {
+          method: 'POST',
+          headers: { 'Accept': 'application/json' },
+          body: fd
+        });
+        if(!resp.ok) throw new Error('Basin submission failed');
+
+        localStorage.setItem('bfl_priorities_unlocked', '1');
+        localStorage.setItem('bfl_priorities_name', name);
+        window.location.href = TOOL_URL;
+      }catch(err){
+        ctaError.textContent = "Couldn't reach the server just now — check your connection and try again.";
+        ctaError.style.display = 'block';
+        ctaSubmit.disabled = false; ctaSubmit.textContent = 'Unlock My Priorities →';
+      }
+    });
+  </script>
+
+</body>
+</html>
