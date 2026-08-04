@@ -384,6 +384,11 @@
   }
   @media (max-width:900px){ .about-inner{ grid-template-columns:1fr; gap:36px; } }
   .about-inner p{ font-size:16px; color:var(--ink-soft); margin:0 0 16px; }
+  .about-video{
+    width:100%; max-width:340px; height:auto; aspect-ratio:9/16;
+    display:block; object-fit:cover; border-radius:2px; border:1px solid var(--line);
+    background:var(--navy);
+  }
   .stat-row{ display:flex; gap:36px; margin-top:28px; flex-wrap:wrap; }
   .stat{ }
   .stat .n{ font-family:var(--serif); font-size:34px; font-weight:700; color:var(--oxblood); }
@@ -550,7 +555,11 @@
         <p>They didn't need to be better lawyers. They needed help seeing that the business underneath the law was there to work for them, not the other way around. Every day now, I work towards helping them do exactly that.</p>
       </div>
       <div class="reveal">
-        <img src="roy-headshot.jpg" alt="Roy, founder of Business for Lawyers" style="width:100%; height:auto; border-radius:2px; border:1px solid var(--line);">
+        <video class="about-video" controls preload="metadata" poster="roy-about-poster.jpg" playsinline>
+          <source src="about-us-video-web.mp4" type="video/mp4">
+          Your browser doesn't support embedded video.
+          <a href="about-us-video-web.mp4">Watch the video here</a>.
+        </video>
       </div>
     </div>
   </div>
