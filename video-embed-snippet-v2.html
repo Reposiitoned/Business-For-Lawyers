@@ -1,0 +1,57 @@
+<!--
+  About Us — video embed (vertical 9:16)
+  Replaces the existing headshot <img> in the right-hand column.
+
+  This version resizes the column to properly fit a vertical video
+  instead of pillarboxing it inside the old landscape frame.
+
+  BEFORE GOING LIVE:
+  1. Upload about-us-video-web.mp4 and roy-about-poster.jpg to your
+     video/image assets folder and update the src/poster paths below
+  2. Confirm the surrounding grid/flex layout on the About Us page
+     gives this column enough vertical room — it's taller than the
+     old photo box, so check spacing against the left-hand copy block
+-->
+
+<div class="about-video-col">
+  <video
+    class="about-video"
+    controls
+    preload="metadata"
+    poster="/assets/images/roy-about-poster.jpg"
+    playsinline
+  >
+    <source src="/assets/video/about-us-video-web.mp4" type="video/mp4">
+    Your browser doesn't support embedded video.
+    <a href="/assets/video/about-us-video-web.mp4">Watch the video here</a>.
+  </video>
+</div>
+
+<style>
+  .about-video-col {
+    /* Vertical video column — narrower and taller than the old
+       landscape photo box, sized to a natural 9:16 ratio */
+    width: 100%;
+    max-width: 340px;       /* narrower than before, by design */
+    margin: 0 auto;         /* center within its grid area if needed */
+    border-radius: 4px;
+    overflow: hidden;
+    box-shadow: 0 4px 24px rgba(24, 34, 49, 0.12); /* navy-tinted shadow */
+  }
+
+  .about-video {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 9 / 16;
+    display: block;
+    object-fit: cover;
+    background: #182231; /* navy fallback while loading */
+  }
+
+  /* On the two-column About Us layout, this column will now run
+     noticeably taller than the copy block beside it (typical for
+     9:16 video). If the current layout is a CSS grid/flex with
+     align-items: center or stretch, consider switching this specific
+     row to align-items: start so the video doesn't stretch or
+     awkwardly center against shorter copy. */
+</style>
