@@ -142,12 +142,16 @@
     padding:26px; display:flex; flex-direction:column; min-height:190px; position:relative;
   }
   .portal-card.live{border-color:var(--brass);}
+  .portal-card.featured{border-color:var(--oxblood); background:var(--navy);}
+  .portal-card.featured h3{color:#fff;}
+  .portal-card.featured p{color:rgba(246,241,231,0.7);}
   .portal-card .card-tag{
     font-family:'IBM Plex Mono'; font-size:10px; text-transform:uppercase; letter-spacing:0.08em;
     padding:3px 9px; border-radius:100px; display:inline-block; width:fit-content; margin-bottom:16px;
   }
   .card-tag.tag-live{background:var(--navy); color:var(--cream);}
   .card-tag.tag-soon{background:var(--line); color:var(--muted);}
+  .card-tag.tag-start{background:var(--oxblood); color:#fff;}
   .portal-card h3{font-size:18px; color:var(--navy); margin:0 0 8px; font-weight:600;}
   .portal-card p{font-size:13px; color:var(--muted); line-height:1.55; margin:0 0 20px; flex:1;}
   .portal-card .card-cta{
@@ -325,7 +329,7 @@
           <div>
             <div class="portal-eyebrow">Client Portal</div>
             <h1>Your practice, measured.</h1>
-            <p>Used consistently and properly, everything here strengthens your promise, grows your practice, and gets you the outcome you came for. Start with your KPI dashboard.</p>
+            <p>Used consistently and properly, everything here strengthens your promise, grows your practice, and gets you the outcome you came for. Start with the assessment below.</p>
           </div>
           <div class="account-box">
             <div class="account-email">${user.email}</div>
@@ -336,6 +340,12 @@
           </div>
         </div>
         <div class="portal-grid">
+          <div class="portal-card featured">
+            <span class="card-tag tag-start">Start Here</span>
+            <h3>Weakest Link Assessment</h3>
+            <p>Four questions — one per link in the Promise Lifecycle. Find out which of Positioning, Marketing, Sales or Delivery is costing you the most files right now.</p>
+            <a href="assessment.html" class="card-cta">Take the Assessment →</a>
+          </div>
           <div class="portal-card live">
             <span class="card-tag tag-live">Live</span>
             <h3>KPI Dashboard</h3>
