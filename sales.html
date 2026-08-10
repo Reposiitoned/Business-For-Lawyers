@@ -758,7 +758,7 @@
   </div>
 </section>
 
-<section class="cta-band on-navy">
+<section class="cta-band on-navy" id="public-cta-band">
   <div class="wrap">
     <span class="eyebrow" style="justify-content:center;">Ready When You Are</span>
     <h2>Let's Fix Your Sales Sequence</h2>
@@ -832,6 +832,8 @@
       var emailEl = document.getElementById('client-next-step-email');
       if(section){ section.style.display = 'block'; }
       if(emailEl){ emailEl.textContent = user.email; }
+      var publicBand = document.getElementById('public-cta-band');
+      if(publicBand){ publicBand.style.display = 'none'; }
     }
   });
 })();
