@@ -465,6 +465,14 @@
 
   nav.links a.active{ color:var(--oxblood); border-color:var(--oxblood); }
 </style>
+
+<style>
+  .client-cta-band{ background:var(--navy); padding:64px 24px; text-align:center; }
+  .client-cta-band .wrap{ max-width:640px; margin:0 auto; }
+  .client-cta-band .eyebrow{ font-family:var(--mono); font-size:11.5px; letter-spacing:.14em; text-transform:uppercase; color:var(--brass-lt); display:flex; align-items:center; justify-content:center; gap:8px; margin-bottom:16px; }
+  .client-cta-band h2{ font-family:var(--serif); color:var(--paper-on-navy); font-size:clamp(24px,3vw,34px); margin:0 0 14px; }
+  .client-cta-band p{ font-family:var(--sans); color:rgba(235,231,220,0.75); font-size:15px; line-height:1.6; margin:0 auto 26px; max-width:52ch; }
+</style>
 </head>
 <body>
 
@@ -544,6 +552,16 @@
   </div>
 </section>
 
+
+<section class="client-cta-band" id="client-next-step" style="display:none;">
+  <div class="wrap">
+    <span class="eyebrow">Client Portal &middot; Next Step</span>
+    <h2>Ready to fix this?</h2>
+    <p>You're signed in as <strong id="client-next-step-email"></strong>. The next step is a short call to decide how we tackle it &mdash; Done For You, With You, or DIY with our guidance.</p>
+    <a class="btn btn-primary" href="https://calendly.com/roy_west/broken-promises-calculator" target="_blank" rel="noopener">Book the Decision Call &rarr;</a>
+  </div>
+</section>
+
 <section class="lifecycle-nav">
   <div class="wrap">
     <div class="row">
@@ -573,5 +591,30 @@
   revealEls.forEach(el=>io.observe(el));
 </script>
 
+
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+<script>
+(function(){
+  var firebaseConfig = {
+    apiKey: "AIzaSyDf-SIetS-P7kNZ4gII7SwimRsYzp6OGF4",
+    authDomain: "business-for-lawyers.firebaseapp.com",
+    projectId: "business-for-lawyers",
+    storageBucket: "business-for-lawyers.firebasestorage.app",
+    messagingSenderId: "446377312563",
+    appId: "1:446377312563:web:e9212c747b975321d97e46"
+  };
+  if(!firebase.apps.length){ firebase.initializeApp(firebaseConfig); }
+  var auth = firebase.auth();
+  auth.onAuthStateChanged(function(user){
+    if(user){
+      var section = document.getElementById('client-next-step');
+      var emailEl = document.getElementById('client-next-step-email');
+      if(section){ section.style.display = 'block'; }
+      if(emailEl){ emailEl.textContent = user.email; }
+    }
+  });
+})();
+</script>
 </body>
 </html>
