@@ -64,18 +64,23 @@
     color:var(--brass-light); margin-bottom:22px; opacity:0.85;
   }
 
-  /* Seal */
-  .seal-wrap{width:104px; height:104px; margin-bottom:30px; position:relative;}
-  .seal-wrap svg{width:100%; height:100%; display:block;}
-  .seal-ring{transition: stroke 0.6s ease;}
-  .seal-crack{transition: opacity 0.6s ease;}
-  .seal-check{opacity:0; transform:scale(0.6); transform-origin:52px 52px; transition: all 0.5s cubic-bezier(.34,1.56,.64,1) 0.15s;}
-  .unlocked .seal-crack{opacity:0;}
-  .unlocked .seal-check{opacity:1; transform:scale(1);}
-  .unlocked .seal-ring{stroke:var(--brass-light);}
+  /* Welcome video */
+  .video-frame{
+    width:200px; aspect-ratio:9/16; border-radius:18px; overflow:hidden; position:relative;
+    margin-bottom:26px; background:var(--navy-mid); border:2px solid var(--brass);
+    box-shadow:0 24px 60px rgba(0,0,0,0.45); flex:none;
+  }
+  .video-frame video{width:100%; height:100%; object-fit:cover; display:block; background:#000;}
+  .video-frame .video-play{
+    position:absolute; inset:0; display:flex; align-items:center; justify-content:center;
+    background:rgba(11,21,38,0.35); cursor:pointer; transition:background .15s ease;
+  }
+  .video-frame .video-play.hidden{display:none;}
+  .video-frame .video-play:hover{background:rgba(11,21,38,0.2);}
+  .video-frame .video-play svg{width:52px; height:52px; filter:drop-shadow(0 4px 10px rgba(0,0,0,0.4));}
 
-  .gate h1{color:#fff; font-size:26px; font-weight:600; line-height:1.25; margin:0 0 12px;}
-  .gate p.gate-sub{color:rgba(246,241,231,0.62); font-size:14px; line-height:1.6; margin:0 0 34px; max-width:340px;}
+  .gate h1{color:#fff; font-size:26px; font-weight:600; line-height:1.25; margin:0 0 10px;}
+  .gate p.gate-sub{color:rgba(246,241,231,0.62); font-size:14px; line-height:1.6; margin:0 0 30px; max-width:340px;}
 
   .gate-btn{
     padding:14px 30px; border-radius:8px; border:1px solid var(--brass); background:var(--brass);
@@ -310,17 +315,19 @@
       <div class="gate" id="gate-screen">
         <div class="gate-content">
           <div class="gate-eyebrow">Client Access</div>
-          <div class="seal-wrap" id="seal">
-            <svg viewBox="0 0 104 104">
-              <circle class="seal-ring" cx="52" cy="52" r="44" fill="none" stroke="var(--brass-dim)" stroke-width="2"/>
-              <circle cx="52" cy="52" r="36" fill="none" stroke="var(--brass-dim)" stroke-width="1" opacity="0.5"/>
-              <path class="seal-crack" d="M 30 34 L 44 50 L 36 58 L 52 70 L 48 78" fill="none" stroke="var(--brass-dim)" stroke-width="2" stroke-linecap="round"/>
-              <path class="seal-crack" d="M 74 30 L 62 46 L 70 54" fill="none" stroke="var(--brass-dim)" stroke-width="2" stroke-linecap="round" opacity="0.7"/>
-              <path class="seal-check" d="M 36 53 L 47 64 L 70 40" fill="none" stroke="var(--brass-light)" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
+          <div class="video-frame" id="video-frame">
+            <video id="welcome-video" poster="welcome-poster.jpg" playsinline preload="metadata">
+              <source src="welcome.mp4" type="video/mp4">
+            </video>
+            <div class="video-play" id="video-play">
+              <svg viewBox="0 0 60 60" fill="none">
+                <circle cx="30" cy="30" r="29" fill="rgba(11,21,38,0.55)" stroke="#fff" stroke-width="1.5"/>
+                <path d="M24 19 L42 30 L24 41 Z" fill="#fff"/>
+              </svg>
+            </div>
           </div>
           <h1>You're through.</h1>
-          <p class="gate-sub">This is where your firm's numbers live — your KPI dashboard and the resources that go with it.</p>
+          <p class="gate-sub">A quick welcome from Roy, then let's find what's holding your firm back.</p>
           <button class="gate-btn" id="gate-enter">Enter Portal →</button>
         </div>
       </div>
@@ -368,12 +375,21 @@
       </div>
     `;
 
-    const seal = document.getElementById('seal');
     const enterBtn = document.getElementById('gate-enter');
     const gateScreen = document.getElementById('gate-screen');
     const portalScreen = document.getElementById('portal-screen');
+    const video = document.getElementById('welcome-video');
+    const playOverlay = document.getElementById('video-play');
 
-    setTimeout(()=> seal.classList.add('unlocked'), 350);
+    playOverlay.addEventListener('click', ()=>{
+      video.controls = true;
+      video.play();
+      playOverlay.classList.add('hidden');
+    });
+    video.addEventListener('ended', ()=>{
+      playOverlay.classList.remove('hidden');
+      video.controls = false;
+    });
 
     enterBtn.addEventListener('click', ()=>{
       gateScreen.style.transition = 'opacity 0.4s ease';
