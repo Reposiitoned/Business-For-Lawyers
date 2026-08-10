@@ -267,19 +267,27 @@
     const verdictCopy = {
       positioning: {
         title: "Positioning is your weakest link.",
-        text: "The market can't yet describe, in one sentence, which matters you actually want. Until that's fixed, marketing amplifies confusion, sales negotiates against fit, and delivery quietly serves the wrong clients well. This is almost always the first place to start."
+        text: "The market can't yet describe, in one sentence, which matters you actually want. Until that's fixed, marketing amplifies confusion, sales negotiates against fit, and delivery quietly serves the wrong clients well. This is almost always the first place to start.",
+        href: "../positioning.html",
+        cta: "See what's involved in fixing Positioning →"
       },
       marketing: {
         title: "Marketing is your weakest link.",
-        text: "Your positioning is likely sound, but it isn't reaching anyone beyond the people who already know you. Growth is capped at the size of your referral network — which means one retirement or one falling-out away from a real problem."
+        text: "Your positioning is likely sound, but it isn't reaching anyone beyond the people who already know you. Growth is capped at the size of your referral network — which means one retirement or one falling-out away from a real problem.",
+        href: "../marketing.html",
+        cta: "See what's involved in fixing Marketing →"
       },
       sales: {
         title: "Sales is your weakest link.",
-        text: "Enquiries are arriving, but too many are being lost to speed and process rather than to a better firm. This is usually the fastest link to fix, and often the one with the most immediate return."
+        text: "Enquiries are arriving, but too many are being lost to speed and process rather than to a better firm. This is usually the fastest link to fix, and often the one with the most immediate return.",
+        href: "../sales.html",
+        cta: "See what's involved in fixing Sales →"
       },
       delivery: {
         title: "Delivery is your weakest link.",
-        text: "You are likely doing good work and doing it well — but the client experience in between isn't matching the promise made at the start. This is the link that quietly determines whether a well-run matter turns into a referral, or a three-star review."
+        text: "You are likely doing good work and doing it well — but the client experience in between isn't matching the promise made at the start. This is the link that quietly determines whether a well-run matter turns into a referral, or a three-star review.",
+        href: "../delivery.html",
+        cta: "See what's involved in fixing Delivery →"
       }
     };
 
@@ -289,6 +297,9 @@
       const key = lowest[0];
       document.getElementById('verdictTitle').textContent = verdictCopy[key].title;
       document.getElementById('verdictText').textContent = verdictCopy[key].text;
+      const verdictBtn = document.getElementById('verdictBtn');
+      verdictBtn.textContent = verdictCopy[key].cta;
+      verdictBtn.href = verdictCopy[key].href;
       document.getElementById('verdict').classList.add('show');
       try{
         localStorage.setItem('bfl_assessment_' + user.uid, JSON.stringify({ scores, weakest: key, savedAt: Date.now() }));
@@ -302,8 +313,12 @@
     try{
       const saved = JSON.parse(localStorage.getItem('bfl_assessment_' + user.uid) || 'null');
       if(saved && saved.weakest){
-        document.getElementById('verdictTitle').textContent = verdictCopy[saved.weakest].title;
-        document.getElementById('verdictText').textContent = verdictCopy[saved.weakest].text;
+        const key = saved.weakest;
+        document.getElementById('verdictTitle').textContent = verdictCopy[key].title;
+        document.getElementById('verdictText').textContent = verdictCopy[key].text;
+        const verdictBtn = document.getElementById('verdictBtn');
+        verdictBtn.textContent = verdictCopy[key].cta;
+        verdictBtn.href = verdictCopy[key].href;
         document.getElementById('verdict').classList.add('show');
       }
     }catch(e){ /* ignore */ }
